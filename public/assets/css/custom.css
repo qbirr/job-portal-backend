@@ -1,0 +1,37 @@
+.iti {
+  display: block !important;
+}
+
+.swal-modal .swal-text {
+  text-align: center !important;
+}
+
+.customDropdown {
+  min-width: 100px !important;
+}
+
+.featuredDropdown {
+  min-width: 150px !important;
+}
+
+.select2-search__field {
+  color: #6C757E;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+.ql-container {
+  height: 100px !important;
+}
+
+.slot-bg-danger {
+  background: rgba(233, 0, 0, 0.2588235294);
+}
+
+.slot-bg-success {
+  background: rgba(30, 213, 72, 0.3098039216);
+}
+
+
