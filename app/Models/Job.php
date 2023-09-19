@@ -111,8 +111,8 @@ use Illuminate\Support\Carbon;
  * @property int $submission_status_id
  * @property int $is_default
  * @property int|null $last_change
- * @property-read \App\Models\User|null $admin
- * @property-read \App\Models\SubmissionStatus|null $submissionStatus
+ * @property-read User|null $admin
+ * @property-read SubmissionStatus|null $submissionStatus
  * @method static Builder|Job whereIsDefault($value)
  * @method static Builder|Job whereLastChange($value)
  * @method static Builder|Job whereSubmissionStatusId($value)

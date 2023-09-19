@@ -82,8 +82,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property int $submission_status_id
  * @property int $is_featured
  * @property int|null $last_change
- * @property-read \App\Models\User|null $admin
- * @property-read \App\Models\SubmissionStatus|null $submissionStatus
+ * @property-read User|null $admin
+ * @property-read SubmissionStatus|null $submissionStatus
  * @method static Builder|Company whereLastChange($value)
  * @method static Builder|Company whereSubmissionStatusId($value)
  * @mixin Eloquent
