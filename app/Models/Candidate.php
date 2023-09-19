@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class Candidate
@@ -68,22 +71,21 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read mixed $country_name
  * @property-read string $full_location
  * @property-read mixed $state_name
- * @property-read Collection|\App\Models\JobType[] $jobAlerts
+ * @property-read Collection|JobType[] $jobAlerts
  * @property-read int|null $job_alerts_count
- * @property-read Collection|\App\Models\JobApplication[] $jobApplications
+ * @property-read Collection|JobApplication[] $jobApplications
  * @property-read int|null $job_applications_count
- * @property-read Collection|\App\Models\JobApplication[] $penddingJobApplications
- * @property-read int|null $pendding_job_applications_count
+ * @property-read Collection|JobApplication[] $pendingJobApplications
+ * @property-read int|null $pending_job_applications_count
  * @method static Builder|Candidate whereJobAlert($value)
  * @property string|null $available_at
  * @method static Builder|Candidate whereAvailableAt($value)
  * @property int|null $last_change
- * @property-read \App\Models\User|null $admin
+ * @property-read User|null $admin
  * @method static Builder|Candidate whereLastChange($value)
  * @mixin Eloquent
  */
-class Candidate extends Model implements HasMedia
-{
+class Candidate extends Model implements HasMedia {
     use InteractsWithMedia;
 
     public $table = 'candidates';
@@ -155,7 +157,7 @@ class Candidate extends Model implements HasMedia
      *
      * @var array
      */
-    public static $rules = [
+    public static array $rules = [
         'first_name' => 'required|max:180',
         'last_name' => 'required|max:180',
         'email' => 'required|email:filter|unique:users,email',
@@ -165,61 +167,59 @@ class Candidate extends Model implements HasMedia
         'current_salary' => 'nullable|numeric|min:0|max:999999999',
         'expected_salary' => 'nullable|numeric|min:0|max:999999999',
         'phone' => 'nullable',
-        'marital_status_id' => 'required',
+        'marital_status_id' => 'sometimes|nullable',
     ];
 
     protected $appends = ['country_name', 'state_name', 'city_name', 'full_location', 'candidate_url'];
 
     protected $with = ['user'];
 
-    public function getCountryNameAttribute()
-    {
-        if (! empty($this->user->country)) {
+    public function getCountryNameAttribute(): ?string {
+        if (!empty($this->user->country)) {
             return $this->user->country->name;
         }
+        return null;
     }
 
-    public function getStateNameAttribute()
-    {
-        if (! empty($this->user->state)) {
+    public function getStateNameAttribute(): ?string {
+        if (!empty($this->user->state)) {
             return $this->user->state->name;
         }
+        return null;
     }
 
-    public function getCityNameAttribute()
-    {
-        if (! empty($this->user->city)) {
+    public function getCityNameAttribute(): ?string {
+        if (!empty($this->user->city)) {
             return $this->user->city->name;
         }
+        return null;
     }
 
     /**
      * @return string
      */
-    public function getFullLocationAttribute()
-    {
+    public function getFullLocationAttribute(): ?string {
         $location = '';
-        if (! empty($this->user->country)) {
+        if (!empty($this->user->country)) {
             $location = $this->user->country->name;
         }
-        if (! empty($this->user->state)) {
-            $location = $location.','.$this->user->state->name;
+        if (!empty($this->user->state)) {
+            $location = $location . ',' . $this->user->state->name;
         }
-        if (! empty($this->user->city)) {
-            $location = $location.','.$this->user->city->name;
+        if (!empty($this->user->city)) {
+            $location = $location . ',' . $this->user->city->name;
         }
 
-        return (! empty($location)) ? $location : null;
+        return (!empty($location)) ? $location : null;
     }
 
     /**
      * @return mixed
      */
-    public function getCandidateUrlAttribute()
-    {
+    public function getCandidateUrlAttribute(): mixed {
         /** @var Media $media */
         $media = $this->user->getMedia(User::PROFILE)->first();
-        if (! empty($media)) {
+        if (!empty($media)) {
             return $media->getFullUrl();
         }
 
@@ -229,69 +229,60 @@ class Candidate extends Model implements HasMedia
     /**
      * @return BelongsTo
      */
-    public function user()
-    {
+    public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function admin(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
+    public function admin(): HasOne {
         return $this->hasOne(User::class, 'id', 'last_change');
     }
 
     /**
      * @return BelongsTo
      */
-    public function industry()
-    {
+    public function industry(): BelongsTo {
         return $this->belongsTo(Industry::class, 'industry_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function maritalStatus()
-    {
+    public function maritalStatus(): BelongsTo {
         return $this->belongsTo(MaritalStatus::class, 'marital_status_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function careerLevel()
-    {
+    public function careerLevel(): BelongsTo {
         return $this->belongsTo(CareerLevel::class, 'career_level_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function functionalArea()
-    {
+    public function functionalArea(): BelongsTo {
         return $this->belongsTo(FunctionalArea::class, 'functional_area_id');
     }
 
     /**
      * @return BelongsToMany
      */
-    public function jobAlerts()
-    {
+    public function jobAlerts(): BelongsToMany {
         return $this->belongsToMany(JobType::class, 'jobs_alerts', 'candidate_id', 'job_type_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function jobApplications()
-    {
+    public function jobApplications(): HasMany {
         return $this->hasMany(JobApplication::class, 'candidate_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function penddingJobApplications()
-    {
+    public function pendingJobApplications(): HasMany {
         return $this->hasMany(JobApplication::class, 'candidate_id')->where('status', JobApplication::STATUS_APPLIED);
     }
 }
