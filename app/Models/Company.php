@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class Company
@@ -69,21 +73,20 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read User|null $user
  * @property int|null $user_id
  * @property-read mixed $company_url
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Job[] $jobs
+ * @property-read Collection|Job[] $jobs
  * @property-read int|null $jobs_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
+ * @property-read Collection|Media[] $media
  * @property-read int|null $media_count
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Company whereUserId($value)
+ * @method static Builder|Company whereUserId($value)
  *
- * @property-read \App\Models\FeaturedRecord|null $activeFeatured
- * @property-read \App\Models\FeaturedRecord|null $featured
+ * @property-read FeaturedRecord|null $activeFeatured
+ * @property-read FeaturedRecord|null $featured
  * @property-read mixed $city_name
  * @property-read mixed $country_name
  * @property-read mixed $state_name
  */
-class Company extends Model implements HasMedia
-{
+class Company extends Model implements HasMedia {
     use InteractsWithMedia;
 
     public $table = 'companies';
@@ -177,35 +180,34 @@ class Company extends Model implements HasMedia
 
     protected $with = ['user'];
 
-    public function getCountryNameAttribute()
-    {
-        if (! empty($this->user->country)) {
+    public function getCountryNameAttribute(): ?string {
+        if (!empty($this->user->country)) {
             return $this->user->country->name;
         }
+        return null;
     }
 
-    public function getStateNameAttribute()
-    {
-        if (! empty($this->user->state)) {
+    public function getStateNameAttribute(): ?string {
+        if (!empty($this->user->state)) {
             return $this->user->state->name;
         }
+        return null;
     }
 
-    public function getCityNameAttribute()
-    {
-        if (! empty($this->user->city)) {
+    public function getCityNameAttribute(): ?string {
+        if (!empty($this->user->city)) {
             return $this->user->city->name;
         }
+        return null;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCompanyUrlAttribute()
-    {
+    public function getCompanyUrlAttribute(): string {
         /** @var Media $media */
         $media = $this->user->getMedia(User::PROFILE)->first();
-        if (! empty($media)) {
+        if (!empty($media)) {
             return $media->getFullUrl();
         }
 
@@ -215,61 +217,57 @@ class Company extends Model implements HasMedia
     /**
      * @return BelongsTo
      */
-    public function industry()
-    {
+    public function industry(): BelongsTo {
         return $this->belongsTo(Industry::class, 'industry_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function ownerShipType()
-    {
+    public function ownerShipType(): BelongsTo {
         return $this->belongsTo(OwnerShipType::class, 'ownership_type_id');
     }
 
-    public function admin(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
+    public function admin(): HasOne {
         return $this->hasOne(User::class, 'id', 'last_change');
     }
 
     /**
      * @return BelongsTo
      */
-    public function companySize()
-    {
+    public function companySize(): BelongsTo {
         return $this->belongsTo(CompanySize::class, 'company_size_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function user()
-    {
+    public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
      * @return HasMany
      */
-    public function jobs()
-    {
+    public function jobs(): HasMany {
         return $this->hasMany(Job::class, 'company_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * @return MorphOne
      */
-    public function featured()
-    {
+    public function featured(): MorphOne {
         return $this->morphOne(FeaturedRecord::class, 'owner');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * @return MorphOne
      */
-    public function activeFeatured()
-    {
+    public function activeFeatured(): MorphOne {
         return $this->morphOne(FeaturedRecord::class, 'owner')->where('end_time', '>', \Carbon\Carbon::now());
+    }
+
+    public function submissionStatus(): BelongsTo {
+        return $this->belongsTo(SubmissionStatus::class);
     }
 }
