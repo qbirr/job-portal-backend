@@ -6,12 +6,16 @@ use App\Models\Company;
 use App\Models\Job;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
+use LaravelIdea\Helper\App\Models\_IH_Company_C;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class CompanySearch extends Component
-{
+class CompanySearch extends Component {
     use WithPagination;
 
     public $searchByCompany = '';
@@ -24,34 +28,29 @@ class CompanySearch extends Component
 
     private $perPage = 9;
 
-    public function mount($isFeatured)
-    {
+    public function mount($isFeatured): void {
         $this->isFeatured = $isFeatured;
     }
 
-    public function paginationView()
-    {
+    public function paginationView(): string {
         return 'livewire.custom-pagination-company';
     }
 
-    public function nextPage($lastPage)
-    {
+    public function nextPage($lastPage): void {
         if ($this->page < $lastPage) {
             $this->page = $this->page + 1;
             $this->setPage($this->page);
         }
     }
 
-    public function previousPage()
-    {
+    public function previousPage(): void {
         if ($this->page > 1) {
             $this->page = $this->page - 1;
             $this->setPage($this->page);
         }
     }
 
-    public function resetFilter()
-    {
+    public function resetFilter(): void {
         $this->searchByCompany = '';
         $this->searchByCity = '';
         $this->searchByIndustry = '';
@@ -62,31 +61,30 @@ class CompanySearch extends Component
 //        $this->resetPage();
 //    }
 
-    public function render()
-    {
+    public function render(): Factory|View|Application {
         $companies = $this->companies();
 
         return view('livewire.company-search', compact('companies'));
     }
 
-    public function companies()
-    {
+    public function companies(): \Illuminate\Contracts\Pagination\LengthAwarePaginator|_IH_Company_C|LengthAwarePaginator|array {
         /** @var User $user */
-        $query = Company::with(['user.media', 'jobs', 'activeFeatured', 'industry', 'user.city']);
+        $query = Company::with(['user.media', 'jobs', 'activeFeatured', 'industry', 'user.city'])
+            ->whereSubmissionStatusId(Job::SUBMISSION_STATUS_APPROVED);
         $query->whereHas('user', function (Builder $q) {
-            $q->where('first_name', 'like', '%'.strtolower($this->searchByCompany).'%')->where('is_active', '=',
+            $q->where('first_name', 'like', '%' . strtolower($this->searchByCompany) . '%')->where('is_active', '=',
                 1);
         });
 
-        $query->when(! empty($this->searchByCity), function (Builder $q) {
-            $q->where('location', 'like', '%'.strtolower($this->searchByCity).'%');
-            $q->orWhere('location2', 'like', '%'.strtolower($this->searchByCity).'%');
+        $query->when(!empty($this->searchByCity), function (Builder $q) {
+            $q->where('location', 'like', '%' . strtolower($this->searchByCity) . '%');
+            $q->orWhere('location2', 'like', '%' . strtolower($this->searchByCity) . '%');
         });
 
         $query->whereHas('industry', function (Builder $q) {
-            $q->where('name', 'like', '%'.strtolower($this->searchByIndustry).'%');
+            $q->where('name', 'like', '%' . strtolower($this->searchByIndustry) . '%');
         });
-        $query->when(! empty($this->isFeatured), function (Builder $query) {
+        $query->when(!empty($this->isFeatured), function (Builder $query) {
             $query->has('activeFeatured');
         });
         $query->withCount([
