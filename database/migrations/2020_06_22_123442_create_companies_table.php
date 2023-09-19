@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('ceo')->nullable();
             $table->integer('no_of_offices')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreignId('submission_status_id')->default(1);
             $table->unsignedInteger('industry_id')->nullable();
             $table->unsignedInteger('ownership_type_id')->nullable();
             $table->unsignedInteger('company_size_id')->nullable();
