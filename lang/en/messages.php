@@ -422,7 +422,7 @@
             'select_career_level'            => 'Select Career Level',
             'select_functional_area'         => 'Select Functional Area',
             'select_industry'                => 'Select Industry',
-            'select_ownership_type'          => 'Select OwnerShip Type',
+            'select_ownership_type'          => 'Select Employer Type',
             'select_country'                 => 'Select Country',
             'select_state'                   => 'Select State',
             'select_city'                    => 'Select City',
@@ -448,7 +448,8 @@
             'email'                          => 'Email',
             'ceo_name'                       => 'CEO Name',
             'industry'                       => 'Industry',
-            'ownership_type'                 => 'Ownership Type',
+//            'ownership_type'                 => 'Ownership Type',
+            'ownership_type'                 => 'Employer Types',
             'company_size'                   => 'Size',
             'established_in'                 => 'Established In',
             'website'                        => 'Website',
@@ -1248,7 +1249,7 @@
             'select_independent_work' => 'Is Freelance',
             'select_featured'         => 'Select Featured Company',
            'select_immediate'         => 'Select Immediate'
-            
+
         ],
 
     'flash'    => [
