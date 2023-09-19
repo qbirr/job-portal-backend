@@ -67,37 +67,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-    Route::get(
-        '/',
-        function () {
-            return view('front_web.home.home');
-        }
-    )->name('web.home');
-
-    Auth::routes(['verify' => true, 'register' => false]);
-    Route::middleware('setLanguage')->group(function () {
-        Route::get('admin/login', [\App\Http\Controllers\Auth\LoginController::class, 'showAdminLoginForm'])->name(
-                'admin.login'
-            );
-        Route::post('users/login', [\App\Http\Controllers\Auth\Front\LoginController::class, 'login'])->name(
-                'front.login'
-            )->middleware('verified.user');
-        Route::get(
-                'users/employee-login',
-                [\App\Http\Controllers\Auth\Front\LoginController::class, 'employeeLogin']
-            )->name('front.employee.login');
-        Route::get(
-                'users/candidate-login',
-                [\App\Http\Controllers\Auth\Front\LoginController::class, 'candidateLogin']
-            )->name('front.candidate.login');
+Route::get(
+    '/',
+    function () {
+        return view('front_web.home.home');
     }
+)->name('web.home');
+
+Auth::routes(['verify' => true, 'register' => false]);
+Route::middleware('setLanguage')->group(function () {
+    Route::get('admin/login', [\App\Http\Controllers\Auth\LoginController::class, 'showAdminLoginForm'])->name(
+        'admin.login'
     );
+    Route::post('users/login', [\App\Http\Controllers\Auth\Front\LoginController::class, 'login'])->name(
+        'front.login'
+    )->middleware('verified.user');
     Route::get(
-        'pricing',
-        function () {
-            return view('pricing.index');
-        }
-    );
+        'users/employee-login',
+        [\App\Http\Controllers\Auth\Front\LoginController::class, 'employeeLogin']
+    )->name('front.employee.login');
+    Route::get(
+        'users/candidate-login',
+        [\App\Http\Controllers\Auth\Front\LoginController::class, 'candidateLogin']
+    )->name('front.candidate.login');
+}
+);
+Route::get(
+    'pricing',
+    function () {
+        return view('pricing.index');
+    }
+);
 
 //Theme-Mode
 Route::get('theme-mode', [UserController::class, 'changeThemeMode'])->name('theme.mode');
@@ -682,18 +682,18 @@ Route::middleware('auth', 'role:Candidate', 'xss', 'verified.user')->prefix('can
 
     Route::post('experience', [Candidates\CandidateProfileController::class, 'createExperience'])->name('candidate.create-experience');
     Route::get('/{candidateExperience}/edit-experience',
-            [Candidates\CandidateProfileController::class, 'editExperience'])->name('candidate.edit-experience');
+        [Candidates\CandidateProfileController::class, 'editExperience'])->name('candidate.edit-experience');
     Route::put('candidate-experience/{candidateExperience}', [Candidates\CandidateProfileController::class, 'updateExperience'])->name('candidate.update-experience');
     Route::delete('candidate-experience/{candidateExperience}',
-            [Candidates\CandidateProfileController::class, 'destroyExperience'])->name('experience.destroy');
+        [Candidates\CandidateProfileController::class, 'destroyExperience'])->name('experience.destroy');
 
     // candidate education
     Route::post('education', [Candidates\CandidateProfileController::class, 'createEducation'])->name('candidate.create-education');
     Route::get('/{candidateEducation}/edit-education',
-            [Candidates\CandidateProfileController::class, 'editEducation'])->name('candidate.edit-education');
+        [Candidates\CandidateProfileController::class, 'editEducation'])->name('candidate.edit-education');
     Route::put('candidate-education/{candidateEducation}', [Candidates\CandidateProfileController::class, 'updateEducation'])->name('candidate.update-education');
     Route::delete('candidate-education/{candidateEducation}',
-            [Candidates\CandidateProfileController::class, 'destroyEducation'])->name('education.destroy');
+        [Candidates\CandidateProfileController::class, 'destroyEducation'])->name('education.destroy');
 
     // favourite jobs listing routes.
     Route::get('favourite-jobs', [Candidates\CandidateController::class, 'showFavouriteJobs'])->name('favourite.jobs');
@@ -706,16 +706,16 @@ Route::middleware('auth', 'role:Candidate', 'xss', 'verified.user')->prefix('can
     //applied job list routes.
     Route::get('applied-jobs', [Candidates\CandidateController::class, 'showCandidateAppliedJob'])->name('candidate.applied.job');
     Route::get('applied-jobs/{jobApplication}',
-            [Candidates\CandidateController::class, 'showAppliedJobs'])->name('candidate.applied.job.show');
+        [Candidates\CandidateController::class, 'showAppliedJobs'])->name('candidate.applied.job.show');
     Route::post('applied-jobs/{jobApplication}/schedule-slot-book', [Candidates\CandidateController::class, 'showScheduleSlotBook'])->name('show.schedule.slot');
     Route::post('applied-jobs/{jobApplication}/choose-preference', [Candidates\CandidateController::class, 'choosePreference'])->name('choose.preference');
 
     // cv builder list routes.
     Route::post('update-general-profile',
-            [Candidates\CandidateController::class, 'updateGeneralInformation'])->name('candidate.general.profile.update');
+        [Candidates\CandidateController::class, 'updateGeneralInformation'])->name('candidate.general.profile.update');
     Route::get('get-cv-template', [Candidates\CandidateController::class, 'getCVTemplate'])->name('candidate.cv.template');
     Route::post('update-online-profile',
-            [Candidates\CandidateController::class, 'updateOnlineProfile'])->name('candidate.online.profile.update');
+        [Candidates\CandidateController::class, 'updateOnlineProfile'])->name('candidate.online.profile.update');
 
     // job alert routes.
     Route::get('job-alerts', [Candidates\CandidateController::class, 'editJobAlert'])->name('candidate.job.alert');

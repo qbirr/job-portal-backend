@@ -135,10 +135,10 @@
     <a class="nav-link p-0 {{ Request::is('admin/industries*') ? 'active' : '' }}"
        href="{{ route('industry.index') }}">{{ __('messages.industries') }}</a>
 </li>
-<li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
-    <a class="nav-link p-0 {{ Request::is('admin/company-sizes*') ? 'active' : '' }}"
-       href="{{ route('companySize.index') }}">{{ __('messages.company_sizes') }}</a>
-</li>
+{{--<li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">--}}
+{{--    <a class="nav-link p-0 {{ Request::is('admin/company-sizes*') ? 'active' : '' }}"--}}
+{{--       href="{{ route('companySize.index') }}">{{ __('messages.company_sizes') }}</a>--}}
+{{--</li>--}}
 <div class="{{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
     <li class="nav-item d-none d-xl-grid dropdown dropdown-hover">
         <a class="nav-link d-flex align-items-center py-3 ps-2" aria-current="page"
