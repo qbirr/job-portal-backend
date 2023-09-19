@@ -59,5 +59,6 @@ class OldDatabaseSeeder extends Seeder
         $this->call(CurrencySeeder::class);
         $this->call(FooterLogoSeeder::class);
         $this->call(CmsServicesSeeder::class);
+        $this->call(SubmissionStatusSeeder::class);
     }
 }
