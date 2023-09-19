@@ -12143,7 +12143,8 @@ function loadPhoneNumberCountry() {
         success(countryCode);
       });
     },
-    utilsScript: '../../public/assets/js/inttel/js/utils.min.js'
+    utilsScript: '../../public/assets/js/inttel/js/utils.min.js',
+    onlyCountries: ['qa']
   });
   if (typeof phoneNo != 'undefined' && phoneNo !== '') {
     setTimeout(function () {

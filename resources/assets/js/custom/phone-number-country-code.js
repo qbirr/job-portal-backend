@@ -30,6 +30,7 @@ function loadPhoneNumberCountry() {
             });
         },
         utilsScript: '../../public/assets/js/inttel/js/utils.min.js',
+        onlyCountries: ['qa'],
     });
 
     if (typeof phoneNo != 'undefined' && phoneNo !== '') {
