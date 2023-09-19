@@ -32,11 +32,11 @@
         <span class="required"></span>
         {{ Form::select('ownership_type_id', $data['ownerShipTypes'], isset($company)?$company->ownership_type_id:null, ['id'=>'ownershipTypeId','class' => 'form-select','placeholder' => __('messages.company.select_ownership_type'),'data-control'=>'select2','required']) }}
     </div>
-    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
+    {{--<div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('company_size_id', __('messages.company.company_size').':', ['class' => 'form-label']) }}
         <span class="required"></span>
         {{ Form::select('company_size_id', $data['companySize'], isset($company)?$company->company_size_id:null, ['id'=>'companySizeId','class' => 'form-select','placeholder' => __('messages.company.select_company_size'),'data-control'=>'select2','required']) }}
-    </div>
+    </div>--}}
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label']) }}
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-select','data-control'=>'select2','placeholder' => __('messages.company.select_country')]) }}

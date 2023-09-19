@@ -22,10 +22,10 @@
     {{ Form::label('ownership_type_id', __('messages.company.ownership_type').(':'), ['class' => 'pb-2 fs-5 text-gray-600']) }}
     <span class="fs-5 text-gray-800">{{ !empty($company->ownerShipType->name)?$company->ownerShipType->name: __('messages.common.n/a') }}</span>
 </div>
-<div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
+{{--<div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
     {{ Form::label('company_size_id',__('messages.company.company_size').(':'), ['class' => 'pb-2 fs-5 text-gray-600']) }}
     <span class="fs-5 text-gray-800">{{ !empty($company->companySize->size)?$company->companySize->size: __('messages.common.n/a') }}</span>
-</div>
+</div>--}}
 <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
     {{ Form::label('established_in',  __('messages.company.established_in').(':'), ['class' => 'pb-2 fs-5 text-gray-600']) }}
     <span class="fs-5 text-gray-800">{{ !empty($company->established_in)?$company->established_in: __('messages.common.n/a') }}</span>
