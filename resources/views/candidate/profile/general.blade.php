@@ -46,10 +46,10 @@
                         <br>
                         <span class="form-check is-valid form-check-sm">
                 <label class="form-label ">{{ __('messages.common.male') }}</label>&nbsp;&nbsp;
-                {{ Form::radio('gender', '0', isset($user->gender) ? $user->gender == 0 : true, ['class' => 'form-check-input','id'=>'male']) }} &nbsp;
+                {{ Form::radio('gender', '0', $user->gender == 0 ?? true, ['class' => 'form-check-input','id'=>'male']) }} &nbsp;
                 <br>
                 <label class="form-label ">{{ __('messages.common.female') }}</label>
-                {{ Form::radio('gender', '1', isset($user->gender) ? $user->gender == 1 : true, ['class' => 'form-check-input','id'=>'female']) }}
+                {{ Form::radio('gender', '1',$user->gender == 1 ?? true, ['class' => 'form-check-input','id'=>'female']) }}
             </span>
 
                     </div>
@@ -66,17 +66,17 @@
 
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('marital_status', __('messages.candidate.marital_status').':', ['class' => 'form-label']) }}
-                        <span class="required"></span>
-                        {{ Form::select('marital_status_id', $data['maritalStatus'], isset($user->candidate->marital_status_id) ? $user->candidate->marital_status_id : null,  ['class' => 'form-select ', 'id'=>'maritalStatusId','required']) }}
+{{--                        <span class="required"></span>--}}
+                        {{ Form::select('marital_status_id', $data['maritalStatus'], $user->candidate->marital_status_id ?? null,  ['class' => 'form-select ', 'id'=>'maritalStatusId','']) }}
 
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('nationality', __('messages.candidate.nationality').':', ['class' => 'form-label']) }}
-                        {{ Form::text('nationality', isset($user->candidate->nationality) ? $user->candidate->nationality : null, ['class' => 'form-control ','placeholder' => __('messages.candidate.nationality')]) }}
+                        {{ Form::text('nationality', $user->candidate->nationality ?? null, ['class' => 'form-control ','placeholder' => __('messages.candidate.nationality')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('national_id_card', __('messages.candidate.national_id_card').':', ['class' => 'form-label']) }}
-                        {{ Form::text('national_id_card', isset($user->candidate->national_id_card) ? $user->candidate->national_id_card : null, ['class' => 'form-control ', 'placeholder' => __('messages.candidate.national_id_card') ]) }}
+                        {{ Form::text('national_id_card', $user->candidate->national_id_card ?? null, ['class' => 'form-control ', 'placeholder' => __('messages.candidate.national_id_card') ]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label']) }}
@@ -93,7 +93,7 @@
                     <div class="col-sm-6 mb-5 mobile-itel-width">
                         {{ Form::label('phone',__('messages.candidate.phone').(':'),['class' => 'form-label']) }}
                         <div class="col-sm-12 mb-5">
-                            {{ Form::tel('phone', isset($user->phone) ? $user->phone : null, ['class' => 'form-control','onkeyup' => 'if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")','id'=>'phoneNumber']) }}
+                            {{ Form::tel('phone', $user->phone ?? null, ['class' => 'form-control','onkeyup' => 'if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")','id'=>'phoneNumber']) }}
                 </div>
                 {{ Form::hidden('region_code',null,['id'=>'prefix_code']) }}
                         <span id="valid-msg" class="text-success d-block fw-400 fs-small mt-2 d-none">{{__('messages.phone.valid_number')}}</span>
@@ -102,31 +102,31 @@
 
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('experience', __('messages.candidate.experience').':', ['class' => 'form-label']) }}
-                        {{ Form::text('experience', isset($user->candidate->experience) ? $user->candidate->experience : null,['class' => 'form-control','min' => '0', 'max' => '15','placeholder'=>__('messages.candidate.experience'), 'onkeyup' => 'if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")']) }}
+                        {{ Form::text('experience', $user->candidate->experience ?? null,['class' => 'form-control','min' => '0', 'max' => '15','placeholder'=>__('messages.candidate.experience'), 'onkeyup' => 'if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")']) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('career_level', __('messages.candidate.career_level').':', ['class' => 'form-label']) }}
-                {{ Form::select('career_level_id',  $data['careerLevel'], isset($user->candidate->career_level_id) ? $user->candidate->career_level_id : null,['class' => 'form-select','id' => 'careerLevelId', 'placeholder'=> __('messages.company.select_career_level')]) }}
+                {{ Form::select('career_level_id',  $data['careerLevel'], $user->candidate->career_level_id ?? null,['class' => 'form-select','id' => 'careerLevelId', 'placeholder'=> __('messages.company.select_career_level')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('industry', __('messages.candidate.industry').':', ['class' => 'form-label']) }}
-                {{ Form::select('industry_id',  $data['industry'], isset($user->candidate->industry_id) ? $user->candidate->industry_id : null, ['class' => 'form-select','id' => 'industryId','placeholder'=>__('messages.company.select_industry')]) }}
+                {{ Form::select('industry_id',  $data['industry'], $user->candidate->industry_id ?? null, ['class' => 'form-select','id' => 'industryId','placeholder'=>__('messages.company.select_industry')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('functional_area', __('messages.candidate.functional_area').':', ['class' => 'form-label']) }}
-                {{ Form::select('functional_area_id', $data['functionalArea'], isset($user->candidate->functional_area_id) ? $user->candidate->functional_area_id : null,['class' => 'form-select','id' => 'functionalAreaId', 'placeholder'=> __('messages.company.select_functional_area')]) }}
+                {{ Form::select('functional_area_id', $data['functionalArea'], $user->candidate->functional_area_id ?? null,['class' => 'form-select','id' => 'functionalAreaId', 'placeholder'=> __('messages.company.select_functional_area')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('current_salary', __('messages.candidate.current_salary').':', ['class' => 'form-label']) }}
-                {{ Form::text('current_salary',  isset($user->candidate->current_salary) ? $user->candidate->current_salary : null,['class' => 'form-control','placeholder'=> __('messages.candidate.current_salary')]) }}
+                {{ Form::text('current_salary',  $user->candidate->current_salary ?? null,['class' => 'form-control','placeholder'=> __('messages.candidate.current_salary')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('expected_salary',  __('messages.candidate.expected_salary').':', ['class' => 'form-label']) }}
-                {{ Form::text('expected_salary', isset($user->candidate->expected_salary) ? $user->candidate->expected_salary : null,['class' => 'form-control','placeholder'=>__('messages.candidate.expected_salary')]) }}
+                {{ Form::text('expected_salary', $user->candidate->expected_salary ?? null,['class' => 'form-control','placeholder'=>__('messages.candidate.expected_salary')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('salary_currency', __('messages.candidate.salary_currency').':', ['class' => 'form-label']) }}
-                {{ Form::select('salary_currency',   $data['currency'], isset($user->candidate->salary_currency) ? $user->candidate->salary_currency : null,['class' => 'form-select','id' => 'salaryCurrencyId','placeholder'=> __('messages.company.select_currency')]) }}
+                {{ Form::select('salary_currency',   $data['currency'], $user->candidate->salary_currency ?? null,['class' => 'form-select','id' => 'salaryCurrencyId','placeholder'=> __('messages.company.select_currency')]) }}
                     </div>
 
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
@@ -134,10 +134,10 @@
                 <br>
                 <span class="form-check is-valid form-check-sm">
                 <label class="form-label ">{{ __('messages.candidate.immediate_available')}}</label>&nbsp;&nbsp;
-                {{ Form::radio('immediate_available', '1', isset($user->candidate->immediate_available) ? $user->candidate->immediate_available == 1 : true, ['class' => 'form-check-input','id'=>'available']) }} &nbsp;
+                {{ Form::radio('immediate_available', '1', $user->candidate->immediate_available == 1 ?? true, ['class' => 'form-check-input','id'=>'available']) }} &nbsp;
                 <br>
                 <label class="form-label ">{{ __('messages.candidate.not_immediate_available') }}</label>
-                {{ Form::radio('immediate_available', '0', isset($user->candidate->immediate_available) ? $user->candidate->immediate_available == 0 : true, ['class' => 'form-check-input','id'=>'not_available']) }}
+                {{ Form::radio('immediate_available', '0', $user->candidate->immediate_available == 0 ?? true, ['class' => 'form-check-input','id'=>'not_available']) }}
             </span>
 
 
@@ -147,7 +147,7 @@
                         <input type="text" name="available_at" id="availableAt"
                                class="form-control {{(getLoggedInUser()->theme_mode) ? 'bg-light' : 'bg-white'}}"
                                placeholder="{{__('messages.candidate.available_at')}}"
-                               value="{{ isset($user->candidate->available_at) ? $user->candidate->available_at : null}}">
+                               value="{{ $user->candidate->available_at ?? null}}">
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('facebook_url', __('messages.company.facebook_url').':', ['class' => 'form-label']) }}
@@ -210,10 +210,10 @@
                             </div>
                             <span class="picker-edit rounded-circle text-gray-500 fs-small" data-bs-toggle="tooltip"
                                   data-placement="top" data-bs-original-title="{{ __('messages.tooltip.change_profile') }}">
-                        <label> 
-                            <i class="fa-solid fa-pen" id="profileImageIcon"></i> 
-                            <input type="file" name="image" class="image-upload d-none" accept="image/*"/> 
-                        </label> 
+                        <label>
+                            <i class="fa-solid fa-pen" id="profileImageIcon"></i>
+                            <input type="file" name="image" class="image-upload d-none" accept="image/*"/>
+                        </label>
                     </span>
                         </div>
                     </div>
@@ -221,7 +221,7 @@
                     </div>
                     <div class="col-xl-12 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('address',__('messages.candidate.address').':', ['class' => 'form-label']) }}
-            {{ Form::textarea('address', isset($user->candidate->address) ? $user->candidate->address : null, ['class' => 'form-control','rows'=>'5','placeholder'=>__('messages.candidate.address')]) }}
+            {{ Form::textarea('address', $user->candidate->address ?? null, ['class' => 'form-control','rows'=>'5','placeholder'=>__('messages.candidate.address')]) }}
         </div>
 
         <!-- Submit Field -->
