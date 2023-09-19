@@ -27,5 +27,17 @@ class DefaultUserSeeder extends Seeder
         ];
 
         $user = User::create($input);
+
+        $input = [
+            'first_name' => 'Admin',
+            'last_name' => 'Demo',
+            'email' => 'admin@demo.com',
+            'email_verified_at' => Carbon::now(),
+            'password' => Hash::make('demo'),
+            'phone' => '8123123123',
+            'is_default' => 0,
+        ];
+
+        $user = User::create($input);
     }
 }
