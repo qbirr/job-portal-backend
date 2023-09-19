@@ -159,10 +159,10 @@ class Job extends Model {
         3 => 'Paused',
     ];
 
-    const SUBMISSION_STATUS_PENDING = 0;
-    const SUBMISSION_STATUS_APPROVED = 1;
-    const SUBMISSION_STATUS_REJECTED = 2;
-    const SUBMISSION_STATUS_RESUBMIT = 3;
+    const SUBMISSION_STATUS_PENDING = 1;
+    const SUBMISSION_STATUS_APPROVED = 2;
+    const SUBMISSION_STATUS_REJECTED = 3;
+    const SUBMISSION_STATUS_RESUBMIT = 4;
 
     const FAVORITE_JOB_STATUS = [
         1 => 'Live',
