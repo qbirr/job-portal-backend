@@ -37,7 +37,7 @@ return new class extends Migration
             $table->integer('no_preference');
             $table->boolean('hide_salary');
             $table->boolean('is_freelance');
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(1)->comment('0:draft; 1:live; 2:closed; 3:paused');
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')
