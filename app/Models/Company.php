@@ -168,7 +168,7 @@ class Company extends Model implements HasMedia {
         'ceo' => 'required|max:180',
         'industry_id' => 'required',
         'ownership_type_id' => 'required',
-        'company_size_id' => 'required',
+//        'company_size_id' => 'required',
         'established_in' => 'required',
         'website' => 'nullable|url',
         'location' => 'required',
