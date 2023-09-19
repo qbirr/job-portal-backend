@@ -21,7 +21,7 @@ class CreateDefaultCurrencySeeder extends Seeder
                 'currency_code' => 'USD',
                 'is_default' => 1,
             ],
-            [
+            /*[
                 'currency_name' => 'EUR Euro',
                 'currency_icon' => '€',
                 'currency_code' => 'EUR',
@@ -548,14 +548,14 @@ class CreateDefaultCurrencySeeder extends Seeder
                 'currency_icon' => 'zł',
                 'currency_code' => 'PLN',
                 'is_default' => 1,
-            ],
+            ],*/
             [
                 'currency_name' => 'QAR Qatar Riyal',
                 'currency_icon' => '﷼',
                 'currency_code' => 'QAR',
                 'is_default' => 1,
             ],
-            [
+            /*[
                 'currency_name' => 'RON Romania New Leu',
                 'currency_icon' => 'lei',
                 'currency_code' => 'RON',
@@ -825,7 +825,7 @@ class CreateDefaultCurrencySeeder extends Seeder
                 'currency_icon' => '₣',
                 'currency_code' => 'XPF',
                 'is_default' => 1,
-            ],
+            ],*/
         ];
 
         $salaryCurrencies = [
