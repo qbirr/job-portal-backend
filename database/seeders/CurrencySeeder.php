@@ -18,7 +18,7 @@ class CurrencySeeder extends Seeder
                 'currency_icon' => '$',
                 'currency_code' => 'USD',
             ],
-            [
+            /*[
                 'currency_name' => 'EUR Euro',
                 'currency_icon' => '€',
                 'currency_code' => 'EUR',
@@ -457,13 +457,13 @@ class CurrencySeeder extends Seeder
                 'currency_name' => 'PLN Poland Zloty',
                 'currency_icon' => 'zł',
                 'currency_code' => 'PLN',
-            ],
+            ],*/
             [
                 'currency_name' => 'QAR Qatar Riyal',
                 'currency_icon' => '﷼',
                 'currency_code' => 'QAR',
             ],
-            [
+            /*[
                 'currency_name' => 'RON Romania New Leu',
                 'currency_icon' => 'lei',
                 'currency_code' => 'RON',
@@ -688,17 +688,18 @@ class CurrencySeeder extends Seeder
                 'currency_name' => 'XPF France Franc',
                 'currency_icon' => '₣',
                 'currency_code' => 'XPF',
-            ],
+            ],*/
         ];
 
         $salaryCurrencies = [
             'USD US Dollar',
-            'EUR Euro',
+            'QAR Qatar Riyal',
+            /*'EUR Euro',
             'HKD Hong Kong Dollar',
             'INR Indian Rupee',
             'AUD Australian Dollar',
             'JMD Jamaican Dollar',
-            'CAD Canadian Dollar',
+            'CAD Canadian Dollar',*/
         ];
 
         foreach ($input as $data) {
