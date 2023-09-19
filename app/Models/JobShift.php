@@ -8,13 +8,11 @@ use Illuminate\Database\Eloquent\Model;
  * Class JobShift
  *
  * @version June 23, 2020, 5:43 am UTC
- *
  * @property string $shift
  * @property string $description
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobShift newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobShift newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobShift query()
@@ -22,9 +20,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobShift whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobShift whereShift($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobShift whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobShift whereDescription($value)
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|JobShift whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class JobShift extends Model
 {

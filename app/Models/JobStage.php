@@ -18,7 +18,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Company $company
- *
  * @method static Builder|JobStage newModelQuery()
  * @method static Builder|JobStage newQuery()
  * @method static Builder|JobStage query()

@@ -13,13 +13,11 @@ use Illuminate\Support\Carbon;
  * Class Language
  *
  * @version July 3, 2020, 9:12 am UTC
- *
  * @property int $id
  * @property string $language
  * @property string|null $iso_code
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static Builder|Language newModelQuery()
  * @method static Builder|Language newQuery()
  * @method static Builder|Language query()
@@ -29,9 +27,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Language whereLanguage($value)
  * @method static Builder|Language whereUpdatedAt($value)
  * @mixin Eloquent
- *
  * @property-read Collection|User[] $candidate
  * @property-read int|null $candidate_count
+ * @property bool $is_default
+ * @method static Builder|Language whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class Language extends Model
 {

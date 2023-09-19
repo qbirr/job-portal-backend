@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $phone_code
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Country newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Country newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Country query()
@@ -24,6 +23,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Country wherePhoneCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Country whereShortCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Country whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
  * @mixin \Eloquent
  */
 class Country extends Model

@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $is_trial_plan
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Plan newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Plan newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Plan query()
@@ -29,21 +28,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Plan whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Plan whereStripePlanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Plan whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subscription[] $activeSubscriptions
  * @property-read int|null $active_subscriptions_count
- *
  * @method static \Illuminate\Database\Query\Builder|Plan onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Plan whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|Plan withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Plan withoutTrashed()
- *
  * @property int $salary_currency_id
  * @property-read \App\Models\SalaryCurrency $salaryCurrency
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Plan whereSalaryCurrencyId($value)
+ * @mixin \Eloquent
  */
 class Plan extends Model
 {

@@ -22,7 +22,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read mixed $post_image_url
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
  * @property-read int|null $media_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post query()
@@ -32,11 +31,14 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @property-read \App\Models\User $user
  * @property-read mixed $blog_image_url
  * @property-read int|null $post_assign_categories_count
+ * @property bool $is_default
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PostComment> $comments
+ * @property-read int|null $comments_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Post whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class Post extends Model implements HasMedia
 {

@@ -50,7 +50,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read int|null $roles_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User permission($permissions)
@@ -74,30 +73,22 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereState($value)
- *
  * @property-read \App\Models\Company|null $company
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @property string $language
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Language[] $candidateLanguage
  * @property-read int|null $candidate_language_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLanguage($value)
- *
  * @property int|null $country_id
  * @property int|null $state_id
  * @property int|null $city_id
  * @property int $profile_views
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FavouriteCompany[] $followings
  * @property-read int|null $followings_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCountryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereProfileViews($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereStateId($value)
- *
  * @property-read mixed $city_name
  * @property-read mixed $country_name
  * @property-read mixed $state_name
@@ -107,24 +98,22 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $google_plus_url
  * @property string|null $pinterest_url
  * @property int $is_default
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereFacebookUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereGooglePlusUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereIsDefault($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLinkedinUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePinterestUrl($value)
- *
  * @property string|null $stripe_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Cashier\Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereStripeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereTwitterUrl($value)
- *
  * @property string|null $region_code
  * @property-read bool $is_online_profile_availbal
- *
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRegionCode($value)
+ * @property string|null $theme_mode
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereThemeMode($value)
+ * @mixin \Eloquent
  */
 class User extends Authenticatable implements HasMedia
 {

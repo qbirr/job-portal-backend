@@ -16,7 +16,6 @@ use Illuminate\Support\Carbon;
  * @property string $message
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Inquiry newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Inquiry newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Inquiry query()

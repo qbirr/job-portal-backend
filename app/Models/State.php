@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\State newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\State newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\State query()
@@ -23,9 +22,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\State whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\State whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\State whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @property-read \App\Models\Country $country
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @mixin \Eloquent
  */
 class State extends Model
 {

@@ -21,7 +21,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string|null $notes
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static Builder|JobApplication newModelQuery()
  * @method static Builder|JobApplication newQuery()
  * @method static Builder|JobApplication query()
@@ -33,19 +32,17 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder|JobApplication whereNotes($value)
  * @method static Builder|JobApplication whereResumeId($value)
  * @method static Builder|JobApplication whereUpdatedAt($value)
- * @mixin Eloquent
- *
  * @property-read \App\Models\Candidate $candidate
  * @property-read \App\Models\Job $job
  * @property int $status
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobApplication whereStatus($value)
- *
  * @property-read mixed $resume_url
  * @property int|null $job_stage_id
  * @property-read JobStage|null $jobStage
- *
  * @method static Builder|JobApplication whereJobStageId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\JobApplicationSchedule> $applicationSchedule
+ * @property-read int|null $application_schedule_count
+ * @mixin Eloquent
  */
 class JobApplication extends Model
 {

@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read Candidate $candidate
  * @property-read User $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|ReportedToCandidate newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ReportedToCandidate newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ReportedToCandidate query()

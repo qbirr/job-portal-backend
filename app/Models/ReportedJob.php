@@ -12,24 +12,21 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReportedJob newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReportedJob newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReportedJob query()
- * @mixin \Eloquent
- *
  * @property int $id
  * @property int $user_id
  * @property int $job_id
  * @property string $note
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReportedJob whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReportedJob whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReportedJob whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReportedJob whereJobId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReportedJob whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReportedJob whereUserId($value)
- *
  * @property-read \App\Models\Job $job
  * @property-read \App\Models\User $user
+ * @mixin \Eloquent
  */
 class ReportedJob extends Model
 {

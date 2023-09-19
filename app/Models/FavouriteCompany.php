@@ -14,7 +14,6 @@ use Illuminate\Support\Carbon;
  * @property int company_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FavouriteJob newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FavouriteJob newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FavouriteJob query()
@@ -23,10 +22,10 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FavouriteJob whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FavouriteJob whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FavouriteJob whereUserId($value)
- * @mixin \Eloquent
- *
  * @property-read \App\Models\Company $company
  * @property-read \App\Models\User $user
+ * @property int $company_id
+ * @mixin \Eloquent
  */
 class FavouriteCompany extends Model
 {

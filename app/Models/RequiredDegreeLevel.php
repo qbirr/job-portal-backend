@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Model as Model;
  * Class RequiredDegreeLevel
  *
  * @version June 30, 2020, 12:30 pm UTC
- *
  * @property string $name
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RequiredDegreeLevel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RequiredDegreeLevel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RequiredDegreeLevel query()
@@ -21,6 +19,8 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RequiredDegreeLevel whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RequiredDegreeLevel whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\RequiredDegreeLevel whereUpdatedAt($value)
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|RequiredDegreeLevel whereIsDefault($value)
  * @mixin \Eloquent
  */
 class RequiredDegreeLevel extends Model

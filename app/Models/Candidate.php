@@ -16,7 +16,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * Class Candidate
  *
  * @version July 20, 2020, 5:48 am UTC
- *
  * @property int $id
  * @property int $user_id
  * @property string $unique_id
@@ -43,7 +42,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int|null $media_count
  * @property-read User $user
  * @property-read mixed $candidate_url
- *
  * @method static Builder|Candidate newModelQuery()
  * @method static Builder|Candidate newQuery()
  * @method static Builder|Candidate query()
@@ -65,8 +63,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static Builder|Candidate whereUpdatedAt($value)
  * @method static Builder|Candidate whereUserId($value)
  * @method static Builder|Candidate whereUniqueId($value)
- * @mixin Eloquent
- *
  * @property int $job_alert
  * @property-read mixed $city_name
  * @property-read mixed $country_name
@@ -78,12 +74,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int|null $job_applications_count
  * @property-read Collection|\App\Models\JobApplication[] $penddingJobApplications
  * @property-read int|null $pendding_job_applications_count
- *
  * @method static Builder|Candidate whereJobAlert($value)
- *
  * @property string|null $available_at
- *
  * @method static Builder|Candidate whereAvailableAt($value)
+ * @property int|null $last_change
+ * @property-read \App\Models\User|null $admin
+ * @method static Builder|Candidate whereLastChange($value)
+ * @mixin Eloquent
  */
 class Candidate extends Model implements HasMedia
 {

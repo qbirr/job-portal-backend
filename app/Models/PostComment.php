@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int|null $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|PostComment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PostComment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PostComment query()
@@ -29,6 +28,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|PostComment wherePostId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PostComment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PostComment whereUserId($value)
+ * @property-read \App\Models\Post $post
+ * @property-read \App\Models\User|null $user
  * @mixin \Eloquent
  */
 class PostComment extends Model

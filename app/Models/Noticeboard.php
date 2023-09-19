@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Noticeboard newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Noticeboard newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Noticeboard query()
@@ -21,11 +20,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Noticeboard whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Noticeboard whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Noticeboard whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @property int $is_active
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Noticeboard whereIsActive($value)
+ * @mixin \Eloquent
  */
 class Noticeboard extends Model
 {

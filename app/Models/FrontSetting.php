@@ -18,7 +18,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string $value
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|FrontSetting newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|FrontSetting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|FrontSetting query()
@@ -27,10 +26,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static \Illuminate\Database\Eloquent\Builder|FrontSetting whereKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FrontSetting whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|FrontSetting whereValue($value)
- * @mixin Eloquent
- *
  * @property-read MediaCollection|Media[] $media
  * @property-read int|null $media_count
+ * @mixin Eloquent
  */
 class FrontSetting extends Model implements HasMedia
 {

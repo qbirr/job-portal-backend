@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Skill newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Skill newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Skill query()
@@ -21,12 +20,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Skill whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Skill whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Skill whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $candidate
  * @property-read int|null $candidate_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Job[] $jobs
  * @property-read int|null $jobs_count
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|Skill whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class Skill extends Model
 {

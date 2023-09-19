@@ -24,7 +24,6 @@ use Illuminate\Support\Carbon;
  * @property string|null $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static Builder|CandidateExperience newModelQuery()
  * @method static Builder|CandidateExperience newQuery()
  * @method static Builder|CandidateExperience query()
@@ -41,16 +40,14 @@ use Illuminate\Support\Carbon;
  * @method static Builder|CandidateExperience whereStartDate($value)
  * @method static Builder|CandidateExperience whereState($value)
  * @method static Builder|CandidateExperience whereUpdatedAt($value)
- * @mixin Eloquent
- *
  * @property-read \App\Models\Candidate $candidate
  * @property int|null $country_id
  * @property int|null $state_id
  * @property int|null $city_id
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CandidateExperience whereCityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CandidateExperience whereCountryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CandidateExperience whereStateId($value)
+ * @mixin Eloquent
  */
 class CandidateExperience extends Model
 {

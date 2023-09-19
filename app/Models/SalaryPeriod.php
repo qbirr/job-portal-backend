@@ -8,13 +8,11 @@ use Illuminate\Database\Eloquent\Model;
  * Class SalaryPeriod
  *
  * @version June 23, 2020, 5:43 am UTC
- *
  * @property string $period
  * @property string $description
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryPeriod newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryPeriod newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryPeriod query()
@@ -22,9 +20,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryPeriod whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryPeriod wherePeriod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryPeriod whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryPeriod whereDescription($value)
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|SalaryPeriod whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class SalaryPeriod extends Model
 {

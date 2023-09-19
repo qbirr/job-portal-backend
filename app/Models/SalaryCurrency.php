@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Model as Model;
  * Class SalaryCurrency
  *
  * @version July 7, 2020, 6:41 am UTC
- *
  * @property string $currency_name
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryCurrency newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryCurrency newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryCurrency query()
@@ -21,15 +19,13 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryCurrency whereCurrencyName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryCurrency whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SalaryCurrency whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @property string $currency_icon
- *
  * @method static \Illuminate\Database\Eloquent\Builder|SalaryCurrency whereCurrencyIcon($value)
- *
  * @property string $currency_code
- *
  * @method static \Illuminate\Database\Eloquent\Builder|SalaryCurrency whereCurrencyCode($value)
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|SalaryCurrency whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class SalaryCurrency extends Model
 {

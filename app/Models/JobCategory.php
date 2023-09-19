@@ -12,14 +12,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * Class JobCategory
  *
  * @version June 19, 2020, 6:50 am UTC
- *
  * @property string $name
  * @property string $description
  * @property bool|null $is_featured
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobCategory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobCategory query()
@@ -28,12 +26,16 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobCategory whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobCategory whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobCategory whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\JobCategory whereIsFeatured($value)
- *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Job[] $jobs
  * @property-read int|null $jobs_count
+ * @property bool $is_default
+ * @property-read mixed $image_url
+ * @property-read string $is_featured_label
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|JobCategory whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class JobCategory extends Model implements HasMedia
 {

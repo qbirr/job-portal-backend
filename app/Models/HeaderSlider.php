@@ -17,7 +17,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read mixed $header_slider_url
  * @property-read \Illuminate\Database\Eloquent\Collection|Media[] $media
  * @property-read int|null $media_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|HeaderSlider newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|HeaderSlider newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|HeaderSlider query()

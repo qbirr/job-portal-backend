@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Model as Model;
  * Class FunctionalArea
  *
  * @version July 4, 2020, 7:26 am UTC
- *
  * @property string $name
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FunctionalArea newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FunctionalArea newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FunctionalArea query()
@@ -21,6 +19,8 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FunctionalArea whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FunctionalArea whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FunctionalArea whereUpdatedAt($value)
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|FunctionalArea whereIsDefault($value)
  * @mixin \Eloquent
  */
 class FunctionalArea extends Model

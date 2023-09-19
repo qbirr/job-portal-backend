@@ -16,7 +16,6 @@ use Illuminate\Support\Carbon;
  * @property string $variables
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static Builder|EmailTemplate newModelQuery()
  * @method static Builder|EmailTemplate newQuery()
  * @method static Builder|EmailTemplate query()

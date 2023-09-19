@@ -9,13 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * App\Models\PostCategory
  *
  * @mixin \Eloquen
- *
  * @property int $id
  * @property string $name
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PostCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PostCategory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PostCategory query()
@@ -24,9 +22,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PostCategory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PostCategory whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PostCategory whereUpdatedAt($value)
- *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $postAssignCategories
  * @property-read int|null $post_assign_categories_count
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|PostCategory whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class PostCategory extends Model
 {

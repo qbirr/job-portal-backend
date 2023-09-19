@@ -24,7 +24,6 @@ use Laravel\Cashier\Subscription as CashierSubscription;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Plan|null $plan
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Subscription newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Subscription newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Subscription query()
@@ -43,13 +42,10 @@ use Laravel\Cashier\Subscription as CashierSubscription;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Subscription whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Subscription whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Subscription whereUserId($value)
- * @mixin \Eloquent
- *
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Cashier\SubscriptionItem[] $items
  * @property-read int|null $items_count
  * @property-read \App\Models\User $owner
  * @property-read \App\Models\User $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription active()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription cancelled()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription ended()
@@ -61,14 +57,16 @@ use Laravel\Cashier\Subscription as CashierSubscription;
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription onTrial()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription pastDue()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription recurring()
- *
  * @property string $type
  * @property string|null $paypal_payment_id
- *
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription wherePaypalPaymentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereType($value)
- *
  * @property-read \App\Models\Plan|null $planCurrency
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscription canceled()
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscription expiredTrial()
+ * @method static \Laravel\Cashier\Database\Factories\SubscriptionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscription notCanceled()
+ * @mixin \Eloquent
  */
 class Subscription extends CashierSubscription
 {

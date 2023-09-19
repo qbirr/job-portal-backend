@@ -8,13 +8,11 @@ use Illuminate\Database\Eloquent\Model;
  * Class Industry
  *
  * @version June 20, 2020, 5:43 am UTC
- *
  * @property string $name
  * @property string $description
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Industry newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Industry newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Industry query()
@@ -22,9 +20,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Industry whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Industry whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Industry whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Industry whereDescription($value)
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|Industry whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class Industry extends Model
 {

@@ -8,13 +8,11 @@ use Illuminate\Database\Eloquent\Model;
  * Class Language
  *
  * @version May 14, 2020, 5:43 am UTC
- *
  * @property string $marital_status
  * @property string $description
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MaritalStatus newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MaritalStatus newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MaritalStatus query()
@@ -23,6 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MaritalStatus whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MaritalStatus whereMaritalStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MaritalStatus whereUpdatedAt($value)
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|MaritalStatus whereIsDefault($value)
  * @mixin \Eloquent
  */
 class MaritalStatus extends Model

@@ -12,8 +12,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|ImageSlider newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ImageSlider newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ImageSlider query()
- * @mixin \Eloquent
- *
  * @property int $id
  * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -21,15 +19,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read mixed $image_slider_url
  * @property-read \Illuminate\Database\Eloquent\Collection|Media[] $media
  * @property-read int|null $media_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|ImageSlider whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ImageSlider whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ImageSlider whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ImageSlider whereUpdatedAt($value)
- *
  * @property int $is_active
- *
  * @method static \Illuminate\Database\Eloquent\Builder|ImageSlider whereIsActive($value)
+ * @mixin \Eloquent
  */
 class ImageSlider extends Model implements HasMedia
 {

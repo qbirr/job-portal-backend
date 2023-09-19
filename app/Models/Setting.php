@@ -15,7 +15,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string $value
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting query()
@@ -24,11 +23,10 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting whereKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting whereValue($value)
- * @mixin \Eloquent
- *
  * @property-read mixed $logo_url
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
  * @property-read int|null $media_count
+ * @mixin \Eloquent
  */
 class Setting extends Model implements HasMedia
 {

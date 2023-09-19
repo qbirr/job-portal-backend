@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FeaturedRecord newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FeaturedRecord newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\FeaturedRecord query()

@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Model as Model;
  * Class CareerLevel
  *
  * @version July 7, 2020, 5:07 am UTC
- *
  * @property string $level_name
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CareerLevel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CareerLevel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CareerLevel query()
@@ -21,6 +19,8 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CareerLevel whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CareerLevel whereLevelName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CareerLevel whereUpdatedAt($value)
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|CareerLevel whereIsDefault($value)
  * @mixin \Eloquent
  */
 class CareerLevel extends Model

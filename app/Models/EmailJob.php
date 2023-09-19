@@ -15,7 +15,6 @@ use Illuminate\Support\Carbon;
  * @property string $friend_email
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EmailJob newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EmailJob newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EmailJob query()
@@ -26,11 +25,9 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EmailJob whereJobUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EmailJob whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EmailJob whereUserId($value)
- * @mixin \Eloquent
- *
  * @property int $job_id
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EmailJob whereJobId($value)
+ * @mixin \Eloquent
  */
 class EmailJob extends Model
 {

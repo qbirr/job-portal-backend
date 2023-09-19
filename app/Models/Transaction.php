@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Subscription $subscription
  * @property-read \App\Models\User $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction query()
@@ -29,12 +28,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereOwnerType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereUserId($value)
- * @mixin \Eloquent
- *
  * @property int $owner_id
  * @property string $owner_type
  * @property-read mixed $type_name
  * @property-read Model|\Eloquent $type
+ * @property int $status
+ * @property int $is_approved
+ * @property int|null $approved_id
+ * @property int|null $plan_currency_id
+ * @property-read \App\Models\User|null $admin
+ * @property-read \App\Models\Subscription|null $owner
+ * @property-read \App\Models\SalaryCurrency|null $salaryCurrency
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereApprovedId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereIsApproved($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePlanCurrencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereStatus($value)
+ * @mixin \Eloquent
  */
 class Transaction extends Model
 {

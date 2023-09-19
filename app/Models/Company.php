@@ -19,7 +19,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * Class Company
  *
  * @version June 22, 2020, 12:34 pm UTC
- *
  * @property int $id
  * @property string $ceo
  * @property int $no_of_offices
@@ -43,7 +42,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read CompanySize $companySize
  * @property-read Industry $industry
  * @property-read OwnerShipType $ownerShipType
- *
  * @method static Builder|Company newModelQuery()
  * @method static Builder|Company newQuery()
  * @method static Builder|Company query()
@@ -68,8 +66,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder|Company whereUpdatedAt($value)
  * @method static Builder|Company whereWebsite($value)
  * @method static Builder|Company whereUniqueId($value)
- * @mixin Eloquent
- *
  * @property-read User|null $user
  * @property int|null $user_id
  * @property-read mixed $company_url
@@ -77,14 +73,20 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read int|null $jobs_count
  * @property-read Collection|Media[] $media
  * @property-read int|null $media_count
- *
  * @method static Builder|Company whereUserId($value)
- *
  * @property-read FeaturedRecord|null $activeFeatured
  * @property-read FeaturedRecord|null $featured
  * @property-read mixed $city_name
  * @property-read mixed $country_name
  * @property-read mixed $state_name
+ * @property int $submission_status_id
+ * @property int $is_featured
+ * @property int|null $last_change
+ * @property-read \App\Models\User|null $admin
+ * @property-read \App\Models\SubmissionStatus|null $submissionStatus
+ * @method static Builder|Company whereLastChange($value)
+ * @method static Builder|Company whereSubmissionStatusId($value)
+ * @mixin Eloquent
  */
 class Company extends Model implements HasMedia {
     use InteractsWithMedia;

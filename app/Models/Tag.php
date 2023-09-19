@@ -9,13 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * Class JobTag
  *
  * @version June 22, 2020, 5:43 am UTC
- *
  * @property string $name
  * @property string $description
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag query()
@@ -23,12 +21,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereDescription($value)
- *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Job[] $jobs
  * @property-read int|null $jobs_count
+ * @property bool $is_default
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereIsDefault($value)
+ * @mixin \Eloquent
  */
 class Tag extends Model
 {

@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -44,7 +47,6 @@ use Illuminate\Support\Carbon;
  * @property-read JobType $jobType
  * @property-read Position $position
  * @property-read SalaryPeriod $salaryPeriod
- *
  * @method static Builder|Job newModelQuery()
  * @method static Builder|Job newQuery()
  * @method static Builder|Job query()
@@ -72,56 +74,51 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Job whereSalaryTo($value)
  * @method static Builder|Job whereState($value)
  * @method static Builder|Job whereUpdatedAt($value)
- * @mixin Eloquent
- *
  * @property int $company_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\JobApplication[] $appliedJobs
+ * @property-read Collection|JobApplication[] $appliedJobs
  * @property-read int|null $applied_jobs_count
- * @property-read \App\Models\Company $company
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\JobSkill[] $jobsSkill
+ * @property-read Company $company
+ * @property-read Collection|Skill[] $jobsSkill
  * @property-read int|null $jobs_skill_count
- *
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereCompanyId($value)
- *
+ * @method static Builder|Job whereCompanyId($value)
  * @property string $job_id
  * @property int $job_category_id
- * @property-read \App\Models\JobCategory $jobCategory
- *
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereJobCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereJobId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job status($status)
- *
+ * @property-read JobCategory $jobCategory
+ * @method static Builder|Job whereJobCategoryId($value)
+ * @method static Builder|Job whereJobId($value)
+ * @method static Builder|Job status($status)
  * @property int $status
- *
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereStatus($value)
- *
+ * @method static Builder|Job whereStatus($value)
  * @property int|null $country_id
  * @property int|null $state_id
  * @property int|null $city_id
  * @property-read mixed $city_name
  * @property-read mixed $country_name
  * @property-read mixed $state_name
- *
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereCityId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereCountryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereStateId($value)
- *
+ * @method static Builder|Job whereCityId($value)
+ * @method static Builder|Job whereCountryId($value)
+ * @method static Builder|Job whereStateId($value)
  * @property int|null $experience
- * @property-read \App\Models\FeaturedRecord|null $activeFeatured
- * @property-read \App\Models\FeaturedRecord|null $featured
+ * @property-read FeaturedRecord|null $activeFeatured
+ * @property-read FeaturedRecord|null $featured
  * @property-read string $full_location
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $jobsTag
+ * @property-read Collection|Tag[] $jobsTag
  * @property-read int|null $jobs_tag_count
- *
  * @method static Builder|Job whereExperience($value)
  * @method static Builder|Job wherePosition($value)
- *
  * @property int $is_created_by_admin
- *
  * @method static Builder|Job whereIsCreatedByAdmin($value)
+ * @property int $submission_status_id
+ * @property int $is_default
+ * @property int|null $last_change
+ * @property-read \App\Models\User|null $admin
+ * @property-read \App\Models\SubmissionStatus|null $submissionStatus
+ * @method static Builder|Job whereIsDefault($value)
+ * @method static Builder|Job whereLastChange($value)
+ * @method static Builder|Job whereSubmissionStatusId($value)
+ * @mixin Eloquent
  */
-class Job extends Model
-{
+class Job extends Model {
     const NO_PREFERENCE = [
         2 => 'Both',
         1 => 'Male',
@@ -190,7 +187,7 @@ class Job extends Model
      *
      * @var array
      */
-    public static $rules = [
+    public static array $rules = [
         'company_id' => 'sometimes|required',
         'job_title' => 'required|max:180',
         'currency_id' => 'required',
@@ -279,195 +276,179 @@ class Job extends Model
     protected $with = ['country', 'state', 'city', 'activeFeatured'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function country()
-    {
+    public function country(): BelongsTo {
         return $this->belongsTo(Country::class, 'country_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function state()
-    {
-        return $this->belongsTo(State::class, 'state_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function city()
-    {
-        return $this->belongsTo(City::class, 'city_id');
-    }
-
-    public function admin(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(User::class, 'id', 'last_change');
-    }
-
-    public function getCountryNameAttribute()
-    {
-        if (! empty($this->country)) {
-            return $this->country->name;
-        }
-    }
-
-    public function getStateNameAttribute()
-    {
-        if (! empty($this->state)) {
-            return $this->state->name;
-        }
-    }
-
-    public function getCityNameAttribute()
-    {
-        if (! empty($this->city)) {
-            return $this->city->name;
-        }
     }
 
     /**
      * @return BelongsTo
      */
-    public function company()
-    {
+    public function state(): BelongsTo {
+        return $this->belongsTo(State::class, 'state_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function city(): BelongsTo {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function admin(): HasOne {
+        return $this->hasOne(User::class, 'id', 'last_change');
+    }
+
+    public function getCountryNameAttribute(): ?string {
+        if (!empty($this->country)) {
+            return $this->country->name;
+        }
+        return null;
+    }
+
+    public function getStateNameAttribute(): ?string {
+        if (!empty($this->state)) {
+            return $this->state->name;
+        }
+        return null;
+    }
+
+    public function getCityNameAttribute(): ?string {
+        if (!empty($this->city)) {
+            return $this->city->name;
+        }
+        return null;
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function company(): BelongsTo {
         return $this->belongsTo(Company::class, 'company_id');
     }
 
     /**
-     * @param  Builder  $query
-     * @param  int  $status
+     * @param Builder $query
+     * @param int $status
      * @return Builder
      */
-    public function scopeStatus(Builder $query, $status)
-    {
+    public function scopeStatus(Builder $query, int $status): Builder {
         return $query->where('status', $status);
     }
 
     /**
      * @return BelongsTo
      */
-    public function currency()
-    {
+    public function currency(): BelongsTo {
         return $this->belongsTo(SalaryCurrency::class, 'currency_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function salaryPeriod()
-    {
+    public function salaryPeriod(): BelongsTo {
         return $this->belongsTo(SalaryPeriod::class, 'salary_period_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function jobType()
-    {
+    public function jobType(): BelongsTo {
         return $this->belongsTo(JobType::class, 'job_type_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function careerLevel()
-    {
+    public function careerLevel(): BelongsTo {
         return $this->belongsTo(CareerLevel::class, 'career_level_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function functionalArea()
-    {
+    public function functionalArea(): BelongsTo {
         return $this->belongsTo(FunctionalArea::class, 'functional_area_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function jobShift()
-    {
+    public function jobShift(): BelongsTo {
         return $this->belongsTo(JobShift::class, 'job_shift_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function degreeLevel()
-    {
+    public function degreeLevel(): BelongsTo {
         return $this->belongsTo(RequiredDegreeLevel::class, 'degree_level_id');
     }
 
     /**
      * @return BelongsToMany
      */
-    public function jobsSkill()
-    {
+    public function jobsSkill(): BelongsToMany {
         return $this->belongsToMany(Skill::class, 'jobs_skill', 'job_id', 'skill_id');
     }
 
     /**
      * @return BelongsToMany
      */
-    public function jobsTag()
-    {
+    public function jobsTag(): BelongsToMany {
         return $this->belongsToMany(Tag::class, 'jobs_tag', 'job_id', 'tag_id');
     }
 
     /**
      * @return HasMany
      */
-    public function appliedJobs()
-    {
+    public function appliedJobs(): HasMany {
         return $this->hasMany(JobApplication::class, 'job_id', 'id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function jobCategory()
-    {
+    public function jobCategory(): BelongsTo {
         return $this->belongsTo(JobCategory::class, 'job_category_id');
     }
 
     /**
      * @return string
      */
-    public function getFullLocationAttribute()
-    {
+    public function getFullLocationAttribute(): string {
         $location = '';
-        if (! empty($this->city)) {
-            $location = $this->city->name.', ';
+        if (!empty($this->city)) {
+            $location = $this->city->name . ', ';
         }
 
-        if (! empty($this->state)) {
-            $location = $location.$this->state->name.', ';
+        if (!empty($this->state)) {
+            $location = $location . $this->state->name . ', ';
         }
 
-        if (! empty($this->country)) {
-            $location = $location.$this->country->name;
+        if (!empty($this->country)) {
+            $location = $location . $this->country->name;
         }
 
         return $location;
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * @return MorphOne
      */
-    public function featured()
-    {
+    public function featured(): MorphOne {
         return $this->morphOne(FeaturedRecord::class, 'owner');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * @return MorphOne
      */
-    public function activeFeatured()
-    {
+    public function activeFeatured(): MorphOne {
         return $this->morphOne(FeaturedRecord::class, 'owner')->where('end_time', '>', \Carbon\Carbon::now());
+    }
+
+    public function submissionStatus(): BelongsTo {
+        return $this->belongsTo(SubmissionStatus::class);
     }
 }

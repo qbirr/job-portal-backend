@@ -23,7 +23,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Candidate $candidate
- *
  * @method static Builder|CandidateEducation newModelQuery()
  * @method static Builder|CandidateEducation newQuery()
  * @method static Builder|CandidateEducation query()
@@ -38,20 +37,16 @@ use Illuminate\Support\Carbon;
  * @method static Builder|CandidateEducation whereState($value)
  * @method static Builder|CandidateEducation whereUpdatedAt($value)
  * @method static Builder|CandidateEducation whereYear($value)
- * @mixin Eloquent
- *
  * @property string $degree_title
  * @property-read \App\Models\RequiredDegreeLevel $degreeLevel
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CandidateEducation whereDegreeTitle($value)
- *
  * @property int|null $country_id
  * @property int|null $state_id
  * @property int|null $city_id
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CandidateEducation whereCityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CandidateEducation whereCountryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CandidateEducation whereStateId($value)
+ * @mixin Eloquent
  */
 class CandidateEducation extends Model
 {

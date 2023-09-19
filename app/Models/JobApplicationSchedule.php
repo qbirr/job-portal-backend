@@ -22,7 +22,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Collection|JobApplication[] $jobApplication
  * @property-read int|null $job_application_count
- *
  * @method static Builder|JobApplicationSchedule newModelQuery()
  * @method static Builder|JobApplicationSchedule newQuery()
  * @method static Builder|JobApplicationSchedule query()
@@ -34,17 +33,15 @@ use Illuminate\Support\Carbon;
  * @method static Builder|JobApplicationSchedule whereStatus($value)
  * @method static Builder|JobApplicationSchedule whereTime($value)
  * @method static Builder|JobApplicationSchedule whereUpdatedAt($value)
- * @mixin \Eloquent
- *
  * @property int $stage_id
  * @property int|null $batch
  * @property string|null $rejected_slot_notes
  * @property string|null $employer_cancel_slot_notes
- *
  * @method static Builder|JobApplicationSchedule whereStageId($value)
  * @method static Builder|JobApplicationSchedule whereBatch($value)
  * @method static Builder|JobApplicationSchedule whereEmployerCancelSlotNotes($value)
  * @method static Builder|JobApplicationSchedule whereRejectedSlotNotes($value)
+ * @mixin \Eloquent
  */
 class JobApplicationSchedule extends Model
 {
