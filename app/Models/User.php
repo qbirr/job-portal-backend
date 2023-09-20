@@ -4,14 +4,24 @@ namespace App\Models;
 
 use App\Notifications\PasswordReset;
 use App\Notifications\UserVerifyNotification;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Cashier\Billable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\Models\Media;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -36,59 +46,59 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \App\Models\Candidate|null $candidate
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Skill[] $candidateSkill
+ * @property-read Candidate|null $candidate
+ * @property-read Collection|Skill[] $candidateSkill
  * @property-read int|null $candidate_skill_count
  * @property-read mixed $avatar
  * @property-read string $full_name
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
+ * @property-read Collection|Media[] $media
  * @property-read int|null $media_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[]
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[]
  *     $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read Collection|Permission[] $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read Collection|Role[] $roles
  * @property-read int|null $roles_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User permission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User role($roles, $guard = null)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereDob($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereFirstName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereGender($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereIsVerified($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLastName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereOwnerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereOwnerType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereState($value)
- * @property-read \App\Models\Company|null $company
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User permission($permissions)
+ * @method static Builder|User query()
+ * @method static Builder|User role($roles, $guard = null)
+ * @method static Builder|User whereCity($value)
+ * @method static Builder|User whereCountry($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereDob($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereFirstName($value)
+ * @method static Builder|User whereGender($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereIsActive($value)
+ * @method static Builder|User whereIsVerified($value)
+ * @method static Builder|User whereLastName($value)
+ * @method static Builder|User whereOwnerId($value)
+ * @method static Builder|User whereOwnerType($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User wherePhone($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereState($value)
+ * @property-read Company|null $company
+ * @method static Builder|User whereUpdatedAt($value)
  * @property string $language
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Language[] $candidateLanguage
+ * @property-read Collection|Language[] $candidateLanguage
  * @property-read int|null $candidate_language_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLanguage($value)
+ * @method static Builder|User whereLanguage($value)
  * @property int|null $country_id
  * @property int|null $state_id
  * @property int|null $city_id
  * @property int $profile_views
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FavouriteCompany[] $followings
+ * @property-read Collection|FavouriteCompany[] $followings
  * @property-read int|null $followings_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCityId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCountryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereProfileViews($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereStateId($value)
+ * @method static Builder|User whereCityId($value)
+ * @method static Builder|User whereCountryId($value)
+ * @method static Builder|User whereProfileViews($value)
+ * @method static Builder|User whereStateId($value)
  * @property-read mixed $city_name
  * @property-read mixed $country_name
  * @property-read mixed $state_name
@@ -98,22 +108,22 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $google_plus_url
  * @property string|null $pinterest_url
  * @property int $is_default
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereFacebookUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereGooglePlusUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereIsDefault($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLinkedinUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePinterestUrl($value)
+ * @method static Builder|User whereFacebookUrl($value)
+ * @method static Builder|User whereGooglePlusUrl($value)
+ * @method static Builder|User whereIsDefault($value)
+ * @method static Builder|User whereLinkedinUrl($value)
+ * @method static Builder|User wherePinterestUrl($value)
  * @property string|null $stripe_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Cashier\Subscription[] $subscriptions
+ * @property-read Collection|\Laravel\Cashier\Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereStripeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereTwitterUrl($value)
+ * @method static Builder|User whereStripeId($value)
+ * @method static Builder|User whereTwitterUrl($value)
  * @property string|null $region_code
  * @property-read bool $is_online_profile_availbal
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRegionCode($value)
+ * @method static Builder|User whereRegionCode($value)
  * @property string|null $theme_mode
- * @method static \Illuminate\Database\Eloquent\Builder|User whereThemeMode($value)
- * @mixin \Eloquent
+ * @method static Builder|User whereThemeMode($value)
+ * @mixin Eloquent
  */
 class User extends Authenticatable implements HasMedia
 {
@@ -190,7 +200,7 @@ class User extends Authenticatable implements HasMedia
     protected $with = ['media', 'country', 'city', 'state'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function country()
     {
@@ -198,7 +208,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function state()
     {
@@ -206,7 +216,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function city()
     {
@@ -336,7 +346,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function followings()
     {

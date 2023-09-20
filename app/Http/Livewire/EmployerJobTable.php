@@ -17,6 +17,12 @@ class EmployerJobTable extends LivewireTableComponent
 
     public $buttonComponent = 'employer.jobs.job_table_components.add_button';
 
+    public function __construct($id = null) {
+        parent::__construct($id);
+        $user = auth()->user();
+        $this->showButtonOnHeader = $user->hasRole('Employer') && $user->company->submission_status_id == 2;
+    }
+
     public function configure(): void
     {
         $this->setPrimaryKey('id');
