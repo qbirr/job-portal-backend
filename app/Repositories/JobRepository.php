@@ -76,7 +76,7 @@ class JobRepository extends BaseRepository
      */
     public function prepareJobData()
     {
-        
+
         $data['jobTypes'] = JobType::withCount(['jobs' => function ($q) {
             $q->whereStatus(Job::STATUS_OPEN)
                 ->where('status', '!=', Job::STATUS_DRAFT)
@@ -113,6 +113,9 @@ class JobRepository extends BaseRepository
         $data['countries'] = getCountries();
         $data['companies'] = Company::with('user')->get()->where('user.is_active', '=', 1)
             ->pluck('user.full_name', 'id')->sort();
+
+//        $data['jobShift']->prepend(['0' => 'Others']);
+        logger($data['jobShift']);
 
         return $data;
     }
@@ -417,7 +420,7 @@ class JobRepository extends BaseRepository
 
             $maxJobCount = Plan::whereId($subscription->plan_id)->value('allowed_jobs');
 
-            if ($maxJobCount > $jobCount) {
+            if ($maxJobCount <= 0 || $maxJobCount > $jobCount) {
                 return true;
             }
         }
