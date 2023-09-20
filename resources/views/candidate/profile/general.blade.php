@@ -66,8 +66,8 @@
 
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('marital_status', __('messages.candidate.marital_status').':', ['class' => 'form-label']) }}
-{{--                        <span class="required"></span>--}}
-                        {{ Form::select('marital_status_id', $data['maritalStatus'], $user->candidate->marital_status_id ?? null,  ['class' => 'form-select ', 'id'=>'maritalStatusId','']) }}
+                        {{--                        <span class="required"></span>--}}
+                        {{ Form::select('marital_status_id', $data['maritalStatus'], $user->candidate->marital_status_id ?? null,  ['class' => 'form-select ', 'id'=>'maritalStatusId', 'placeholder'=> __('messages.company.select_marital_status')]) }}
 
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
@@ -80,23 +80,24 @@
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label']) }}
-            {{ Form::select('country_id',  $data['countries'], null, ['class' => 'form-select ','id'=>'countryId','placeholder' => __('messages.company.select_country')]) }}
+                        {{ Form::select('country_id',  $data['countries'], null, ['class' => 'form-select ','id'=>'countryId','placeholder' => __('messages.company.select_country')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('state', __('messages.company.state').':', ['class' => 'form-label']) }}
-            {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), null, ['id'=>'stateId','class' => 'form-select','placeholder' => __('messages.company.select_state')]) }}
+                        {{ Form::select('state_id', (isset($states) && $states!=null?$states:[]), null, ['id'=>'stateId','class' => 'form-select','placeholder' => __('messages.company.select_state')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label']) }}
-            {{ Form::select('city_id',(isset($cities) && $cities!=null?$cities:[]), null,['class' => 'form-select ','id'=>'cityId','placeholder' => __('messages.company.select_city')]) }}
+                        {{ Form::select('city_id',(isset($cities) && $cities!=null?$cities:[]), null,['class' => 'form-select ','id'=>'cityId','placeholder' => __('messages.company.select_city')]) }}
                     </div>
                     <div class="col-sm-6 mb-5 mobile-itel-width">
                         {{ Form::label('phone',__('messages.candidate.phone').(':'),['class' => 'form-label']) }}
                         <div class="col-sm-12 mb-5">
                             {{ Form::tel('phone', $user->phone ?? null, ['class' => 'form-control','onkeyup' => 'if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")','id'=>'phoneNumber']) }}
-                </div>
-                {{ Form::hidden('region_code',null,['id'=>'prefix_code']) }}
-                        <span id="valid-msg" class="text-success d-block fw-400 fs-small mt-2 d-none">{{__('messages.phone.valid_number')}}</span>
+                        </div>
+                        {{ Form::hidden('region_code',null,['id'=>'prefix_code']) }}
+                        <span id="valid-msg"
+                              class="text-success d-block fw-400 fs-small mt-2 d-none">{{__('messages.phone.valid_number')}}</span>
                         <span id="error-msg" class="text-danger d-block fw-400 fs-small mt-2 d-none"></span>
                     </div>
 
@@ -106,33 +107,33 @@
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('career_level', __('messages.candidate.career_level').':', ['class' => 'form-label']) }}
-                {{ Form::select('career_level_id',  $data['careerLevel'], $user->candidate->career_level_id ?? null,['class' => 'form-select','id' => 'careerLevelId', 'placeholder'=> __('messages.company.select_career_level')]) }}
+                        {{ Form::select('career_level_id',  $data['careerLevel'], $user->candidate->career_level_id ?? null,['class' => 'form-select','id' => 'careerLevelId', 'placeholder'=> __('messages.company.select_career_level')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('industry', __('messages.candidate.industry').':', ['class' => 'form-label']) }}
-                {{ Form::select('industry_id',  $data['industry'], $user->candidate->industry_id ?? null, ['class' => 'form-select','id' => 'industryId','placeholder'=>__('messages.company.select_industry')]) }}
+                        {{ Form::select('industry_id',  $data['industry'], $user->candidate->industry_id ?? null, ['class' => 'form-select','id' => 'industryId','placeholder'=>__('messages.company.select_industry')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('functional_area', __('messages.candidate.functional_area').':', ['class' => 'form-label']) }}
-                {{ Form::select('functional_area_id', $data['functionalArea'], $user->candidate->functional_area_id ?? null,['class' => 'form-select','id' => 'functionalAreaId', 'placeholder'=> __('messages.company.select_functional_area')]) }}
+                        {{ Form::select('functional_area_id', $data['functionalArea'], $user->candidate->functional_area_id ?? null,['class' => 'form-select','id' => 'functionalAreaId', 'placeholder'=> __('messages.company.select_functional_area')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('current_salary', __('messages.candidate.current_salary').':', ['class' => 'form-label']) }}
-                {{ Form::text('current_salary',  $user->candidate->current_salary ?? null,['class' => 'form-control','placeholder'=> __('messages.candidate.current_salary')]) }}
+                        {{ Form::text('current_salary',  $user->candidate->current_salary ?? null,['class' => 'form-control','placeholder'=> __('messages.candidate.current_salary')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('expected_salary',  __('messages.candidate.expected_salary').':', ['class' => 'form-label']) }}
-                {{ Form::text('expected_salary', $user->candidate->expected_salary ?? null,['class' => 'form-control','placeholder'=>__('messages.candidate.expected_salary')]) }}
+                        {{ Form::text('expected_salary', $user->candidate->expected_salary ?? null,['class' => 'form-control','placeholder'=>__('messages.candidate.expected_salary')]) }}
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('salary_currency', __('messages.candidate.salary_currency').':', ['class' => 'form-label']) }}
-                {{ Form::select('salary_currency',   $data['currency'], $user->candidate->salary_currency ?? null,['class' => 'form-select','id' => 'salaryCurrencyId','placeholder'=> __('messages.company.select_currency')]) }}
+                        {{ Form::select('salary_currency',   $data['currency'], $user->candidate->salary_currency ?? null,['class' => 'form-select','id' => 'salaryCurrencyId','placeholder'=> __('messages.company.select_currency')]) }}
                     </div>
 
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('immediate_available', __('messages.candidate.immediate_available').':', ['class' => 'form-label']) }}
-                <br>
-                <span class="form-check is-valid form-check-sm">
+                        <br>
+                        <span class="form-check is-valid form-check-sm">
                 <label class="form-label ">{{ __('messages.candidate.immediate_available')}}</label>&nbsp;&nbsp;
                 {{ Form::radio('immediate_available', '1', $user->candidate->immediate_available == 1 ?? true, ['class' => 'form-check-input','id'=>'available']) }} &nbsp;
                 <br>
@@ -161,79 +162,83 @@
 
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('twitter_url', __('messages.company.twitter_url').':', ['class' => 'form-label']) }}
-                <div class="input-group">
-                    <div class="input-group-text border-0">
-                        <i class="fab fa-twitter twitter-fa-icon text-primary"></i>
-                    </div>
-                    {{ Form::text('twitter_url', $user->twitter_url, ['class' => 'form-control','id'=>'twitterUrl','placeholder'=>'https://www.twitter.com']) }}
-                </div>
+                        <div class="input-group">
+                            <div class="input-group-text border-0">
+                                <i class="fab fa-twitter twitter-fa-icon text-primary"></i>
+                            </div>
+                            {{ Form::text('twitter_url', $user->twitter_url, ['class' => 'form-control','id'=>'twitterUrl','placeholder'=>'https://www.twitter.com']) }}
+                        </div>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('linkedin_url', __('messages.company.linkedin_url').':', ['class' => 'form-label']) }}
-                <div class="input-group">
-                    <div class="input-group-text border-0">
-                        <i class="fab fa-linkedin-in linkedin-fa-icon text-primary"></i>
-                    </div>
-                    {{ Form::text('linkedin_url', $user->linkedin_url, ['class' => 'form-control','id'=>'linkedInUrl','placeholder'=>'https://www.linkedin.com']) }}
-                </div>
+                        <div class="input-group">
+                            <div class="input-group-text border-0">
+                                <i class="fab fa-linkedin-in linkedin-fa-icon text-primary"></i>
+                            </div>
+                            {{ Form::text('linkedin_url', $user->linkedin_url, ['class' => 'form-control','id'=>'linkedInUrl','placeholder'=>'https://www.linkedin.com']) }}
+                        </div>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('google_plus_url', __('messages.company.google_plus_url').':', ['class' => 'form-label']) }}
-                <div class="input-group">
-                    <div class="input-group-text border-0">
-                        <i class="fab fa-google-plus-g google-plus-fa-icon text-danger"></i>
-                    </div>
-                    {{ Form::text('google_plus_url', $user->google_plus_url ,['class' => 'form-control','id'=>'googlePlusUrl','placeholder'=>'https://www.plus.google.com']) }}
-                </div>
+                        <div class="input-group">
+                            <div class="input-group-text border-0">
+                                <i class="fab fa-google-plus-g google-plus-fa-icon text-danger"></i>
+                            </div>
+                            {{ Form::text('google_plus_url', $user->google_plus_url ,['class' => 'form-control','id'=>'googlePlusUrl','placeholder'=>'https://www.plus.google.com']) }}
+                        </div>
                     </div>
 
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('pinterest_url', __('messages.company.pinterest_url').':', ['class' => 'form-label']) }}
-                <div class="input-group">
-                    <div class="input-group-text border-0">
-                        <i class="fab fa-pinterest-p pinterest-fa-icon text-danger"></i>
-                    </div>
-                    {{ Form::text('pinterest_url', $user->pinterest_url, ['class' => 'form-control','id'=>'pinterestUrl','placeholder'=>'https://www.pinterest.com']) }}
-                </div>
+                        <div class="input-group">
+                            <div class="input-group-text border-0">
+                                <i class="fab fa-pinterest-p pinterest-fa-icon text-danger"></i>
+                            </div>
+                            {{ Form::text('pinterest_url', $user->pinterest_url, ['class' => 'form-control','id'=>'pinterestUrl','placeholder'=>'https://www.pinterest.com']) }}
+                        </div>
                     </div>
                     <div class="col-sm-6 mb-5">
                         <div class="mb-3" io-image-input="true">
-                            <label for="exampleInputImage" class="form-label"> {{ __('messages.candidate.profile')}}:</label>
-                    <span data-bs-toggle="tooltip"
-                          data-placement="top"
-                          data-bs-original-title="{{ __('messages.setting.image_validation')  }}">
+                            <label for="exampleInputImage" class="form-label"> {{ __('messages.candidate.profile')}}
+                                :</label>
+                            <span data-bs-toggle="tooltip"
+                                  data-placement="top"
+                                  data-bs-original-title="{{ __('messages.setting.image_validation')  }}">
                                 <i class="fas fa-question-circle ml-1 general-question-mark"></i>
                         </span>
-                    <div class="d-block">
-                        <div class="image-picker">
-                            <div class="image previewImage" id="exampleInputImage" style="background-image: url({{ (!empty($user->media[0]))? $user->media[0]->getFullUrl() : asset('assets/img/infyom-logo.png')}})">
-                            </div>
-                            <span class="picker-edit rounded-circle text-gray-500 fs-small" data-bs-toggle="tooltip"
-                                  data-placement="top" data-bs-original-title="{{ __('messages.tooltip.change_profile') }}">
+                            <div class="d-block">
+                                <div class="image-picker">
+                                    <div class="image previewImage" id="exampleInputImage"
+                                         style="background-image: url({{ (!empty($user->media[0]))? $user->media[0]->getFullUrl() : asset('assets/img/infyom-logo.png')}})">
+                                    </div>
+                                    <span class="picker-edit rounded-circle text-gray-500 fs-small"
+                                          data-bs-toggle="tooltip"
+                                          data-placement="top"
+                                          data-bs-original-title="{{ __('messages.tooltip.change_profile') }}">
                         <label>
                             <i class="fa-solid fa-pen" id="profileImageIcon"></i>
                             <input type="file" name="image" class="image-upload d-none" accept="image/*"/>
                         </label>
                     </span>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-12 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('address',__('messages.candidate.address').':', ['class' => 'form-label']) }}
-            {{ Form::textarea('address', $user->candidate->address ?? null, ['class' => 'form-control','rows'=>'5','placeholder'=>__('messages.candidate.address')]) }}
-        </div>
+                        {{ Form::textarea('address', $user->candidate->address ?? null, ['class' => 'form-control','rows'=>'5','placeholder'=>__('messages.candidate.address')]) }}
+                    </div>
 
-        <!-- Submit Field -->
-        <div class="d-flex justify-content-end">
-            {{ Form::submit(__('messages.common.save'), ['class' => 'btn btn-primary me-3 btnSave']) }}
-            {{--                <a href=""--}}
-            {{--               class="btn btn-light btn-active-light-primary me-2">{{__('messages.common.cancel')}}</a>--}}
+                    <!-- Submit Field -->
+                    <div class="d-flex justify-content-end">
+                        {{ Form::submit(__('messages.common.save'), ['class' => 'btn btn-primary me-3 btnSave']) }}
+                        {{--                <a href=""--}}
+                        {{--               class="btn btn-light btn-active-light-primary me-2">{{__('messages.common.cancel')}}</a>--}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-    </div>
-</div>
     {{ Form::close() }}
 @endsection
 @push('scripts')

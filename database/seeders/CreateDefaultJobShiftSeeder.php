@@ -5,15 +5,13 @@ namespace Database\Seeders;
 use App\Models\JobShift;
 use Illuminate\Database\Seeder;
 
-class CreateDefaultJobShiftSeeder extends Seeder
-{
+class CreateDefaultJobShiftSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
         $input = [
             [
                 'shift' => 'First Shift',
@@ -46,6 +44,10 @@ class CreateDefaultJobShiftSeeder extends Seeder
             ], [
                 'shift' => 'Weekday or weekend Shift',
                 'description' => 'Weekday or Weekend Shift',
+                'is_default' => 1,
+            ], [
+                'shift' => 'Other',
+                'description' => 'Other Shift',
                 'is_default' => 1,
             ],
         ];

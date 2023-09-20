@@ -84,6 +84,7 @@
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('job_shift_id', __('messages.job.job_shift').':', ['class' => 'form-label']) }}
         {{ Form::select('job_shift_id', $data['jobShift'], null, ['id'=>'jobShiftId','class' => 'form-select','data-control'=>'select2','placeholder' => __('messages.company.select_job_shift')]) }}
+        {{ Form::text('job_shift', null, ['class' => 'form-control mt-2 ', 'id' => 'job_shift', 'required', 'hidden', 'autocomplete' => 'off', 'placeholder' => 'Other job shift']) }}
     </div>
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('tagId', __('messages.job_tag.show_job_tag').':', ['class' => 'form-label']) }}
@@ -134,3 +135,14 @@
     </div>
 
 </div>
+
+<script>
+    $(_ => {
+        $('#jobShiftId').on('change', function () {
+            if (parseInt(this.value) === {{ \App\Models\JobShift::whereShift('Other')->first()->id }}) {
+                $('#job_shift').removeAttr('hidden')
+            } else
+                $('#job_shift').prop('hidden', 1)
+        })
+    })
+</script>

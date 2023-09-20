@@ -208,9 +208,9 @@
                             </div>
                         </div>
                     </div>
-                        
+
                         <div class="col-lg-4">
-                           
+
                         <div class="col-12">
                             <div class="col-12 mb-40">
                                 <div class="job-card card py-30">
@@ -266,9 +266,12 @@
                                             </p>
                                             <p class="text-secondary fs-14">
                                                 {{ html_entity_decode($job->jobShift->shift) }}
+                                                @if($job->jobShift == \App\Models\JobShift::whereShift('Other')->first())
+                                                    - {{ $job->job_shift }}
+                                                @endif
                                             </p>
                                         </div>
-                                            
+
                                         @endif
                                         <div class="col-5 mt-3">
                                             <i class="fa-solid fa-magnifying-glass text-primary fs-4"></i>
@@ -308,7 +311,7 @@
                                                 {{ isset($job->experience) ? $job->experience .' '. __('messages.candidate_profile.year') :'No experience' }}
                                             </p>
                                         </div>
-                                       
+
                                         <div class="col-5 mt-3">
                                             <i class="fa-solid fa-calendar-day text-primary fs-4"></i>
                                             <p class="details-page-card-text mb-0">
@@ -325,7 +328,7 @@
                                             </p>
                                             <p class="text-secondary fs-14">
                                                 {{ $job->is_freelance == 1 ? __('messages.common.yes') : __('messages.common.no') }}</p>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -462,7 +465,7 @@
                                                                  class="card-img" alt="...">
                                                         </div>
                                                         <div class="col-8">
-                                               
+
                                                             <a href="{{route('front.company.details', $relatedJob->company->unique_id)}}">
                                                             <p class="mb-0 fs-14">{{$relatedJob->company->user->first_name}}</p>
                                                             </a>
@@ -494,7 +497,7 @@
                                         </div>
                                     @endif
                                 @endforeach
-                              
+
                                 @if(($getRelatedJobs->count() > 0 ))
                                     <div class="row justify-content-center">
                                         <div class="col-8 text-center">

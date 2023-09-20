@@ -116,6 +116,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Job whereIsDefault($value)
  * @method static Builder|Job whereLastChange($value)
  * @method static Builder|Job whereSubmissionStatusId($value)
+ * @property string|null $job_shift
+ * @method static Builder|Job whereJobShift($value)
  * @mixin Eloquent
  */
 class Job extends Model {
@@ -208,6 +210,8 @@ class Job extends Model {
         'salary_from' => 'required|min:0|max:999999999',
         'salary_to' => 'required|min:0|max:999999999',
         'job_expiry_date' => 'required',
+        'job_shift_id' => 'sometimes|int',
+        'job_shift' => 'required_if:job_shift_id,0|string',
     ];
 
     public $table = 'jobs';
@@ -226,6 +230,7 @@ class Job extends Model {
         'career_level_id',
         'functional_area_id',
         'job_shift_id',
+        'job_shift',
         'degree_level_id',
         'position',
         'experience',

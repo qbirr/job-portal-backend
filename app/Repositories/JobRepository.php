@@ -102,7 +102,7 @@ class JobRepository extends BaseRepository
         $data['jobType'] = JobType::pluck('name', 'id');
         $data['jobCategory'] = JobCategory::pluck('name', 'id');
         $data['careerLevels'] = CareerLevel::pluck('level_name', 'id');
-        $data['jobShift'] = JobShift::pluck('shift', 'id');
+        $data['jobShift'] = JobShift::orderBy('id')->pluck('shift', 'id');
         $data['currencies'] = SalaryCurrency::pluck('currency_name', 'id');
         $data['salaryPeriods'] = SalaryPeriod::pluck('period', 'id');
         $data['functionalArea'] = FunctionalArea::pluck('name', 'id');
@@ -114,7 +114,6 @@ class JobRepository extends BaseRepository
         $data['companies'] = Company::with('user')->get()->where('user.is_active', '=', 1)
             ->pluck('user.full_name', 'id')->sort();
 
-//        $data['jobShift']->prepend(['0' => 'Others']);
         logger($data['jobShift']);
 
         return $data;

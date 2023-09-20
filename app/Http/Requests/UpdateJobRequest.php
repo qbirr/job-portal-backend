@@ -47,6 +47,7 @@ class UpdateJobRequest extends FormRequest
     {
         return $messages = [
             'state_id.required' => 'The state field is required.',
+            'job_shift.string' => 'The other job shift field is required.',
         ];
     }
 }

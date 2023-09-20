@@ -37,7 +37,10 @@
             <div class="input-group-text border-0">
                 <i class="fas fa-calendar-alt"></i>
             </div>
-            <input type="text" name="job_expiry_date" id="availableAt" class="form-control  expiryDatepicker {{(getLoggedInUser()->theme_mode) ? 'bg-light' : 'bg-white'}}" autocomplete="off" value="{{isset($job->job_expiry_date) ? $job->job_expiry_date : null,}}" placeholder="{{__('messages.job.job_expiry_date')}}">
+            <input type="text" name="job_expiry_date" id="availableAt"
+                   class="form-control  expiryDatepicker {{(getLoggedInUser()->theme_mode) ? 'bg-light' : 'bg-white'}}"
+                   autocomplete="off" value="{{isset($job->job_expiry_date) ? $job->job_expiry_date : null,}}"
+                   placeholder="{{__('messages.job.job_expiry_date')}}">
         </div>
     </div>
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
@@ -83,6 +86,9 @@
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('job_shift_id', __('messages.job.job_shift').':', ['class' => 'form-label']) }}
         {{ Form::select('job_shift_id', $data['jobShift'], null, ['id'=>'jobShiftId','class' => 'form-select','data-control'=>'select2','placeholder' => __('messages.company.select_job_shift')]) }}
+        {{ Form::text('job_shift', null,
+['class' => 'form-control mt-2 ', 'id' => 'job_shift', 'required', $job->job_shift_id == \App\Models\JobShift::whereShift('Other')->first()->id ? '' : 'hidden',
+'autocomplete' => 'off', 'placeholder' => 'Other job shift']) }}
     </div>
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('tagId', __('messages.job_tag.show_job_tag').':', ['class' => 'form-label']) }}
@@ -132,3 +138,14 @@
     </div>
 
 </div>
+
+<script>
+    $(_ => {
+        $('#jobShiftId').on('change', function () {
+            if (parseInt(this.value) === {{ \App\Models\JobShift::whereShift('Other')->first()->id }}) {
+                $('#job_shift').removeAttr('hidden')
+            } else
+                $('#job_shift').prop('hidden', 1)
+        })
+    })
+</script>
