@@ -894,7 +894,7 @@
         array(
             'post'                   => 'Post',
             'posts'                  => 'Posts',
-            'blog'                   => 'Blog',
+            'blog'                   => 'Articles',
             'new_post'               => 'New Post',
             'edit_post'              => 'Edit Post',
             'show_post'              => 'Post',
