@@ -81,6 +81,27 @@ function loadCreateEditCompanyData() {
             editAdminEmployerDescriptionQuill.root.innerHTML = $(
                 '#editAdminEmployerDetail').val();
         }
+
+        if ($('#editAdminEmployerSubmissionNoteQuillData').length) {
+            window.editAdminEmployerSubmissionNoteQuillData = new Quill(
+                '#editAdminEmployerSubmissionNoteQuillData', {
+                    modules: {
+                        toolbar: [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            ['clean'],
+                        ],
+                        keyboard: {
+                            bindings: {
+                                tab: 'disabled',
+                            }
+                        }
+                    },
+                    placeholder: 'Enter reject notes',
+                    theme: 'snow',
+                });
+            editAdminEmployerSubmissionNoteQuillData.root.innerHTML = $(
+                '#editAdminEmployerSubmissionDetail').val();
+        }
     }
 
 
@@ -140,7 +161,7 @@ function loadCreateEditCompanyData() {
             theme: 'snow',
         });
     }
-    
+
     $('#countryId').on('change', function () {
         $.ajax({
             url: route('states-list'),
@@ -181,7 +202,7 @@ function loadCreateEditCompanyData() {
             },
         });
     });
-  
+
     listenChange('#logo', function () {
         let validFile = isValidFile($(this), '#validationErrorsBox');
         if (validFile) {
@@ -191,14 +212,14 @@ function loadCreateEditCompanyData() {
             $('#btnSave').prop('disabled', true);
         }
     });
-    
+
     $('#addCompanyForm,#editCompanyForm').submit(function () {
         if ($('#error-msg').text() !== '') {
             $('#phoneNumber').focus();
             return false;
         }
     });
-    
+
    listenSubmit('#addCompanyForm,#editCompanyForm', function (e) {
        if (!$('#editEmployeeDetails').length) {
 

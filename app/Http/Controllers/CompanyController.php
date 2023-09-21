@@ -12,6 +12,7 @@ use App\Models\Notification;
 use App\Models\NotificationSetting;
 use App\Models\ReportedToCompany;
 use App\Models\State;
+use App\Models\SubmissionStatus;
 use App\Models\Transaction;
 use App\Repositories\CompanyRepository;
 use Exception;
@@ -27,26 +28,23 @@ use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Throwable;
 
-class CompanyController extends AppBaseController
-{
+class CompanyController extends AppBaseController {
     /** @var CompanyRepository */
-    private $companyRepository;
+    private CompanyRepository $companyRepository;
 
-    public function __construct(CompanyRepository $companyRepo)
-    {
+    public function __construct(CompanyRepository $companyRepo) {
         $this->companyRepository = $companyRepo;
     }
 
     /**
      * Display a listing of the Company.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         return view('companies.index');
     }
 
@@ -55,8 +53,7 @@ class CompanyController extends AppBaseController
      *
      * @return Factory|View
      */
-    public function create()
-    {
+    public function create() {
         $data = $this->companyRepository->prepareData();
         $countries = Country::pluck('name', 'id');
         $states = State::toBase()->pluck('name', 'id');
@@ -67,13 +64,12 @@ class CompanyController extends AppBaseController
     /**
      * Store a newly created Company in storage.
      *
-     * @param  CreateCompanyRequest  $request
+     * @param CreateCompanyRequest $request
      * @return RedirectResponse|Redirector
      *
      * @throws \Throwable
      */
-    public function store(CreateCompanyRequest $request)
-    {
+    public function store(CreateCompanyRequest $request) {
         $input = $request->all();
         $input['is_active'] = (isset($input['is_active'])) ? 1 : 0;
 
@@ -87,28 +83,27 @@ class CompanyController extends AppBaseController
     /**
      * Display the specified Company.
      *
-     * @param  Company  $company
+     * @param Company $company
      * @return Factory|View
      */
-    public function show(Company $company)
-    {
+    public function show(Company $company) {
         return view('companies.show')->with('company', $company);
     }
 
     /**
      * Show the form for editing the specified Company.
      *
-     * @param  Company  $company
+     * @param Company $company
      * @return Factory|View
      */
-    public function edit(Company $company)
-    {
+    public function edit(Company $company) {
         $user = $company->user;
         $user->phone = preparePhoneNumber($user->phone, $user->region_code);
         $data = $this->companyRepository->prepareData();
         $countries = Country::pluck('name', 'id');
         $states = State::toBase()->pluck('name', 'id');
         $state = $cities = null;
+        $submissionStatuses = SubmissionStatus::pluck('status_name', 'id');
         if (isset($user->country_id)) {
             $state = getStates($user->country_id);
         }
@@ -116,18 +111,17 @@ class CompanyController extends AppBaseController
             $cities = getCities($user->state_id);
         }
 
-        return view('companies.edit', compact('data', 'company', 'cities', 'state', 'user', 'countries', 'states'));
+        return view('companies.edit', compact('data', 'company', 'cities', 'state', 'user', 'countries', 'states', 'submissionStatuses'));
     }
 
     /**
-     * @param  Company  $company
-     * @param  UpdateCompanyRequest  $request
+     * @param Company $company
+     * @param UpdateCompanyRequest $request
      * @return RedirectResponse|Redirector
      *
      * @throws Throwable
      */
-    public function update(Company $company, UpdateCompanyRequest $request)
-    {
+    public function update(Company $company, UpdateCompanyRequest $request) {
         $input = $request->all();
         $input['is_active'] = (isset($input['is_active'])) ? 1 : 0;
 
@@ -141,13 +135,12 @@ class CompanyController extends AppBaseController
     /**
      * Remove the specified Company from storage.
      *
-     * @param  Company  $company
+     * @param Company $company
      * @return \Illuminate\Http\JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(Company $company)
-    {
+    public function destroy(Company $company) {
         if ($company->user->hasRole('Employer')) {
             $this->companyRepository->delete($company->id);
             $company->user->media()->delete();
@@ -160,13 +153,12 @@ class CompanyController extends AppBaseController
     }
 
     /**
-     * @param  Company  $company
+     * @param Company $company
      * @return mixed
      */
-    public function changeIsActive(Company $company)
-    {
+    public function changeIsActive(Company $company) {
         $isActive = $company->user->is_active;
-        $company->user->update(['is_active' => ! $isActive]);
+        $company->user->update(['is_active' => !$isActive]);
 
         if ($company) {
             if (Auth::user()->hasRole('Admin')) {
@@ -179,11 +171,10 @@ class CompanyController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return mixed
      */
-    public function getStates(Request $request)
-    {
+    public function getStates(Request $request) {
         $postal = $request->get('postal');
 
         $states = getStates($postal);
@@ -192,11 +183,10 @@ class CompanyController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return mixed
      */
-    public function getCities(Request $request)
-    {
+    public function getCities(Request $request) {
         $state = $request->get('state');
         $cities = getCities($state);
 
@@ -206,11 +196,10 @@ class CompanyController extends AppBaseController
     /**
      * Show the form for editing the specified Company.
      *
-     * @param  Company  $company
+     * @param Company $company
      * @return Factory|View
      */
-    public function editCompany(Company $company)
-    {
+    public function editCompany(Company $company) {
         $user = $company->user;
         $user->phone = preparePhoneNumber($user->phone, $user->region_code);
         if ($user->id != getLoggedInUserId()) {
@@ -236,12 +225,12 @@ class CompanyController extends AppBaseController
     /**
      * Update the specified Company in storage.
      *
-     * @param  Company  $company
-     * @param  UpdateCompanyRequest  $request
+     * @param Company $company
+     * @param UpdateCompanyRequest $request
      * @return RedirectResponse|Redirector
+     * @throws Throwable
      */
-    public function updateCompany(Company $company, UpdateCompanyRequest $request)
-    {
+    public function updateCompany(Company $company, UpdateCompanyRequest $request) {
         $input = $request->all();
 
         $company = $this->companyRepository->update($input, $company);
@@ -252,24 +241,22 @@ class CompanyController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return Application|Factory|View
      *
      * @throws Exception
      */
-    public function showReportedCompanies()
-    {
+    public function showReportedCompanies() {
         return view('employer.companies.reported_companies');
     }
 
     /**
-     * @param  ReportedToCompany  $reportedToCompany
+     * @param ReportedToCompany $reportedToCompany
      * @return mixed
      *
      * @throws Exception
      */
-    public function deleteReportedCompany(ReportedToCompany $reportedToCompany)
-    {
+    public function deleteReportedCompany(ReportedToCompany $reportedToCompany) {
         $reportedToCompany->delete();
 
         return $this->sendSuccess(__('messages.flash.reported_job_delete'));
@@ -278,22 +265,20 @@ class CompanyController extends AppBaseController
     /**
      * Display a listing of the Job.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function getFollowers()
-    {
+    public function getFollowers() {
         return view('employer.followers.index');
     }
 
     /**
-     * @param  ReportedToCompany  $reportedToCompany
+     * @param ReportedToCompany $reportedToCompany
      * @return mixed
      */
-    public function showReportedCompanyNote(Request $request)
-    {
+    public function showReportedCompanyNote(Request $request) {
         $data = $this->companyRepository->getReportedToCompany($request->reportedToCompany);
         $data['date'] = \Carbon\Carbon::parse($data->created_at)->formatLocalized('%d %b, %Y');
 
@@ -304,14 +289,13 @@ class CompanyController extends AppBaseController
      * @param    $companyId
      * @return mixed
      **/
-    public function markAsFeatured($companyId)
-    {
+    public function markAsFeatured($companyId) {
         $user = getLoggedInUser();
         $addDays = FrontSetting::where('key', 'featured_companies_days')->first()->value;
         $price = FrontSetting::where('key', 'featured_companies_price')->first()->value;
         $maxFeaturedJob = FrontSetting::where('key', 'featured_companies_quota')->first()->value;
         $totalFeaturedJob = Company::Has('activeFeatured')->count();
-        $isFeaturedAvailable = ($totalFeaturedJob >= $maxFeaturedJob) ? false : true;
+        $isFeaturedAvailable = !(($totalFeaturedJob >= $maxFeaturedJob));
         $company = Company::with('user')->findOrFail($companyId);
 
         if ($isFeaturedAvailable) {
@@ -332,7 +316,7 @@ class CompanyController extends AppBaseController
                         Notification::MARK_COMPANY_FEATURED_ADMIN,
                         $company->user->id,
                         Notification::EMPLOYER,
-                        $user->first_name.' '.$user->last_name.' mark Company as Featured.',
+                        $user->first_name . ' ' . $user->last_name . ' mark Company as Featured.',
                     ]) : false;
             }
             $transaction = [
@@ -361,8 +345,7 @@ class CompanyController extends AppBaseController
      * @param    $companyId
      * @return mixed
      **/
-    public function markAsUnFeatured($companyId)
-    {
+    public function markAsUnFeatured($companyId) {
         /** @var FeaturedRecord $unFeatured */
         $unFeatured = FeaturedRecord::where('owner_id', $companyId)->where('owner_type', Company::class)->first();
         $unFeatured->delete();
@@ -379,11 +362,10 @@ class CompanyController extends AppBaseController
     }
 
     /**
-     * @param  Company  $company
+     * @param Company $company
      * @return mixed
      */
-    public function changeIsEmailVerified(Company $company)
-    {
+    public function changeIsEmailVerified(Company $company) {
         $company->user->update(['email_verified_at' => Carbon::now()]);
         if (Auth::user()->hasRole('Admin')) {
             $company->last_change = Auth::user()->id;
@@ -394,11 +376,10 @@ class CompanyController extends AppBaseController
     }
 
     /**
-     * @param  Company  $company
+     * @param Company $company
      * @return mixed
      */
-    public function resendEmailVerification(Company $company)
-    {
+    public function resendEmailVerification(Company $company) {
         $company->user->sendEmailVerificationNotification();
         if (Auth::user()->hasRole('Admin')) {
             $company->last_change = Auth::user()->id;

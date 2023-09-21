@@ -10159,6 +10159,21 @@ function loadCreateEditCompanyData() {
       });
       editAdminEmployerDescriptionQuill.root.innerHTML = $('#editAdminEmployerDetail').val();
     }
+    if ($('#editAdminEmployerSubmissionNoteQuillData').length) {
+      window.editAdminEmployerSubmissionNoteQuillData = new Quill('#editAdminEmployerSubmissionNoteQuillData', {
+        modules: {
+          toolbar: [['bold', 'italic', 'underline', 'strike'], ['clean']],
+          keyboard: {
+            bindings: {
+              tab: 'disabled'
+            }
+          }
+        },
+        placeholder: 'Enter reject notes',
+        theme: 'snow'
+      });
+      editAdminEmployerSubmissionNoteQuillData.root.innerHTML = $('#editAdminEmployerSubmissionDetail').val();
+    }
   }
   if ($('#addAdminEmployerDescriptionQuillData').length) {
     window.addAdminEmployerDescriptionQuill = new Quill('#addAdminEmployerDescriptionQuillData', {

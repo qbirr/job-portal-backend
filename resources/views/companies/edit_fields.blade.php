@@ -173,8 +173,8 @@
             <span data-bs-toggle="tooltip"
                               data-placement="top"
                               data-bs-original-title="{{  __('messages.setting.image_validation') }}">
-        <i class="fas fa-question-circle ml-1  general-question-mark"></i>
-</span>
+                <i class="fas fa-question-circle ml-1  general-question-mark"></i>
+            </span>
         </label>
         <div class="d-block">
             <div class="image-picker">
@@ -200,6 +200,15 @@
                     {{  isset($company)?($company->user->is_active == 1 ?'checked':''):'checked' }}>
         </div>
     </div>
+    <div class="col-xl-6 col-md-6 col-sm-12 mb-5" id="div_submission_status">
+        <label class='form-label '>{{ __('messages.common.submission status') . ':' . Str::upper($company->submissionStatus->status_name) }}</label><br>
+        {{ Form::select('submission_status_id', $submissionStatuses, isset($company)?$company->submission_status_id:null,
+['id'=>'submission_status_id','class' => 'form-select ','placeholder' => __('messages.company.select_submission_status')]) }}
+        <div id="submissionWrapper" hidden>
+            <div id="editAdminEmployerSubmissionNoteQuillData"></div>
+            {{ Form::hidden('submission_details', $company->lastSubmissionLog->notes ?? '', ['id' => 'editAdminEmployerSubmissionDetail', 'required']) }}
+        </div>
+    </div>
     <!-- Submit Field -->
     <div class="d-flex justify-content-end">
         {{ Form::submit(__('messages.common.save'),['class' => 'btn btn-primary me-3', 'id' => 'btnSave']) }}
@@ -207,3 +216,15 @@
            class="btn btn-secondary me-2">{{__('messages.common.cancel')}}</a>
     </div>
 </div>
+
+<script>
+    $(_ => {
+        $('#submission_status_id').on('change', function() {
+            console.log(this.value)
+            if (parseInt(this.value) === 3)
+                $('#submissionWrapper').removeAttr('hidden')
+            else
+                $('#submissionWrapper').prop('hidden', true)
+        })
+    })
+</script>
