@@ -86,6 +86,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read SubmissionStatus|null $submissionStatus
  * @method static Builder|Company whereLastChange($value)
  * @method static Builder|Company whereSubmissionStatusId($value)
+ * @property-read SubmissionLog|null $lastSubmissionLog
+ * @property-read Collection<int, SubmissionLog> $submissionLogs
+ * @property-read int|null $submission_logs_count
  * @mixin Eloquent
  */
 class Company extends Model implements HasMedia {
@@ -271,5 +274,13 @@ class Company extends Model implements HasMedia {
 
     public function submissionStatus(): BelongsTo {
         return $this->belongsTo(SubmissionStatus::class);
+    }
+
+    public function submissionLogs(): HasMany {
+        return $this->hasMany(SubmissionLog::class);
+    }
+
+    public function lastSubmissionLog(): HasOne {
+        return $this->hasOne(SubmissionLog::class)->latestOfMany();
     }
 }
