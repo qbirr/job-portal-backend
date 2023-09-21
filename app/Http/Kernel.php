@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'xss' => XSS::class,
         'setLanguage' => SetLanguage::class,
         'verified.user' => CheckUserIsVerified::class,
+        'company-approved' => \App\Http\Middleware\CompanyApprovedMiddleware::class,
     ];
 }

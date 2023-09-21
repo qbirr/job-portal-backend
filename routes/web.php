@@ -514,7 +514,7 @@ Route::middleware('auth', 'role:Admin', 'xss', 'verified.user')->prefix('admin')
         [TranslationManagerController::class, 'update'])->name('translation-manager.update');
 });
 
-Route::middleware('auth', 'role:Admin|Employer|Candidate', 'xss', 'verified.user')->group(function () {
+Route::middleware('auth', 'role:Admin|Employer|Candidate', 'xss', 'verified.user', 'company-approved')->group(function () {
     Route::get('states-list', [JobController::class, 'getStates'])->name('states-list');
     Route::get('cities-list', [JobController::class, 'getCities'])->name('cities-list');
     Route::post('update-language', [UserController::class, 'updateLanguage'])->name('update-language');
@@ -538,7 +538,7 @@ Route::middleware('auth', 'role:Admin|Employer|Candidate', 'xss', 'verified.user
         [FeaturedCompanySubscriptionController::class, 'handleFailedPayment'])->name('company-failed-payment');
 });
 
-Route::middleware('auth', 'role:Employer', 'xss', 'verified.user')->prefix('employer')->group(function () {
+Route::middleware('auth', 'role:Employer', 'xss', 'verified.user', 'company-approved')->prefix('employer')->group(function () {
     // TODO:: need to change this
     Route::get('/employer', function () {
         return view('employer.layouts.app');

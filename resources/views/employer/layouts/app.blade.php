@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom.css') }}">
     @livewireStyles
     @routes
-{{--    @livewireScripts--}}
+    {{--    @livewireScripts--}}
     <script src="{{ asset('vendor/livewire/livewire.js') }}"></script>
     @include('livewire.livewire-turbo')
 </head>
@@ -87,7 +87,12 @@
         $('.table-responsive').css("overflow", "auto");
     })
 
+    @if(auth()->user()->company->submission_status_id == 3)
+        Swal.fire()
+    @endif
+
 </script>
+
 @stack('scripts')
 </body>
 </html>
