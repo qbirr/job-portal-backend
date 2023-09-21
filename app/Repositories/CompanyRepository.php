@@ -11,6 +11,7 @@ use App\Models\Notification;
 use App\Models\NotificationSetting;
 use App\Models\OwnerShipType;
 use App\Models\ReportedToCompany;
+use App\Models\SubmissionLog;
 use App\Models\User;
 use Arr;
 use Auth;
@@ -32,12 +33,11 @@ use Throwable;
  *
  * @version June 22, 2020, 12:34 pm UTC
  */
-class CompanyRepository extends BaseRepository
-{
+class CompanyRepository extends BaseRepository {
     /**
      * @var array
      */
-    protected $fieldSearchable = [
+    protected array $fieldSearchable = [
         'ceo',
         'established_in',
         'website',
@@ -49,24 +49,21 @@ class CompanyRepository extends BaseRepository
      *
      * @return array
      */
-    public function getFieldsSearchable()
-    {
+    public function getFieldsSearchable(): array {
         return $this->fieldSearchable;
     }
 
     /**
      * Configure the Model
      **/
-    public function model()
-    {
+    public function model(): string {
         return Company::class;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function prepareData()
-    {
+    public function prepareData(): array {
         $countries = new Countries();
         $data['industries'] = Industry::pluck('name', 'id');
         $data['ownerShipTypes'] = OwnerShipType::pluck('name', 'id');
@@ -77,16 +74,16 @@ class CompanyRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      *
      * @throws Throwable
      */
-    public function store($input)
-    {
+    public function store(array $input): bool {
         try {
             DB::beginTransaction();
             $input['unique_id'] = getUniqueCompanyId();
+            /** @var Company $company */
             $company = $this->create(Arr::only($input, (new Company())->getFillable()));
 
             // Create User
@@ -122,12 +119,19 @@ class CompanyRepository extends BaseRepository
             $subscriptionRepo = app(SubscriptionRepository::class);
             $subscriptionRepo->createStripeCustomer($user);
 
-            if ($user->is_verified) {
-//                $user->update(['email_verified_at' => Carbon::now()]);
+            /*if ($user->is_verified) {
+                $user->update(['email_verified_at' => Carbon::now()]);
             } else {
-//                $user->sendEmailVerificationNotification();
-            }
+                $user->sendEmailVerificationNotification();
+            }*/
             $user->update(['email_verified_at' => Carbon::now()]);
+
+            SubmissionLog::create([
+                'company_id' => $company->id,
+                'submission_status_id' => 2,
+                'notes' => '',
+                'user_id' => auth()->id()
+            ]);
 
 //            if ($user->is_verified) {
 //                $user->update(['email_verified_at' => Carbon::now()]);
@@ -146,14 +150,13 @@ class CompanyRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
-     * @param  Company  $company
+     * @param array $input
+     * @param Company $company
      * @return bool|Builder|Builder[]|Collection|Model
      *
      * @throws Throwable
      */
-    public function update($input, $company)
-    {
+    public function update($input, $company): Model|Collection|Builder|bool|array {
         try {
             DB::beginTransaction();
 
@@ -176,6 +179,13 @@ class CompanyRepository extends BaseRepository
                     ->toMediaCollection(User::PROFILE, config('app.media_disc'));
             }
 
+            SubmissionLog::create([
+                'company_id' => $company->id,
+                'submission_status_id' => $input['submission_status_id'],
+                'notes' => $input['submission_notes'] ?? '',
+                'user_id' => auth()->id()
+            ]);
+
             DB::commit();
 
             return true;
@@ -188,10 +198,9 @@ class CompanyRepository extends BaseRepository
 
     /**
      * @param $companyId
-     * @return mixed
+     * @return bool
      */
-    public function isCompanyAddedToFavourite($companyId)
-    {
+    public function isCompanyAddedToFavourite($companyId): bool {
         return FavouriteCompany::where('user_id', Auth::id())
             ->where('company_id', $companyId)
             ->exists();
@@ -199,10 +208,9 @@ class CompanyRepository extends BaseRepository
 
     /**
      * @param $companyId
-     * @return mixed
+     * @return bool
      */
-    public function isReportedToCompany($companyId)
-    {
+    public function isReportedToCompany($companyId): bool {
         return ReportedToCompany::where('user_id', Auth::id())
             ->where('company_id', $companyId)
             ->exists();
@@ -210,10 +218,9 @@ class CompanyRepository extends BaseRepository
 
     /**
      * @param $companyId
-     * @return mixed
+     * @return array
      */
-    public function getCompanyDetail($companyId)
-    {
+    public function getCompanyDetail($companyId): array {
         $data['companyDetail'] = Company::with('user')->findOrFail($companyId);
         $data['jobDetails'] = Job::with('jobShift', 'company', 'jobCategory')
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
@@ -228,17 +235,16 @@ class CompanyRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      *
      * @throws Exception
      */
-    public function storeFavouriteJobs($input)
-    {
+    public function storeFavouriteJobs(array $input): bool {
         $favouriteJob = FavouriteCompany::where('user_id', $input['userId'])
             ->where('company_id', $input['companyId'])
             ->exists();
-        if (! $favouriteJob) {
+        if (!$favouriteJob) {
             $companyUser = User::findOrFail(Company::findOrFail($input['companyId'])->user_id);
             FavouriteCompany::create([
                 'user_id' => $input['userId'],
@@ -250,7 +256,7 @@ class CompanyRepository extends BaseRepository
                     Notification::FOLLOW_COMPANY,
                     $companyUser->id,
                     Notification::EMPLOYER,
-                    $user->first_name.' '.$user->last_name.' started following You.',
+                    $user->first_name . ' ' . $user->last_name . ' started following You.',
                 ]) : false;
 
             return true;
@@ -264,16 +270,15 @@ class CompanyRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      */
-    public function storeReportToCompany($input)
-    {
+    public function storeReportToCompany(array $input): bool {
         $jobReportedAsAbuse = ReportedToCompany::where('user_id', $input['userId'])
             ->where('company_id', $input['companyId'])
             ->exists();
 
-        if (! $jobReportedAsAbuse) {
+        if (!$jobReportedAsAbuse) {
             $reportedCompanyNote = trim($input['note']);
             if (empty($reportedCompanyNote)) {
                 throw ValidationException::withMessages([
@@ -300,8 +305,7 @@ class CompanyRepository extends BaseRepository
      * @param $reportedToCompany
      * @return Builder|Builder[]|Collection|Model|null
      */
-    public function getReportedToCompany($reportedToCompany)
-    {
+    public function getReportedToCompany($reportedToCompany): Model|Collection|Builder|array|null {
         $query = ReportedToCompany::with([
             'user', 'company.user',
         ])->select('reported_to_companies.*')->findOrFail($reportedToCompany);
@@ -309,8 +313,7 @@ class CompanyRepository extends BaseRepository
         return $query;
     }
 
-    public function get($input = [])
-    {
+    public function get($input = []): array {
         /** @var Company $query */
         $query = Company::with(['user' => function ($query) {
             $query->without(['country', 'state', 'city']);

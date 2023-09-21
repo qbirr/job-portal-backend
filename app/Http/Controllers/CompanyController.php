@@ -72,6 +72,7 @@ class CompanyController extends AppBaseController {
     public function store(CreateCompanyRequest $request) {
         $input = $request->all();
         $input['is_active'] = (isset($input['is_active'])) ? 1 : 0;
+        $input['submission_status_id'] = 2;
 
         $company = $this->companyRepository->store($input);
 

@@ -204,10 +204,13 @@
         <label class='form-label '>{{ __('messages.common.submission status') . ':' . Str::upper($company->submissionStatus->status_name) }}</label><br>
         {{ Form::select('submission_status_id', $submissionStatuses, isset($company)?$company->submission_status_id:null,
 ['id'=>'submission_status_id','class' => 'form-select ','placeholder' => __('messages.company.select_submission_status')]) }}
-        <div id="submissionWrapper" hidden>
+        {{ Form::textarea('submission_notes', $company->lastSubmissionLog->notes ?? '',
+['class' => 'form-control mt-2 ', 'id' => 'submission_notes', 'required', $company->submission_status_id == 3 ? '' : 'hidden',
+'autocomplete' => 'off', 'placeholder' => 'Rejection Reason / Notes']) }}
+        {{--<div id="submissionWrapper" @if($company->submission_status_id != 3) hidden @endif >
             <div id="editAdminEmployerSubmissionNoteQuillData"></div>
-            {{ Form::hidden('submission_details', $company->lastSubmissionLog->notes ?? '', ['id' => 'editAdminEmployerSubmissionDetail', 'required']) }}
-        </div>
+            {{ Form::hidden('submission_notes', $company->lastSubmissionLog->notes ?? '', ['id' => 'editAdminEmployerSubmissionDetail']) }}
+        </div>--}}
     </div>
     <!-- Submit Field -->
     <div class="d-flex justify-content-end">
@@ -222,9 +225,9 @@
         $('#submission_status_id').on('change', function() {
             console.log(this.value)
             if (parseInt(this.value) === 3)
-                $('#submissionWrapper').removeAttr('hidden')
+                $('#submission_notes').removeAttr('hidden')
             else
-                $('#submissionWrapper').prop('hidden', true)
+                $('#submission_notes').prop('hidden', true)
         })
     })
 </script>

@@ -6,13 +6,11 @@ use App\Models\Company;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class CreateCompanyRequest extends FormRequest
-{
+class CreateCompanyRequest extends FormRequest {
     /**
      * @throws ValidationException
      */
-    public function prepareForValidation()
-    {
+    public function prepareForValidation(): void {
         $employerDetails = trim(request()->get('details'));
         if (empty($employerDetails)) {
             throw ValidationException::withMessages([
@@ -26,8 +24,7 @@ class CreateCompanyRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -36,8 +33,7 @@ class CreateCompanyRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(): array {
         $rules = Company::$rules;
         $rules['name'] = 'required|max:180';
         $rules['email'] = 'required|email:filter|unique:users,email';
@@ -48,14 +44,12 @@ class CreateCompanyRequest extends FormRequest
         return $rules;
     }
 
-//    /**
-//     * @return array|string[]
-//     */
-//    public function messages()
-//    {
-//        return [
-//            'country_id.required' => 'The country field is required.',
-//            'website.url' => ''
-//        ];
-//    }
+    /**
+     * @return array|string[]
+     */
+    public function messages(): array {
+        return [
+            'submission_notes.string' => 'The submission notes is required.',
+        ];
+    }
 }

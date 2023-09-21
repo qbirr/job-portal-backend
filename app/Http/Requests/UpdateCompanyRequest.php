@@ -6,13 +6,11 @@ use App\Models\Company;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class UpdateCompanyRequest extends FormRequest
-{
+class UpdateCompanyRequest extends FormRequest {
     /**
      * @throws ValidationException
      */
-    public function prepareForValidation()
-    {
+    public function prepareForValidation(): void {
         $employerDetails = trim(request()->get('details'));
         if (empty($employerDetails)) {
             throw ValidationException::withMessages([
@@ -26,8 +24,7 @@ class UpdateCompanyRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -36,15 +33,24 @@ class UpdateCompanyRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(): array {
         $rules = Company::$rules;
         $rules['name'] = 'required|max:180';
-        $rules['email'] = 'required|email:filter|unique:users,email,'.$this->input('user_id');
+        $rules['email'] = 'required|email:filter|unique:users,email,' . $this->input('user_id');
         $rules['password'] = 'nullable|same:password_confirmation|min:6';
         $rules['phone'] = 'nullable';
         $rules['image'] = 'nullable|mimes:jpeg,jpg,png';
 
         return $rules;
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function messages(): array {
+        return [
+            'submission_notes.string' => 'The submission notes is required.',
+            'submission_notes.required_if' => 'The submission notes is required.',
+        ];
     }
 }

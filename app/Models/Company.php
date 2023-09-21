@@ -136,6 +136,7 @@ class Company extends Model implements HasMedia {
         'fax',
         'user_id',
         'unique_id',
+        'submission_status_id',
         'last_change',
     ];
 
@@ -167,7 +168,7 @@ class Company extends Model implements HasMedia {
      *
      * @var array
      */
-    public static $rules = [
+    public static array $rules = [
         'ceo' => 'required|max:180',
         'industry_id' => 'required',
         'ownership_type_id' => 'required',
@@ -176,6 +177,8 @@ class Company extends Model implements HasMedia {
         'website' => 'nullable|url',
         'location' => 'required',
         'no_of_offices' => 'required|numeric|min:1|max:1000',
+        'submission_status_id' => 'required|exists:submission_statuses,id',
+        'submission_notes' => 'required_if:submission_status_id,3|string|nullable',
     ];
 
     /**
