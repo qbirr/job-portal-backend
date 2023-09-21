@@ -75,6 +75,8 @@ class CompanyTable extends LivewireTableComponent
                     return $query->orderBy(User::select('is_active')->whereColumn('companies.user_id', 'users.id'), $direction);
                 })
                 ->view('companies.table_components.status'),
+            Column::make(__('messages.common.submission status'), 'submission_status_id')
+                ->view('companies.table_components.submission_status'),
             Column::make(__('messages.common.last_change_by'), 'last_change')
                 ->view('companies.table_components.last_change'),
 
