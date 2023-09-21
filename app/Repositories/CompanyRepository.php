@@ -159,6 +159,7 @@ class CompanyRepository extends BaseRepository {
     public function update($input, $company): Model|Collection|Builder|bool|array {
         try {
             DB::beginTransaction();
+            $oldSubmissionStatusId = $company->submission_status_id;
 
             $company->update($input);
 
@@ -179,12 +180,21 @@ class CompanyRepository extends BaseRepository {
                     ->toMediaCollection(User::PROFILE, config('app.media_disc'));
             }
 
-            SubmissionLog::create([
-                'company_id' => $company->id,
-                'submission_status_id' => $input['submission_status_id'],
-                'notes' => $input['submission_notes'] ?? '',
-                'user_id' => auth()->id()
-            ]);
+            if (auth()->user()->id == $user->id && $company->submission_status_id == 3) {
+                $company->update(['submission_status_id' => 4]);
+                SubmissionLog::create([
+                    'company_id' => $company->id,
+                    'submission_status_id' => 4,
+                    'notes' => '',
+                    'user_id' => auth()->id()
+                ]);
+            } elseif (isset($input['submission_status_id']) && auth()->user()->role('Admin') && $oldSubmissionStatusId != $input['submission_status_id'])
+                SubmissionLog::create([
+                    'company_id' => $company->id,
+                    'submission_status_id' => $input['submission_status_id'],
+                    'notes' => $input['submission_notes'] ?? '',
+                    'user_id' => auth()->id()
+                ]);
 
             DB::commit();
 

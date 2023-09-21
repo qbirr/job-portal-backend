@@ -95,11 +95,15 @@
                             </div>
                             <h3 class="text-gray-900">{{\Illuminate\Support\Facades\Auth::user()->full_name}}</h3>
                             <h4 class="mb-0 fw-400 fs-6">{{\Illuminate\Support\Facades\Auth::user()->email}}</h4>
+                            <div class="badge
+                            @switch(Auth::user()->company->submissionStatus->id) @case(3) bg-red-500 @break @case(2) bg-success @break @default bg-warning @break @endswitch bg-success">
+                                {{ Auth::user()->company->submissionStatus->status_name }}
+                            </div>
                         </div>
                         <ul class="pt-4">
                             <li>
                                 <a href="javascript:void(0)" class="dropdown-item text-gray-900 editProfileModal"
-                                   data-id="{{ getLoggedInUserId() }}"> 
+                                   data-id="{{ getLoggedInUserId() }}">
                                      <span class="dropdown-icon me-4 text-gray-600">
                                         <i class="fa-solid fa-user"></i>
                                      </span> {{ __('messages.user.edit_profile') }}</a>

@@ -177,7 +177,7 @@ class Company extends Model implements HasMedia {
         'website' => 'nullable|url',
         'location' => 'required',
         'no_of_offices' => 'required|numeric|min:1|max:1000',
-        'submission_status_id' => 'required|exists:submission_statuses,id',
+        'submission_status_id' => 'sometimes|exists:submission_statuses,id',
         'submission_notes' => 'required_if:submission_status_id,3|string|nullable',
     ];
 
