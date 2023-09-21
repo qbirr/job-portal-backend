@@ -28,23 +28,20 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  *
  * @version July 7, 2020, 5:07 am UTC
  */
-class WebHomeRepository
-{
+class WebHomeRepository {
     /**
      * @return mixed
      */
-    public function getTestimonials()
-    {
+    public function getTestimonials(): mixed {
         return Testimonial::with('media')->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getDataCounts()
-    {
+    public function getDataCounts(): array {
         $data['candidates'] = Candidate::with('user')->whereHas(
             'user',
             function (Builder $query) {
@@ -64,10 +61,9 @@ class WebHomeRepository
     }
 
     /**
-     * @return mixed
+     * @return array|\LaravelIdea\Helper\App\Models\_IH_Job_C
      */
-    public function getLatestJobs()
-    {
+    public function getLatestJobs(): array|\LaravelIdea\Helper\App\Models\_IH_Job_C {
         return Job::with(['company', 'jobCategory', 'jobsSkill'])
             ->whereStatus(Job::STATUS_OPEN)
             ->whereIsSuspended(Job::NOT_SUSPENDED)
@@ -81,9 +77,8 @@ class WebHomeRepository
     /**
      * @return JobCategory[]|Builder[]|Collection
      */
-    public function getCategories()
-    {
-        $categories = JobCategory::whereIsFeatured(1)
+    public function getCategories(): Collection|array {
+        return JobCategory::whereIsFeatured(1)
             ->withCount([
                 'jobs' => function (Builder $q) {
                     $q->where('status', '!=', Job::STATUS_DRAFT);
@@ -94,15 +89,12 @@ class WebHomeRepository
             ->toBase()
             ->take(8)
             ->get();
-
-        return $categories;
     }
 
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getAllJobCategories()
-    {
+    public function getAllJobCategories(): \Illuminate\Support\Collection {
         return JobCategory::with('media')->withCount([
             'jobs' => function (Builder $q) {
                 $q->whereStatus(Job::STATUS_OPEN)
@@ -116,8 +108,7 @@ class WebHomeRepository
     /**
      * @return Company[]|Builder[]|Collection
      */
-    public function getFeaturedCompanies()
-    {
+    public function getFeaturedCompanies(): Collection|array {
         return Company::has('activeFeatured')
             ->with(['jobs', 'activeFeatured', 'user' => function ($query) {
                 $query->without(['country', 'state', 'city']);
@@ -133,8 +124,7 @@ class WebHomeRepository
             ->get();
     }
 
-    public function getAllCompanies()
-    {
+    public function getAllCompanies(): Collection|array|\LaravelIdea\Helper\App\Models\_IH_Company_C {
         return Company::with('activeFeatured', 'jobs')->withCount(['jobs' => function (Builder $q) {
             $q->where('status', '!=', Job::STATUS_DRAFT);
             $q->where('status', '!=', Job::STATUS_CLOSED);
@@ -144,8 +134,7 @@ class WebHomeRepository
     /**
      * @return Job[]|Builder[]|Collection
      */
-    public function getFeaturedJobs()
-    {
+    public function getFeaturedJobs(): Collection|array {
         return Job::has('activeFeatured')
             ->whereStatus(Job::STATUS_OPEN)
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
@@ -158,8 +147,7 @@ class WebHomeRepository
     /**
      * @return Noticeboard[]|Builder[]|Collection
      */
-    public function getNotices()
-    {
+    public function getNotices(): Collection|array {
         return Noticeboard::whereIsActive(true)->orderByDesc('created_at')->get();
     }
 
@@ -167,8 +155,7 @@ class WebHomeRepository
      * @param $input
      * @return bool
      */
-    public function storeInquires($input)
-    {
+    public function storeInquires($input): bool {
         /** @var Inquiry $inquiry */
         $inquiry = Inquiry::create($input);
         $templateBody = EmailTemplate::whereTemplateName('Contact Us')->first();
@@ -183,10 +170,9 @@ class WebHomeRepository
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getImageSlider()
-    {
+    public function getImageSlider(): array {
         $imageSliders = ImageSlider::with('media')
             ->where('is_active', '=', 1)
             ->orderBy('created_at', 'desc')
@@ -203,26 +189,23 @@ class WebHomeRepository
     }
 
     /**
-     * @return mixed
+     * @return FrontSetting
      */
-    public function getLatestJobsEnable()
-    {
-        return $settings = FrontSetting::where('key', 'latest_jobs_enable')->first();
+    public function getLatestJobsEnable(): FrontSetting {
+        return FrontSetting::where('key', 'latest_jobs_enable')->first();
     }
 
     /**
      * @return mixed
      */
-    public function getPlans()
-    {
+    public function getPlans(): mixed {
         return $plans = Plan::with('salaryCurrency')->get()->sortBy('amount', SORT_DESC, true);
     }
 
     /**
      * @return BrandingSliders[]|Collection
      */
-    public function getBranding()
-    {
+    public function getBranding(): Collection|array {
         return $branding = BrandingSliders::with('media')
             ->where('is_active', '=', 1)
             ->orderBy('created_at', 'desc')
@@ -232,8 +215,7 @@ class WebHomeRepository
     /**
      * @return Builder[]|Collection
      */
-    public function getRecentBlog()
-    {
+    public function getRecentBlog(): Collection|array {
         return $blog = Post::with(
             [
                 'postAssignCategories',
@@ -251,18 +233,18 @@ class WebHomeRepository
      * @param $searchTerm
      * @return array
      */
-    public function jobSearch($searchTerm)
-    {
+    public function jobSearch($searchTerm): ?array {
         if ($searchTerm) {
-            $jobSearchResult = Job::where('job_title', 'LIKE', '%'.$searchTerm.'%')->get();
-            $skills = Skill::where('name', 'LIKE', '%'.$searchTerm.'%')->get();
+            $jobSearchResult = Job::whereSubmissionStatusId(2)
+                ->where('job_title', 'LIKE', '%' . $searchTerm . '%')->get();
+            $skills = Skill::where('name', 'LIKE', '%' . $searchTerm . '%')->get();
             $companies = Company::whereHas(
                 'user',
                 function (Builder $query) use ($searchTerm) {
-                    $query->where('first_name', 'LIKE', '%'.$searchTerm.'%')->orWhere(
+                    $query->where('first_name', 'LIKE', '%' . $searchTerm . '%')->orWhere(
                         'last_name',
                         'LIKE',
-                        '%'.$searchTerm.'%'
+                        '%' . $searchTerm . '%'
                     );
                 }
             )->get();
@@ -270,7 +252,7 @@ class WebHomeRepository
             $jobTitle = [];
             $skillName = [];
             $companyName = [];
-            if (! $jobSearchResult->isEmpty() || ! $skills->isEmpty() || ! $companies->isEmpty()) {
+            if (!$jobSearchResult->isEmpty() || !$skills->isEmpty() || !$companies->isEmpty()) {
                 foreach ($jobSearchResult as $jobSearch) {
                     $jobTitle[] = $jobSearch->job_title;
                 }
@@ -282,9 +264,8 @@ class WebHomeRepository
                 }
             }
             $allResult = array_merge($jobTitle, $skillName, $companyName);
-            $results = array_unique($allResult);
-
-            return $results;
+            return array_unique($allResult);
         }
+        return null;
     }
 }
