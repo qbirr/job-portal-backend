@@ -48,7 +48,7 @@ class CandidateUpdateProfileRequest extends FormRequest
             'email' => 'required|email:filter|unique:users,email,'.$id,
             'dob' => 'nullable|date',
             'phone' => 'nullable',
-            'marital_status_id' => 'required',
+            'marital_status_id' => 'sometimes|nullable|exists:marital_status,id',
             'nationality' => 'max:150',
             'national_id_card' => 'max:150',
             'current_salary' => 'nullable|numeric|min:0|max:999999999',
