@@ -178,12 +178,14 @@
                                                     {{ __('messages.employer_menu.followers') }}
                                                 </a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('manage-subscription.index') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.employer_menu.manage_subscriptions') }}
-                                                </a>
-                                            </li>
+                                            @if(getSettingValue('enable_subscription_plan'))
+                                                <li class="nav-item">
+                                                    <a href="{{ route('manage-subscription.index') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.employer_menu.manage_subscriptions') }}
+                                                    </a>
+                                                </li>
+                                            @endif
                                             <li class="nav-item">
                                                 <a href="{{ route('transactions.index') }}" data-turbo="false"
                                                    class="nav-link d-flex align-items-center">

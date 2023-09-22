@@ -1,7 +1,7 @@
 @extends('employer.layouts.app')
 @section('title')
     Payment Failed
-@endsection 
+@endsection
 @section('content')
     <section class="section">
         <div class="section-body">
@@ -18,9 +18,11 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex align-items-center justify-content-center">
-                <a class="btn btn-primary" href="{{ route('manage-subscription.index') }}">{{ __('messages.see_all_plans') }}</a>
-            </div>
+            @if(getSettingValue('manage-subscription.index'))
+                <div class="d-flex align-items-center justify-content-center">
+                    <a class="btn btn-primary" href="{{ route('manage-subscription.index') }}">{{ __('messages.see_all_plans') }}</a>
+                </div>
+            @endif
         </div>
     </section>
 @endsection

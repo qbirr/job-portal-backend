@@ -65,7 +65,7 @@
                         </div>
                     @endif
                 </div>
-                
+
                 <div class="row pt-100">
                     <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
                         <div class="desc-card card flex-row p-4 align-items-center">
@@ -93,7 +93,7 @@
                         <div class="desc-card card flex-row p-4 align-items-center">
                             <div class="card-img d-flex justify-content-center align-items-center">
                                 <i class="fa-solid fa-building"></i>
-                               
+
                             </div>
                             <div class="card-text">
                                 <h3>{{ $dataCounts['companies'] }}</h3>
@@ -183,7 +183,7 @@
                     </div>
                     <div class="job-categories-card">
                         <div class="row">
-                     
+
                             @foreach($jobCategories as $jobCategory)
                                 <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
                                     <div class="job-card-category card flex-row p-4 align-items-center">
@@ -208,13 +208,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
-                                
-                                
-                                
-                                
-                                
+
+
+
+
+
+
+
 {{--                                <div class="col-lg-4 col-md-6 px-xl-3 mb-40">--}}
 {{--                                    <div class="card py-30">--}}
 {{--                                        <div class="row">--}}
@@ -544,7 +544,7 @@
                                                                     <a href="#"
                                                                        class="btn btn-primary"
                                                                        data-turbo="false">{{ __('messages.pricing_table.get_started') }}</a>
-                                                                @elseif(Auth::check() && Auth::user()->hasRole('Employer'))
+                                                                @elseif(getSettingValue('enable_subscription_plan') && Auth::check() && Auth::user()->hasRole('Employer'))
                                                                     <a href="{{ route('manage-subscription.index') }}"
                                                                        class="btn btn-primary"
                                                                        data-turbo="false">{{ __('messages.pricing_table.get_started') }}</a>
