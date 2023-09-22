@@ -170,6 +170,15 @@
                        {{ ($setting['enable_google_recaptcha']) ? 'checked' : '' }} placeholder="{{__('messages.setting.enable_google_recaptcha')}}">
             </div>
         </div>
+        <div class="col-sm-6 mb-5">
+            {{ Form::label('status', 'Enable Subscription Plan', ['class' => 'form-label']) }}
+            <span class="required"></span>
+            <div class="form-check form-switch">
+                <input class="form-check-input" name="enable_subscription_plan" type="checkbox"
+                       value="1"
+                       {{ ($setting['enable_subscription_plan'])??0 ? 'checked' : '' }} placeholder="Enable subscription plan">
+            </div>
+        </div>
         <div class="col-md-6 col-lg-6 col-sm-6 col-12">
             <div class="form-group mb-3">
                 {{ Form::label('default_country_code', __('messages.common.default_country_code').':', ['class' => 'form-label']) }}

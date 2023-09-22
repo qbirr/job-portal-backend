@@ -13,7 +13,7 @@ class SubscriptionTable extends LivewireTableComponent
     public $showButtonOnHeader = true;
 
     public $buttonComponent = 'plans.table-components.add_button';
-    
+
     protected $listeners = ['refresh' => '$refresh' ];
 
 

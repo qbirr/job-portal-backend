@@ -13,8 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 /**
  * Class SettingRepository
  */
-class SettingRepository extends BaseRepository
-{
+class SettingRepository extends BaseRepository {
     /**
      * @var array
      */
@@ -26,24 +25,21 @@ class SettingRepository extends BaseRepository
     /**
      * {@inheritdoc}
      */
-    public function getFieldsSearchable()
-    {
+    public function getFieldsSearchable() {
         return $this->fieldSearchable;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function model()
-    {
+    public function model() {
         return Setting::class;
     }
 
     /**
      * @return mixed
      */
-    public function getEnvData()
-    {
+    public function getEnvData() {
         $env = new DotenvEditor();
         $key = $env->getContent();
         $data['mail'] = collect($key)->only([
@@ -69,7 +65,7 @@ class SettingRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      *
      * @throws DiskDoesNotExist
@@ -77,24 +73,23 @@ class SettingRepository extends BaseRepository
      * @throws FileIsTooBig
      * @throws DotEnvException
      */
-    public function updateSetting($input)
-    {
+    public function updateSetting($input) {
         $env = new DotenvEditor();
         $inputArr = Arr::except($input, ['_token']);
 
         if ($inputArr['sectionName'] == 'env_setting') {
             $env->setAutoBackup(true);
 
-            if (! empty($inputArr['mail_username'])) {
-                $inputArr['mail_username'] = '"'.$inputArr['mail_username'].'"';
+            if (!empty($inputArr['mail_username'])) {
+                $inputArr['mail_username'] = '"' . $inputArr['mail_username'] . '"';
             }
 
-            if (! empty($inputArr['mail_password'])) {
-                $inputArr['mail_password'] = '"'.$inputArr['mail_password'].'"';
+            if (!empty($inputArr['mail_password'])) {
+                $inputArr['mail_password'] = '"' . $inputArr['mail_password'] . '"';
             }
 
-            if (! empty($inputArr['mail_from_address'])) {
-                $inputArr['mail_from_address'] = '"'.$inputArr['mail_from_address'].'"';
+            if (!empty($inputArr['mail_from_address'])) {
+                $inputArr['mail_from_address'] = '"' . $inputArr['mail_from_address'] . '"';
             }
 
             $envData = [
@@ -136,16 +131,16 @@ class SettingRepository extends BaseRepository
             $inputArr['linkedIn_url'] = (empty($inputArr['linkedIn_url'])) ? '' : $inputArr['linkedIn_url'];
         }
         if ($inputArr['sectionName'] == 'general') {
-            $inputArr['enable_google_recaptcha'] = (! isset($inputArr['enable_google_recaptcha'])) ? false : $inputArr['enable_google_recaptcha'];
+            $inputArr['enable_google_recaptcha'] = (!isset($inputArr['enable_google_recaptcha'])) ? false : $inputArr['enable_google_recaptcha'];
+            $inputArr['enable_subscription_plan'] = (!isset($inputArr['enable_subscription_plan'])) ? false : $inputArr['enable_subscription_plan'];
         }
         foreach ($inputArr as $key => $value) {
-            /** @var Setting $setting */
             $setting = Setting::where('key', $key)->first();
-            if (! $setting) {
+            if (!$setting) {
                 continue;
             }
 
-            if (in_array($key, ['logo', 'favicon', 'footer_logo']) && ! empty($value)) {
+            if (in_array($key, ['logo', 'favicon', 'footer_logo']) && !empty($value)) {
                 $this->fileUpload($setting, $value);
                 continue;
             }
@@ -157,7 +152,7 @@ class SettingRepository extends BaseRepository
     }
 
     /**
-     * @param  Setting  $setting
+     * @param Setting $setting
      * @param $file
      * @return mixed
      *
@@ -165,8 +160,7 @@ class SettingRepository extends BaseRepository
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
-    public function fileUpload($setting, $file)
-    {
+    public function fileUpload($setting, $file) {
         $setting->clearMediaCollection(Setting::PATH);
         $media = $setting->addMedia($file)->toMediaCollection(Setting::PATH, config('app.media_disc'));
         $setting->update(['value' => $media->getFullUrl()]);
@@ -180,9 +174,8 @@ class SettingRepository extends BaseRepository
      * @param $value
      * @return bool
      */
-    public function createOrUpdateEnv($env, $key, $value): bool
-    {
-        if (! $env->keyExists($key)) {
+    public function createOrUpdateEnv($env, $key, $value): bool {
+        if (!$env->keyExists($key)) {
             $env->addData([
                 $key => $value,
             ]);
