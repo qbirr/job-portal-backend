@@ -94,6 +94,8 @@ class EmployerJobTable extends LivewireTableComponent
 
             Column::make(__('messages.common.status'), 'status')
                 ->view('employer.jobs.job_table_components.status'),
+            Column::make(__('messages.common.submission status'), 'submission_status_id')
+                ->view('jobs.table-components.submission_status'),
 
             Column::make(__('messages.common.action'), 'id')
                 ->view('employer.jobs.job_table_components.action_button'),
