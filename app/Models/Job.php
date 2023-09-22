@@ -215,6 +215,8 @@ class Job extends Model {
         'job_expiry_date' => 'required',
         'job_shift_id' => 'sometimes|int',
         'job_shift' => 'required_if:job_shift_id,0|string',
+        'submission_status_id' => 'sometimes|exists:submission_statuses,id',
+        'submission_notes' => 'required_if:submission_status_id,3|string|nullable',
     ];
 
     public $table = 'jobs';
