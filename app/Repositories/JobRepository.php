@@ -14,6 +14,7 @@ use App\Models\Job;
 use App\Models\JobApplication;
 use App\Models\JobCategory;
 use App\Models\JobShift;
+use App\Models\JobSubmissionLog;
 use App\Models\JobType;
 use App\Models\Notification;
 use App\Models\NotificationSetting;
@@ -36,18 +37,18 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use PragmaRX\Countries\Package\Countries;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Throwable;
 
 /**
  * Class JobRepository
  *
  * @version July 12, 2020, 12:34 pm UTC
  */
-class JobRepository extends BaseRepository
-{
+class JobRepository extends BaseRepository {
     /**
      * @var array
      */
-    protected $fieldSearchable = [
+    protected array $fieldSearchable = [
         'job_title',
         'is_freelance',
         'hide_salary',
@@ -58,24 +59,21 @@ class JobRepository extends BaseRepository
      *
      * @return array
      */
-    public function getFieldsSearchable()
-    {
+    public function getFieldsSearchable(): array {
         return $this->fieldSearchable;
     }
 
     /**
      * Configure the Model
      **/
-    public function model()
-    {
+    public function model(): string {
         return Job::class;
     }
 
     /**
      * @return array
      */
-    public function prepareJobData()
-    {
+    public function prepareJobData(): array {
 
         $data['jobTypes'] = JobType::withCount(['jobs' => function ($q) {
             $q->whereStatus(Job::STATUS_OPEN)
@@ -94,10 +92,9 @@ class JobRepository extends BaseRepository
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function prepareData()
-    {
+    public function prepareData(): array {
         $countries = new Countries();
         $data['jobType'] = JobType::pluck('name', 'id');
         $data['jobCategory'] = JobCategory::pluck('name', 'id');
@@ -120,10 +117,9 @@ class JobRepository extends BaseRepository
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getUniqueJobId()
-    {
+    public function getUniqueJobId(): string {
         $jobUniqueId = Str::random(12);
         while (true) {
             $isExist = Job::whereJobId($jobUniqueId)->exists();
@@ -137,22 +133,21 @@ class JobRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
-    public function store($input)
-    {
+    public function store(array $input): bool {
         try {
             DB::beginTransaction();
 
-            $input['salary_from'] = (float) removeCommaFromNumbers($input['salary_from']);
-            $input['salary_to'] = (float) removeCommaFromNumbers($input['salary_to']);
+            $input['salary_from'] = (float)removeCommaFromNumbers($input['salary_from']);
+            $input['salary_to'] = (float)removeCommaFromNumbers($input['salary_to']);
             $input['company_id'] = (isset($input['company_id'])) ? $input['company_id'] : Auth::user()->owner_id;
             $input['job_id'] = $this->getUniqueJobId();
             /** @var Job $job */
-            if (isset($input['state_id']) && ! is_numeric($input['state_id'])) {
+            if (isset($input['state_id']) && !is_numeric($input['state_id'])) {
                 $input['state_id'] = null;
             }
             if (Auth::user()->hasRole('Admin')) {
@@ -161,13 +156,12 @@ class JobRepository extends BaseRepository
 
             $job = $this->create($input);
 
-            if (isset($input['jobsSkill']) && ! empty($input['jobsSkill'])) {
+            if (!empty($input['jobsSkill'])) {
                 $job->jobsSkill()->sync($input['jobsSkill']);
             }
-            if (isset($input['jobTag']) && ! empty($input['jobTag'])) {
+            if (!empty($input['jobTag'])) {
                 $job->jobsTag()->sync($input['jobTag']);
             }
-            /** @var JobType $jobType */
             $jobType = JobType::with('candidateJobAlerts')->whereId($input['job_type_id'])->first();
             $userIds = $jobType->candidateJobAlerts->where('job_alert', '=', 1)->pluck('user_id');
             $notificationAlertUserIds = $jobType->candidateJobAlerts->pluck('user_id');
@@ -181,7 +175,7 @@ class JobRepository extends BaseRepository
                             Notification::JOB_ALERT,
                             $user->id,
                             Notification::CANDIDATE,
-                            'New job posted with '.$job->job_title.', if you are interested then you can apply for this job.',
+                            'New job posted with ' . $job->job_title . ', if you are interested then you can apply for this job.',
                         ]) : false;
                 }
                 /** @var EmailTemplate $templateBody */
@@ -189,9 +183,9 @@ class JobRepository extends BaseRepository
                 foreach ($users as $user) {
                     $job->name = $user->full_name;
                     $keyVariable = ['{{job_name}}', '{{job_url}}', '{{job_title}}', '{{from_name}}'];
-                    $value = [$job->name, asset('/job-details/'.$job->job_id), $job->job_title, config('app.name')];
+                    $value = [$job->name, asset('/job-details/' . $job->job_id), $job->job_title, config('app.name')];
                     $body = str_replace($keyVariable, $value, $templateBody->body);
-                    $data['body'] = $body;
+//                    $data['body'] = $body;
 //                    Mail::to($user->email)->send(new EmailToCandidate($data));
                 }
             }
@@ -207,20 +201,20 @@ class JobRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
-     * @param  Job  $job
+     * @param array $input
+     * @param Job $job
      * @return bool|Builder|Builder[]|Collection|Model
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
-    public function update($input, $job)
-    {
+    public function update($input, $job): Model|Collection|Builder|bool|array {
         try {
             DB::beginTransaction();
-            $input['salary_from'] = (float) removeCommaFromNumbers($input['salary_from']);
-            $input['salary_to'] = (float) removeCommaFromNumbers($input['salary_to']);
+            $oldSubmissionStatusId = $job->submission_status_id;
+            $input['salary_from'] = (float)removeCommaFromNumbers($input['salary_from']);
+            $input['salary_to'] = (float)removeCommaFromNumbers($input['salary_to']);
             // update Job
-            if (isset($input['state_id']) && ! is_numeric($input['state_id'])) {
+            if (isset($input['state_id']) && !is_numeric($input['state_id'])) {
                 $input['state_id'] = null;
             }
             if ($job->status == Job::STATUS_DRAFT) {
@@ -228,14 +222,32 @@ class JobRepository extends BaseRepository
             }
             $job->update($input);
 
-            if (isset($input['jobsSkill']) && ! empty($input['jobsSkill'])) {
+            if (!empty($input['jobsSkill'])) {
                 $job->jobsSkill()->sync($input['jobsSkill']);
             }
-            if (isset($input['jobTag']) && ! empty($input['jobTag'])) {
+            if (!empty($input['jobTag'])) {
                 $job->jobsTag()->sync($input['jobTag']);
             } else {
                 $job->jobsTag()->sync([]);
             }
+
+            $company = $job->company;
+
+            if (auth()->user()->id == $company->user->id && $job->submission_status_id == 3) {
+                $job->update(['submission_status_id' => 4]);
+                JobSubmissionLog::create([
+                    'job_id' => $job->id,
+                    'submission_status_id' => 4,
+                    'notes' => '',
+                    'user_id' => auth()->id()
+                ]);
+            } elseif (isset($input['submission_status_id']) && auth()->user()->role('Admin') && $oldSubmissionStatusId != $input['submission_status_id'])
+                JobSubmissionLog::create([
+                    'job_id' => $job->id,
+                    'submission_status_id' => $input['submission_status_id'],
+                    'notes' => $input['submission_notes'] ?? '',
+                    'user_id' => auth()->id()
+                ]);
 
             DB::commit();
 
@@ -248,29 +260,26 @@ class JobRepository extends BaseRepository
     }
 
     /**
-     * @param  int  $jobId
-     * @return mixed
+     * @param int $jobId
+     * @return bool
      */
-    public function isJobAddedToFavourite($jobId)
-    {
+    public function isJobAddedToFavourite(int $jobId): bool {
         return FavouriteJob::where('user_id', Auth::user()->id)->where('job_id', $jobId)->exists();
     }
 
     /**
-     * @param  int  $jobId
-     * @return mixed
+     * @param int $jobId
+     * @return bool
      */
-    public function isJobReportedAsAbuse($jobId)
-    {
+    public function isJobReportedAsAbuse(int $jobId): bool {
         return ReportedJob::where('user_id', Auth::user()->id)->where('job_id', $jobId)->exists();
     }
 
     /**
-     * @param  Job  $job
-     * @return mixed
+     * @param Job $job
+     * @return array
      */
-    public function getJobDetails(Job $job)
-    {
+    public function getJobDetails(Job $job): array {
         /** @var User $user */
         $user = Auth::user();
 
@@ -286,7 +295,7 @@ class JobRepository extends BaseRepository
 
         // check job is drafted
         $data['isJobDrafted'] = $data['isJobApplicationRejected'] = $data['isJobApplicationCompleted'] = false;
-        if (! $data['isApplied']) {
+        if (!$data['isApplied']) {
             // check job is drafted or not
             $data['isJobDrafted'] = $jobApplicationRepo->checkJobStatus($job->id, $candidate->id,
                 JobApplication::STATUS_DRAFT);
@@ -311,12 +320,11 @@ class JobRepository extends BaseRepository
      * @param $input
      * @return bool
      */
-    public function storeFavouriteJobs($input)
-    {
+    public function storeFavouriteJobs($input): bool {
         $job = Job::findOrFail($input['jobId']);
         $jobUser = Company::with('user')->findOrFail($job->company_id);
         $favouriteJob = FavouriteJob::where('user_id', $input['userId'])->where('job_id', $input['jobId'])->exists();
-        if (! $favouriteJob) {
+        if (!$favouriteJob) {
             FavouriteJob::create([
                 'user_id' => $input['userId'],
                 'job_id' => $input['jobId'],
@@ -327,7 +335,7 @@ class JobRepository extends BaseRepository
                     Notification::FOLLOW_JOB,
                     $jobUser->user->id,
                     Notification::EMPLOYER,
-                    $loggedInUser->first_name.' '.$loggedInUser->last_name.' started following '.$job->job_title.'.',
+                    $loggedInUser->first_name . ' ' . $loggedInUser->last_name . ' started following ' . $job->job_title . '.',
                 ]) : false;
 
             return true;
@@ -342,11 +350,10 @@ class JobRepository extends BaseRepository
      * @param $input
      * @return bool
      */
-    public function storeReportJobAbuse($input)
-    {
+    public function storeReportJobAbuse($input): bool {
         $jobReportedAsAbuse = ReportedJob::where('user_id', $input['userId'])->where('job_id',
             $input['jobId'])->exists();
-        if (! $jobReportedAsAbuse) {
+        if (!$jobReportedAsAbuse) {
             $reportedJobNote = trim($input['note']);
             if (empty($reportedJobNote)) {
                 throw ValidationException::withMessages([
@@ -369,8 +376,7 @@ class JobRepository extends BaseRepository
      * @param $input
      * @return bool
      */
-    public function emailJobToFriend($input)
-    {
+    public function emailJobToFriend($input): bool {
         try {
             DB::beginTransaction();
 
@@ -399,8 +405,7 @@ class JobRepository extends BaseRepository
      *
      * @throws Exception
      */
-    public function canCreateMoreJobs()
-    {
+    public function canCreateMoreJobs(): bool {
         /** @var Company $company */
         $company = Company::whereUserId(Auth::id())->first();
 
@@ -431,8 +436,7 @@ class JobRepository extends BaseRepository
      * @param $reportedJobID
      * @return Builder|Builder[]|Collection|Model|null
      */
-    public function getReportedJobs($reportedJobID)
-    {
+    public function getReportedJobs($reportedJobID): Model|Collection|Builder|array|null {
         return ReportedJob::with(['user.candidate', 'job.company'])->without([
             'user.media', 'user.country', 'user.state', 'user.city',
         ])->select('reported_jobs.*')->orderBy('created_at',
