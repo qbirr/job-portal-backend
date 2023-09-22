@@ -218,6 +218,14 @@
                    id="freelance" value="1" {{$job->is_freelance == 1? 'checked' : ''}}>
         </label>
     </div>
+    <div class="col-xl-6 col-md-6 col-sm-12 mb-5" id="div_submission_status">
+        <label class='form-label '>{{ __('messages.common.submission status') . ':' . Str::upper($job->submissionStatus->status_name) }}</label><br>
+        {{ Form::select('submission_status_id', $submissionStatuses, isset($company)?$job->submission_status_id:null,
+['id'=>'submission_status_id','class' => 'form-select ','placeholder' => __('messages.company.select_submission_status')]) }}
+        {{ Form::textarea('submission_notes', $job->lastSubmissionLog->notes ?? '',
+['class' => 'form-control mt-2 ', 'id' => 'submission_notes', 'required', $job->submission_status_id == 3 ? '' : 'hidden',
+'autocomplete' => 'off', 'placeholder' => 'Rejection Reason / Notes']) }}
+    </div>
 
     <!-- Submit Field -->
     <div class="d-flex justify-content-end">
@@ -227,3 +235,15 @@
            class="btn btn-secondary me-2">{{__('messages.common.cancel')}}</a>
     </div>
 </div>
+
+<script>
+    $(_ => {
+        $('#submission_status_id').on('change', function() {
+            console.log(this.value)
+            if (parseInt(this.value) === 3)
+                $('#submission_notes').removeAttr('hidden')
+            else
+                $('#submission_notes').prop('hidden', true)
+        })
+    })
+</script>

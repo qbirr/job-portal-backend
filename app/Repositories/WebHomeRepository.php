@@ -20,7 +20,8 @@ use App\Models\Skill;
 use App\Models\Testimonial;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
+use LaravelIdea\Helper\App\Models\_IH_Company_C;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
@@ -60,10 +61,7 @@ class WebHomeRepository {
         return $data;
     }
 
-    /**
-     * @return array|\LaravelIdea\Helper\App\Models\_IH_Job_C
-     */
-    public function getLatestJobs(): array|\LaravelIdea\Helper\App\Models\_IH_Job_C {
+    public function getLatestJobs(): Collection|array {
         return Job::with(['company', 'jobCategory', 'jobsSkill'])
             ->whereStatus(Job::STATUS_OPEN)
             ->whereIsSuspended(Job::NOT_SUSPENDED)
@@ -92,9 +90,9 @@ class WebHomeRepository {
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getAllJobCategories(): \Illuminate\Support\Collection {
+    public function getAllJobCategories(): Collection {
         return JobCategory::with('media')->withCount([
             'jobs' => function (Builder $q) {
                 $q->whereStatus(Job::STATUS_OPEN)
@@ -124,7 +122,7 @@ class WebHomeRepository {
             ->get();
     }
 
-    public function getAllCompanies(): Collection|array|\LaravelIdea\Helper\App\Models\_IH_Company_C {
+    public function getAllCompanies(): Collection|array|_IH_Company_C {
         return Company::with('activeFeatured', 'jobs')->withCount(['jobs' => function (Builder $q) {
             $q->where('status', '!=', Job::STATUS_DRAFT);
             $q->where('status', '!=', Job::STATUS_CLOSED);

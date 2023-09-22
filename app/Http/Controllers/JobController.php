@@ -13,6 +13,7 @@ use App\Models\Notification;
 use App\Models\NotificationSetting;
 use App\Models\ReportedJob;
 use App\Models\State;
+use App\Models\SubmissionStatus;
 use App\Models\Transaction;
 use App\Repositories\JobRepository;
 use Exception;
@@ -27,29 +28,26 @@ use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Throwable;
 
-class JobController extends AppBaseController
-{
+class JobController extends AppBaseController {
     /** @var JobRepository */
-    private $jobRepository;
+    private JobRepository $jobRepository;
 
-    public function __construct(JobRepository $jobRepo)
-    {
+    public function __construct(JobRepository $jobRepo) {
         $this->jobRepository = $jobRepo;
     }
 
     /**
      * Display a listing of the Job.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         $statusArray = Job::STATUS;
 
-        if (! $this->checkJobLimit()) {
+        if (!$this->checkJobLimit()) {
             Flash::error(__('messages.flash.job_create_limit'));
         }
 
@@ -61,8 +59,7 @@ class JobController extends AppBaseController
      *
      * @return Factory|View
      */
-    public function create()
-    {
+    public function create() {
         $data = $this->jobRepository->prepareData();
 
         return view('employer.jobs.create')->with('data', $data);
@@ -71,19 +68,18 @@ class JobController extends AppBaseController
     /**
      * Store a newly created Job in storage.
      *
-     * @param  CreateJobRequest  $request
+     * @param CreateJobRequest $request
      * @return RedirectResponse|Redirector
      *
      * @throws Throwable
      */
-    public function store(CreateJobRequest $request)
-    {
+    public function store(CreateJobRequest $request) {
         $input = $request->all();
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
         $input['status'] = (isset($request->saveAsDraft)) ? Job::STATUS_DRAFT : Job::STATUS_OPEN;
         if ($input['status'] == Job::STATUS_OPEN) {
-            if (! $this->checkJobLimit()) {
+            if (!$this->checkJobLimit()) {
                 return redirect()->back()->withInput()->withErrors(['error' => __('messages.flash.job_create_limit')]);
             }
         }
@@ -97,22 +93,20 @@ class JobController extends AppBaseController
     /**
      * Display the specified Job.
      *
-     * @param  Job  $job
+     * @param Job $job
      * @return Factory|View
      */
-    public function show(Job $job)
-    {
+    public function show(Job $job) {
         return view('employer.jobs.show')->with('job', $job);
     }
 
     /**
      * Show the form for editing the specified Job.
      *
-     * @param  Job  $job
-     * @return Factory|View
+     * @param Job $job
+     * @return Application|Redirector|RedirectResponse
      */
-    public function edit(Job $job)
-    {
+    public function edit(Job $job) {
         if ($job->company->user->id !== getLoggedInUserId()) {
             return view('errors.404');
         }
@@ -140,16 +134,15 @@ class JobController extends AppBaseController
     /**
      * Update the specified Job in storage.
      *
-     * @param  Job  $job
-     * @param  UpdateJobRequest  $request
+     * @param Job $job
+     * @param UpdateJobRequest $request
      * @return RedirectResponse|Redirector
      *
      * @throws Throwable
      */
-    public function update(Job $job, UpdateJobRequest $request)
-    {
+    public function update(Job $job, UpdateJobRequest $request) {
         if ($job->status != Job::STATUS_OPEN) {
-            if (! $this->checkJobLimit()) {
+            if (!$this->checkJobLimit()) {
                 return redirect()->back()->withInput()->withErrors(['error' => __('messages.flash.job_create_limit')]);
             }
         }
@@ -167,17 +160,16 @@ class JobController extends AppBaseController
     /**
      * Remove the specified Job from storage.
      *
-     * @param  Job  $job
-     * @return RedirectResponse|Redirector
+     * @param Job $job
+     * @return \Illuminate\Http\JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(Job $job)
-    {
+    public function destroy(Job $job) {
         $userId = Auth::user()->owner_id;
         $companyId = Job::whereCompanyId($userId)->pluck('id')->toArray();
 
-        if (! in_array($job->id, $companyId)) {
+        if (!in_array($job->id, $companyId)) {
             return $this->sendError(__('messages.common.seems_message'));
         }
 
@@ -193,11 +185,10 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return mixed
      */
-    public function getStates(Request $request)
-    {
+    public function getStates(Request $request) {
         $postal = $request->get('postal');
 
         $states = getStates($postal);
@@ -206,11 +197,10 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return mixed
      */
-    public function getCities(Request $request)
-    {
+    public function getCities(Request $request) {
         $state = $request->get('state');
         $cities = getCities($state);
 
@@ -218,13 +208,12 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return Application|Factory|View
      *
      * @throws Exception
      */
-    public function getJobs()
-    {
+    public function getJobs() {
         $featured = Job::IS_FEATURED;
         $suspended = Job::IS_SUSPENDED;
         $freelancer = Job::IS_FREELANCER;
@@ -236,8 +225,7 @@ class JobController extends AppBaseController
     /**
      * @return Factory|View
      */
-    public function createJob()
-    {
+    public function createJob() {
         $data = $this->jobRepository->prepareData();
         $countries = Country::pluck('name', 'id');
         $states = State::toBase()->pluck('name', 'id');
@@ -246,13 +234,12 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  CreateJobRequest  $request
+     * @param CreateJobRequest $request
      * @return RedirectResponse|Redirector
      *
      * @throws Throwable
      */
-    public function storeJob(CreateJobRequest $request)
-    {
+    public function storeJob(CreateJobRequest $request) {
         $input = $request->all();
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
@@ -267,11 +254,10 @@ class JobController extends AppBaseController
     /**
      * Show the form for editing the specified Job.
      *
-     * @param  Job  $job
-     * @return Factory|View
+     * @param Job $job
+     * @return Application|Redirector|RedirectResponse
      */
-    public function editJob(Job $job)
-    {
+    public function editJob(Job $job) {
         if ($job->status == Job::STATUS_CLOSED) {
             Flash::error(__('messages.flash.close_job'));
 
@@ -280,6 +266,7 @@ class JobController extends AppBaseController
         $data = $this->jobRepository->prepareData();
         $data['jobTags'] = $job->jobsTag()->pluck('tag_id')->toArray();
         $states = $cities = null;
+        $submissionStatuses = SubmissionStatus::pluck('status_name', 'id');
         if (isset($job->country_id)) {
             $states = getStates($job->country_id);
         }
@@ -288,20 +275,19 @@ class JobController extends AppBaseController
         }
         $countries = Country::pluck('name', 'id');
 
-        return view('jobs.edit', compact('data', 'job', 'cities', 'states', 'countries'));
+        return view('jobs.edit', compact('data', 'job', 'cities', 'states', 'countries', 'submissionStatuses'));
     }
 
     /**
      * Update the specified Job in storage.
      *
-     * @param  Job  $job
-     * @param  UpdateJobRequest  $request
+     * @param Job $job
+     * @param UpdateJobRequest $request
      * @return RedirectResponse|Redirector
      *
      * @throws Throwable
      */
-    public function updateJob(Job $job, UpdateJobRequest $request)
-    {
+    public function updateJob(Job $job, UpdateJobRequest $request) {
         $input = $request->all();
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
@@ -316,11 +302,10 @@ class JobController extends AppBaseController
     /**
      * Display the specified Job.
      *
-     * @param  Job  $job
+     * @param Job $job
      * @return Factory|View
      */
-    public function showJobs(Job $job)
-    {
+    public function showJobs(Job $job) {
         $job = Job::with('company.user')->whereId($job->id)->first();
 
         return view('jobs.show')->with('job', $job);
@@ -329,13 +314,12 @@ class JobController extends AppBaseController
     /**
      * Remove the specified Job from storage.
      *
-     * @param  Job  $job
-     * @return RedirectResponse|Redirector
+     * @param Job $job
+     * @return \Illuminate\Http\JsonResponse
      *
      * @throws Exception
      */
-    public function delete(Job $job)
-    {
+    public function delete(Job $job) {
         $jobAppliedCount = $job->appliedJobs()->where('status', JobApplication::STATUS_APPLIED)->count();
         if ($jobAppliedCount > 0) {
             return $this->sendError(__('messages.flash.job_apply_by_candidate'));
@@ -347,13 +331,12 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  Job  $job
+     * @param Job $job
      * @return mixed
      */
-    public function changeIsSuspended(Job $job)
-    {
+    public function changeIsSuspended(Job $job) {
         $isSuspended = $job->is_suspended;
-        $job->update(['is_suspended' => ! $isSuspended]);
+        $job->update(['is_suspended' => !$isSuspended]);
 
         if (Auth::user()->hasRole('Admin')) {
             $job->last_change = Auth::user()->id;
@@ -364,11 +347,10 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return Application|Factory
      */
-    public function showReportedJobs()
-    {
+    public function showReportedJobs() {
         return view('employer.jobs.reported_jobs');
     }
 
@@ -379,12 +361,11 @@ class JobController extends AppBaseController
      *
      * @throws Exception
      */
-    public function changeJobStatus($id, $status)
-    {
+    public function changeJobStatus($id, $status) {
         /** @var Job $job */
         $job = Job::findOrFail($id);
         if ($job->status != Job::STATUS_OPEN && $status == Job::STATUS_OPEN) {
-            if (! $this->checkJobLimit()) {
+            if (!$this->checkJobLimit()) {
                 return $this->sendError(__('messages.flash.job_create_limit'));
             }
         }
@@ -395,24 +376,22 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  ReportedJob  $reportedJob
+     * @param ReportedJob $reportedJob
      * @return mixed
      *
      * @throws Exception
      */
-    public function deleteReportedJobs(ReportedJob $reportedJob)
-    {
+    public function deleteReportedJobs(ReportedJob $reportedJob) {
         $reportedJob->delete();
 
         return $this->sendSuccess(__('messages.flash.reported_job_delete'));
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return mixed
      */
-    public function showReportedJobNote(ReportedJob $reportedJob)
-    {
+    public function showReportedJobNote(ReportedJob $reportedJob) {
         $data = $this->jobRepository->getReportedJobs($reportedJob->id);
         $data['date'] = \Carbon\Carbon::parse($data->created_at)->formatLocalized('%d %b, %Y');
 
@@ -424,11 +403,10 @@ class JobController extends AppBaseController
      *
      * @throws Exception
      */
-    public function checkJobLimit()
-    {
+    public function checkJobLimit() {
         $job = $this->jobRepository->canCreateMoreJobs();
 
-        if (! $job) {
+        if (!$job) {
             return false;
         }
 
@@ -439,15 +417,14 @@ class JobController extends AppBaseController
      * @param $jobId
      * @return mixed
      */
-    public function makeFeatured($jobId)
-    {
+    public function makeFeatured($jobId) {
         $user = getLoggedInUser();
         $addDays = FrontSetting::where('key', 'featured_jobs_days')->first()->value;
         $price = FrontSetting::where('key', 'featured_jobs_price')->first()->value;
         $currency_id = FrontSetting::where('key', 'currency')->first()->value;
         $maxFeaturedJob = FrontSetting::where('key', 'featured_jobs_quota')->first()->value;
         $totalFeaturedJob = Job::Has('activeFeatured')->count();
-        $isFeaturedAvailable = ($totalFeaturedJob >= $maxFeaturedJob) ? false : true;
+        $isFeaturedAvailable = !(($totalFeaturedJob >= $maxFeaturedJob));
         $employerUser = Job::with('company.user')->findOrFail($jobId);
 
         if ($isFeaturedAvailable) {
@@ -468,7 +445,7 @@ class JobController extends AppBaseController
                         Notification::MARK_JOB_FEATURED_ADMIN,
                         $employerUser->company->user->id,
                         Notification::EMPLOYER,
-                        $user->first_name.' '.$user->last_name.' mark '.$employerUser->job_title.' as Featured.',
+                        $user->first_name . ' ' . $user->last_name . ' mark ' . $employerUser->job_title . ' as Featured.',
                     ]) : false;
             }
             if ($user->hasRole('Employer')) {
@@ -476,7 +453,7 @@ class JobController extends AppBaseController
                     Notification::MARK_JOB_FEATURED_ADMIN,
                     1,
                     3,
-                    $employerUser->job_title.' is featured',
+                    $employerUser->job_title . ' is featured',
                 ]);
             }
             $transaction = [
@@ -503,8 +480,7 @@ class JobController extends AppBaseController
      * @param $jobId
      * @return mixed
      */
-    public function makeUnFeatured($jobId)
-    {
+    public function makeUnFeatured($jobId) {
         /** @var FeaturedRecord $unFeatured */
         $unFeatured = FeaturedRecord::where('owner_id', $jobId)->where('owner_type', Job::class)->first();
         $unFeatured->delete();
@@ -521,11 +497,10 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return Application|Factory|\Illuminate\Contracts\View\View
      */
-    public function getExpiredJobs()
-    {
+    public function getExpiredJobs() {
         return view('job_expired.index');
     }
 }

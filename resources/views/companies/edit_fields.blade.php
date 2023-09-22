@@ -207,10 +207,6 @@
         {{ Form::textarea('submission_notes', $company->lastSubmissionLog->notes ?? '',
 ['class' => 'form-control mt-2 ', 'id' => 'submission_notes', 'required', $company->submission_status_id == 3 ? '' : 'hidden',
 'autocomplete' => 'off', 'placeholder' => 'Rejection Reason / Notes']) }}
-        {{--<div id="submissionWrapper" @if($company->submission_status_id != 3) hidden @endif >
-            <div id="editAdminEmployerSubmissionNoteQuillData"></div>
-            {{ Form::hidden('submission_notes', $company->lastSubmissionLog->notes ?? '', ['id' => 'editAdminEmployerSubmissionDetail']) }}
-        </div>--}}
     </div>
     <!-- Submit Field -->
     <div class="d-flex justify-content-end">

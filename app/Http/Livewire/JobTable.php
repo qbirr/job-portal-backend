@@ -80,7 +80,7 @@ class JobTable extends LivewireTableComponent
             Column::make(__('messages.job.is_suspended'), 'is_suspended')
                 ->view('jobs.table-components.is_suspended'),
             Column::make(__('messages.common.submission status'), 'submission_status_id')
-                ->view('jobs.table_components.submission_status'),
+                ->view('jobs.table-components.submission_status'),
             Column::make(__('messages.common.created_on'), 'created_at')
                 ->sortable()
                 ->searchable()
