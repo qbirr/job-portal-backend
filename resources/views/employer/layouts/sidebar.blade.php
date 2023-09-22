@@ -48,13 +48,16 @@
                         <span class="horizontal-menu-title fs-6">{{ __('messages.employer_menu.transactions') }}</span>
                     </a>
                 </li>
-                <li>
-                    <a class="dropdown-item {{ Request::is('employer/manage-subscription*') ? 'active' : '' }}"
-                       href="{{ route('manage-subscription.index') }}">
-                        <span class="horizontal-menu-icon me-1"><i class="fab fa-bandcamp fs-6"></i></span>
-                        <span class="horizontal-menu-title fs-6">{{ __('messages.employer_menu.manage_subscriptions') }}</span>
-                    </a>
-                </li>
+                @if(getSettingValue('enable_subscription_plan'))
+                    <li>
+                        <a class="dropdown-item {{ Request::is('employer/manage-subscription*') ? 'active' : '' }}"
+                           href="{{ route('manage-subscription.index') }}">
+                            <span class="horizontal-menu-icon me-1"><i class="fab fa-bandcamp fs-6"></i></span>
+                            <span
+                                class="horizontal-menu-title fs-6">{{ __('messages.employer_menu.manage_subscriptions') }}</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </li>
 
@@ -66,13 +69,15 @@
                 <span class="horizontal-menu-title">{{ __('messages.employer_menu.transactions') }}</span>
             </a>
         </li>
-        <li class="nav-item d-xl-none {{ Request::is('employer/manage-subscription*') ? 'active' : ''}}">
-            <a class="nav-link d-flex align-items-center py-3" aria-current="page"
-               href="{{ route('manage-subscription.index') }}">
-                <span class="horizontal-menu-icon me-1"><i class="fab fa-bandcamp "></i></span>
-                <span class="horizontal-menu-title">{{ __('messages.employer_menu.manage_subscriptions') }}</span>
-            </a>
-        </li>
+        @if(getSettingValue('enable_subscription_plan'))
+            <li class="nav-item d-xl-none {{ Request::is('employer/manage-subscription*') ? 'active' : ''}}">
+                <a class="nav-link d-flex align-items-center py-3" aria-current="page"
+                   href="{{ route('manage-subscription.index') }}">
+                    <span class="horizontal-menu-icon me-1"><i class="fab fa-bandcamp "></i></span>
+                    <span class="horizontal-menu-title">{{ __('messages.employer_menu.manage_subscriptions') }}</span>
+                </a>
+            </li>
+        @endif
         {{-- end side bar menu for bar--}}
     </ul>
 </div>
