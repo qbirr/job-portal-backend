@@ -118,6 +118,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Job whereSubmissionStatusId($value)
  * @property string|null $job_shift
  * @method static Builder|Job whereJobShift($value)
+ * @property-read JobSubmissionLog|null $lastSubmissionLog
+ * @property-read Collection<int, JobSubmissionLog> $submissionLogs
+ * @property-read int|null $submission_logs_count
  * @mixin Eloquent
  */
 class Job extends Model {
@@ -460,5 +463,13 @@ class Job extends Model {
 
     public function submissionStatus(): BelongsTo {
         return $this->belongsTo(SubmissionStatus::class);
+    }
+
+    public function submissionLogs(): HasMany {
+        return $this->hasMany(JobSubmissionLog::class);
+    }
+
+    public function lastSubmissionLog(): HasOne {
+        return $this->hasOne(JobSubmissionLog::class)->latestOfMany();
     }
 }
