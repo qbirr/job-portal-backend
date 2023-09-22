@@ -244,6 +244,7 @@ class JobController extends AppBaseController {
         $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
         $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
         $input['status'] = Job::STATUS_OPEN;
+        $input['submission_status_id'] = Job::SUBMISSION_STATUS_APPROVED;
         $this->jobRepository->store($input);
 
         Flash::success(__('messages.flash.job_save'));
