@@ -248,6 +248,7 @@ class Job extends Model {
         'state_id',
         'city_id',
         'status',
+        'submission_status_id',
         'is_created_by_admin',
         'last_change',
     ];
