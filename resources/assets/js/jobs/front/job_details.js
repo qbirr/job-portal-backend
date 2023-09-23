@@ -97,15 +97,3 @@ listenHiddenBsModal('#emailJobToFriendModal', function () {
 listenHiddenBsModal('#reportJobAbuseModal', function () {
     $('#noteForReportAbuse').val('');
 })
-
-const { RestliClient } = require('linkedin-api-client');
-
-const restliClient = new RestliClient();
-
-restliClient.get({
-    resourcePath: '/me',
-    accessToken: 'AQVaWbe9h09DjmtolhsPbIjS_ofrP_2E6B1LThex-enb5Mxr2BmPHZq8xvejzScDIyyBaiNeHOy-0etQ6DHzJN9IZJxdwL3UuTjRUNV-kuUxEVkIiWSggvS0LQIg0yIdzmlfmgD2-gqcL12-RS-iAcQA61c68EZ1YORYwBo2JOhj0M4RHjhXq52BfeF0F8Us2LeutD3aeoNeNOXN4etg587fkG5BLcqasmHVurCxW-nTkT6slTTaU6QiTLY1S8-efyxcCaxHa-KGJJD42KFOv6ruZ233g8nL0p7Z81GklMYOTdYSm9S-7CPz6Z8rXfYayiGZ7XwEoSAsYVRKt1q0V7ZuRNToYQ'
-        }).then(response => {
-        const profile = response.data;
-        console.log(profile)
-    });
