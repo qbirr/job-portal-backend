@@ -14,6 +14,9 @@ return new class extends Migration {
             $table->foreignId('user_id');
             $table->timestamps();
         });
+
+        Artisan::call('db:seed',
+            ['--class' => 'SubmissionStatusSeeder', '--force' => true]);
     }
 
     public function down(): void {
