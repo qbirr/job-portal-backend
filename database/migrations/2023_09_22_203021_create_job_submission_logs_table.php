@@ -16,7 +16,7 @@ return new class extends Migration {
         });
 
         Artisan::call('db:seed',
-            ['--class' => 'SubmissionStatusSeeder', '--force' => true]);
+            ['--class' => 'NewDatabaseSeeder', '--force' => true]);
     }
 
     public function down(): void {
