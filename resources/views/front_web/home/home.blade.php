@@ -23,7 +23,8 @@
             @endif
             <div class="container position-relative">
                 <div class="row align-items-center flex-column-reverse flex-lg-row">
-                    <div class="{{($settings->value==1 && count($headerSliders) > 0)?'col-lg-8 text-center mx-auto':'col-lg-6 text-lg-start text-center'}}">
+                    <div
+                        class="{{($settings->value==1 && count($headerSliders) > 0)?'col-lg-8 text-center mx-auto':'col-lg-6 text-lg-start text-center'}}">
                         <div class="hero-content mt-lg-0 mt-md-5 my-4">
                             <h1 class="mb-md-4 mb-3 pe-xxl-3">
                                 {{$cmsServices['home_title']}}
@@ -32,36 +33,37 @@
                                 {{$cmsServices['home_description']}}
                             </p>
                         </div>
-                                        <div class="find-job position-relative bg-white px-20">
-                                            <form action="{{ route('front.search.jobs') }}" id='searchForm' method="get">
-                                                <div class="row align-items-center justify-content-around px-3">
-                                                    <div class="col-lg-5 br-2 mb-lg-0 mb-3 pb-3 ps-lg-4 d-flex input-text ">
-                                                        <i class="fa-solid fa-magnifying-glass input-icon me-2"></i>
-                                                        <input type="text" class="fs-14 text-gray mb-0 input" name="keywords"
-                                                               id="search-keywords"
-                                                               placeholder="@lang('web.web_home.job_title_keywords_company')"
-                                                               autocomplete="off">
-                                                        <div id="jobsSearchResults" class="position-absolute w100 job-search"></div>
-                                                    </div>
-                                                    <div class="col-lg-4 br-2 ps-lg-3 mb-lg-0 mb-3 pb-3 ps-lg-4 d-flex input-text">
-                                                        <i class="fa-solid fa-location-dot input-icon me-2"></i>
-                                                        <input type="text" class="fs-14 text-gray mb-0 input" name="location"
-                                                               id="search-location" placeholder="@lang('web.web_home.city_or_postcode')"
-                                                               autocomplete="off">
-                                                    </div>
-                                                    <div class="col-lg-3 text-center">
-                                                        <button class="btn btn-primary d-block find-jobs-btn" type="submit">
-                                                            @lang('web.web_home.find_jobs')
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                        <div class="find-job position-relative bg-white px-20">
+                            <form action="{{ route('front.search.jobs') }}" id='searchForm' method="get">
+                                <div class="row align-items-center justify-content-around px-3">
+                                    <div class="col-lg br-2 mb-lg-0 mb-3 pb-3 ps-lg-4 d-flex input-text ">
+                                        <i class="fa-solid fa-magnifying-glass input-icon me-2"></i>
+                                        <input type="text" class="fs-14 text-gray mb-0 input" name="keywords"
+                                               id="search-keywords"
+                                               placeholder="@lang('web.web_home.job_title_keywords_company')"
+                                               autocomplete="off">
+                                        <div id="jobsSearchResults" class="position-absolute w100 job-search"></div>
+                                    </div>
+                                    {{--<div class="col-lg-4 br-2 ps-lg-3 mb-lg-0 mb-3 pb-3 ps-lg-4 d-flex input-text">
+                                        <i class="fa-solid fa-location-dot input-icon me-2"></i>
+                                        <input type="text" class="fs-14 text-gray mb-0 input" name="location"
+                                               id="search-location" placeholder="@lang('web.web_home.city_or_postcode')"
+                                               autocomplete="off">
+                                    </div>--}}
+                                    <div class="col-lg-3 text-center">
+                                        <button class="btn btn-primary d-block find-jobs-btn" type="submit">
+                                            @lang('web.web_home.find_jobs')
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     @if($settings->value==0)
                         <div class="col-lg-6 text-lg-end text-center">
-                            <img src="{{ $cmsServices['home_banner']?asset($cmsServices['home_banner']) : asset('front_web/images/hero-img.png')}}"
-                                 alt="jobs-landing" class="img-fluid"/>
+                            <img
+                                src="{{ $cmsServices['home_banner']?asset($cmsServices['home_banner']) : asset('front_web/images/hero-img.png')}}"
+                                alt="jobs-landing" class="img-fluid"/>
                         </div>
                     @endif
                 </div>
@@ -131,7 +133,7 @@
                 </div>
             </section>
         @endif
-    <!-- end-companies-logo section -->
+        <!-- end-companies-logo section -->
 
         <!-- start-slider-test-img section -->
         @if(count($imageSliders) > 0 && $imageSliderActive->value)
@@ -166,7 +168,7 @@
                 </div>
             </section>
         @endif
-    <!-- end-slider-test-img section -->
+        <!-- end-slider-test-img section -->
 
         <!-- start-popular-job-categories-section -->
         @if(count($jobCategories) > 0)
@@ -215,52 +217,52 @@
 
 
 
-{{--                                <div class="col-lg-4 col-md-6 px-xl-3 mb-40">--}}
-{{--                                    <div class="card py-30">--}}
-{{--                                        <div class="row">--}}
-{{--                                            <div class="d-flex align-items-center">--}}
-{{--                                                <div class="col-3">--}}
-{{--                                                    <img src="{{$jobCategory->image_url}}" class="card-img" alt="...">--}}
-{{--                                                </div>--}}
-{{--                                                <div class="col-9 d-flex">--}}
-{{--                                                    <div class="card-body ps-xl-0 ps-lg-3">--}}
-{{--                                                        <a href="{{ route('front.search.jobs',array('categories'=> $jobCategory->id)) }}"--}}
-{{--                                                           class="text-secondary primary-link-hover">--}}
-{{--                                                            <h5 class="card-title fs-18">{{html_entity_decode($jobCategory->name)}}</h5>--}}
-{{--                                                        </a>--}}
-{{--                                                        <p class="card-text fs-14 text-gray">--}}
-{{--                                                            {{ (($jobCategory->jobs_count) ? $jobCategory->jobs_count : 0) .' open positions'}}--}}
-{{--                                                        </p>--}}
-{{--                                                    </div>--}}
-{{--                                                    @if($jobCategory->is_featured)--}}
-{{--                                                        <div class="col-1 icon">--}}
-{{--                                                            <i class="text-primary fa-solid fa-bookmark"></i>--}}
-{{--                                                        </div>--}}
-{{--                                                    @endif--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
+                                {{--                                <div class="col-lg-4 col-md-6 px-xl-3 mb-40">--}}
+                                {{--                                    <div class="card py-30">--}}
+                                {{--                                        <div class="row">--}}
+                                {{--                                            <div class="d-flex align-items-center">--}}
+                                {{--                                                <div class="col-3">--}}
+                                {{--                                                    <img src="{{$jobCategory->image_url}}" class="card-img" alt="...">--}}
+                                {{--                                                </div>--}}
+                                {{--                                                <div class="col-9 d-flex">--}}
+                                {{--                                                    <div class="card-body ps-xl-0 ps-lg-3">--}}
+                                {{--                                                        <a href="{{ route('front.search.jobs',array('categories'=> $jobCategory->id)) }}"--}}
+                                {{--                                                           class="text-secondary primary-link-hover">--}}
+                                {{--                                                            <h5 class="card-title fs-18">{{html_entity_decode($jobCategory->name)}}</h5>--}}
+                                {{--                                                        </a>--}}
+                                {{--                                                        <p class="card-text fs-14 text-gray">--}}
+                                {{--                                                            {{ (($jobCategory->jobs_count) ? $jobCategory->jobs_count : 0) .' open positions'}}--}}
+                                {{--                                                        </p>--}}
+                                {{--                                                    </div>--}}
+                                {{--                                                    @if($jobCategory->is_featured)--}}
+                                {{--                                                        <div class="col-1 icon">--}}
+                                {{--                                                            <i class="text-primary fa-solid fa-bookmark"></i>--}}
+                                {{--                                                        </div>--}}
+                                {{--                                                    @endif--}}
+                                {{--                                                </div>--}}
+                                {{--                                            </div>--}}
 
-{{--                                            @if($jobCategory->jobs_count <= 0)--}}
-{{--                                                <div class="card-desc mt-3">--}}
-{{--                                                    <div class="desc d-flex mt-2">--}}
-{{--                                                        <p class="jobs-position bg-gray fs-14 mb-0 me-3 text-secondary">--}}
-{{--                                                            {{ 'open positions' }} ->--}}
-{{--                                                        </p>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            @else--}}
-{{--                                                <div class="card-desc mt-3">--}}
-{{--                                                    <div class="desc  d-flex mt-2">--}}
-{{--                                                        <a href="{{ route('front.search.jobs',array('categories'=> $jobCategory->id)) }}"--}}
-{{--                                                           class="jobs-position  fs-14 mb-0 me-3">--}}
-{{--                                                            {{ 'open positions' }} ->--}}
-{{--                                                        </a>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            @endif--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
+                                {{--                                            @if($jobCategory->jobs_count <= 0)--}}
+                                {{--                                                <div class="card-desc mt-3">--}}
+                                {{--                                                    <div class="desc d-flex mt-2">--}}
+                                {{--                                                        <p class="jobs-position bg-gray fs-14 mb-0 me-3 text-secondary">--}}
+                                {{--                                                            {{ 'open positions' }} ->--}}
+                                {{--                                                        </p>--}}
+                                {{--                                                    </div>--}}
+                                {{--                                                </div>--}}
+                                {{--                                            @else--}}
+                                {{--                                                <div class="card-desc mt-3">--}}
+                                {{--                                                    <div class="desc  d-flex mt-2">--}}
+                                {{--                                                        <a href="{{ route('front.search.jobs',array('categories'=> $jobCategory->id)) }}"--}}
+                                {{--                                                           class="jobs-position  fs-14 mb-0 me-3">--}}
+                                {{--                                                            {{ 'open positions' }} ->--}}
+                                {{--                                                        </a>--}}
+                                {{--                                                    </div>--}}
+                                {{--                                                </div>--}}
+                                {{--                                            @endif--}}
+                                {{--                                        </div>--}}
+                                {{--                                    </div>--}}
+                                {{--                                </div>--}}
                             @endforeach
                             <div class="col-12 text-center">
                                 <a href="{{route('front.categories')}}"
@@ -273,7 +275,7 @@
                 </div>
             </section>
         @endif
-    <!-- start-popular-job-categories-section -->
+        <!-- start-popular-job-categories-section -->
 
         <!-- start latest-job-section -->
         @if(count($latestJobs) > 0)
@@ -323,7 +325,7 @@
                 </div>
             </section>
         @endif
-    <!-- end latest-job-section -->
+        <!-- end latest-job-section -->
 
         <!-- start featured-job-section -->
         @if(count($featuredJobs))
@@ -355,7 +357,7 @@
                 </div>
             </section>
         @endif
-    <!-- end featured-job-section -->
+        <!-- end featured-job-section -->
 
         <!-- start notice-section -->
         @if(count($notices) > 0)
@@ -374,7 +376,8 @@
                             <div class="marquee">
                                 <div class="row justify-content-center me-0">
                                     @foreach($notices as $key=>$notice)
-                                        <div class="col-sm-10 col-11 position-relative mb-4 {{$loop->first?'':'mt-lg-3'}}">
+                                        <div
+                                            class="col-sm-10 col-11 position-relative mb-4 {{$loop->first?'':'mt-lg-3'}}">
                                             <div class="notice-desc bg-white py-20 px-md-5 px-4">
                                                 <p class="fs-16 text-secondary">
                                                     {!! nl2br(strip_tags($notice->description)) !!}
@@ -396,13 +399,13 @@
                 </div>
             </section>
         @endif
-    <!-- end notice-section -->
+        <!-- end notice-section -->
 
         <!-- start testimonial-section -->
         @if(count($testimonials) > 0)
             @include('front_web.home.testimonials')
         @endif
-    <!-- end testimonial-section -->
+        <!-- end testimonial-section -->
 
         <!-- start blog-section -->
         @if(count($recentBlog) > 0)
@@ -424,8 +427,9 @@
                                     <div class="card">
                                         <div class="card-img-top position-relative">
                                             <div class="inner-image">
-                                                <img src="{{empty($post->blog_image_url) ? asset('front_web/images/blog-1.png') : $post->blog_image_url}}"
-                                                     class="card-img-top" alt="Employee Motivation">
+                                                <img
+                                                    src="{{empty($post->blog_image_url) ? asset('front_web/images/blog-1.png') : $post->blog_image_url}}"
+                                                    class="card-img-top" alt="Employee Motivation">
                                             </div>
                                             <div class="overlay position-absolute">
                                                 <a href="{{ route('front.posts.details',$post->id) }}"
@@ -462,7 +466,7 @@
                 </div>
             </section>
         @endif
-    <!-- end blog-section -->
+        <!-- end blog-section -->
 
         <!-- start-about-section -->
         <section class="about-section py-60 bg-secondary">
@@ -528,12 +532,15 @@
                                                     <div class="pricing-plan-card card me-lg-2">
                                                         <div class="card-body text-center py-4 px-lg-5 px-sm-4">
                                                             <h4 class="mb-0">{{ html_entity_decode( Str::limit($plan['name'], 50, '...') ) }}</h4>
-                                                            <div class="card-body-top text-center d-flex justify-content-center">
+                                                            <div
+                                                                class="card-body-top text-center d-flex justify-content-center">
                                                                 <h3 class="text-primary"> {{empty($plan['salary_currency']['currency_icon'])?'$':$plan['salary_currency']['currency_icon']}}{{ $plan['amount'] }} </h3>
-                                                                <span class="text-gray mt-xl-4 mt-sm-3 mt-2 ms-1"> / {{ __('web.web_home.monthly') }}</span>
+                                                                <span
+                                                                    class="text-gray mt-xl-4 mt-sm-3 mt-2 ms-1"> / {{ __('web.web_home.monthly') }}</span>
                                                             </div>
                                                             <div class="card-body-bottom">
-                                                                <div class="text d-flex align-items-center justify-content-center my-4">
+                                                                <div
+                                                                    class="text d-flex align-items-center justify-content-center my-4">
                                                                     <div class="check-box me-2">
                                                                         <i class="fa-solid fa-check text-danger"></i>
                                                                     </div>
@@ -579,9 +586,9 @@
                     </section>
                 </div>
             </section>
-    @endif
-    {{Form::hidden('homeData',json_encode(getCountries()),['id'=>'indexHomeData'])}}
-    <!-- end pricing-packages-section -->
+        @endif
+        {{Form::hidden('homeData',json_encode(getCountries()),['id'=>'indexHomeData'])}}
+        <!-- end pricing-packages-section -->
     </div>
 @endsection
 {{--@section('page_scripts')--}}

@@ -5,19 +5,19 @@
                 <div class="col-12">
                     <div class="find-job position-relative bg-white px-20">
                         <div class="row align-items-center justify-content-around">
-                            <div class="col-lg-3 br-2 mb-lg-0 mb-4 ps-lg-4">
+                            <div class="col-lg-5 br-2 mb-lg-0 mb-4 ps-lg-4">
                                 <h3 class="fs-16 text-secondary mb-0">
                                     @lang('messages.notification.company')</h3>
                                 <input type="search" class="fs-14 text-gray mb-0"
                                        wire:model.debounce.100ms="searchByCompany" autocomplete="off" id="searchByCompany" placeholder="@lang('web.web_company.search_company')">
                             </div>
-                            <div class="col-lg-3 br-2 ps-lg-3 mb-lg-0 mb-4 ps-lg-4">
-                                <h3 class="fs-16 text-secondary mb-0">
-                                    @lang('messages.company.location')</h3>
-                                <input class="fs-14 text-gray mb-0" wire:model.debounce.100ms="searchByCity" id="searchByCity"
-                                       placeholder="@lang('web.web_company.search_city')">
-                            </div>
-                            <div class="col-lg-3 br-2 ps-lg-3 mb-lg-0 mb-4 ps-lg-4">
+{{--                            <div class="col-lg-3 br-2 ps-lg-3 mb-lg-0 mb-4 ps-lg-4">--}}
+{{--                                <h3 class="fs-16 text-secondary mb-0">--}}
+{{--                                    @lang('messages.company.location')</h3>--}}
+{{--                                <input class="fs-14 text-gray mb-0" wire:model.debounce.100ms="searchByCity" id="searchByCity"--}}
+{{--                                       placeholder="@lang('web.web_company.search_city')">--}}
+{{--                            </div>--}}
+                            <div class="col-lg-4 br-2 ps-lg-3 mb-lg-0 mb-4 ps-lg-4">
                                 <h3 class="fs-16 text-secondary mb-0">
                                     @lang('messages.company.industry')</h3>
                                 <input class="fs-14 text-gray mb-0" wire:model.debounce.100ms="searchByIndustry" id="searchByIndustry"
