@@ -266,7 +266,7 @@ Route::middleware('auth', 'role:Admin', 'xss', 'verified.user')->prefix('admin')
     Route::get('languages/{language}', [LanguageController::class, 'show'])->name('languages.show');
     Route::put('languages/{language}', [LanguageController::class, 'update'])->name('languages.update');
     Route::delete('languages/{language}', [LanguageController::class, 'destroy'])->name('languages.destroy');
-    Route::post('languages/{language}/{param}/change-status', [LanguageController::class, 'changeStatus']);
+//    Route::post('languages/{language}/{param}/change-status', [LanguageController::class, 'changeStatus']);
 
     // Functional Area
     Route::get('functional-areas', [FunctionalAreaController::class, 'index'])->name('functionalArea.index');
@@ -547,7 +547,7 @@ Route::middleware('auth', 'role:Employer', 'xss', 'verified.user', 'company-appr
     Route::get('dashboard', [DashboardController::class, 'employerDashboard'])->name('employer.dashboard');
     Route::get('employer-dashboard-chart',
         [DashboardController::class, 'employerDashboardChart'])->name('employer.dashboard.chart');
-    Route::get('employer-job-data', [DashboardController::class, 'getJobData'])->name('employer.job.data');
+//    Route::get('employer-job-data', [DashboardController::class, 'getJobData'])->name('employer.job.data');
 
     // Read notification
 //    Route::post('/notification/{notification}/read',
