@@ -579,15 +579,7 @@ class JobRepository extends BaseRepository {
         return $all;
     }
 
-    public function latestJob() {
-        $latestJobs = Job::whereStatus(Job::STATUS_OPEN)
-            ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
-            ->where('is_suspended', '=', Job::NOT_SUSPENDED)
-            ->with(['company', 'jobCategory', 'jobsSkill'])
-            ->orderBy('created_at', 'desc')
-            ->limit(6)
-            ->get();
-
+    public function latestJob(): Collection|\LaravelIdea\Helper\App\Models\_IH_Job_C|array {
         $featureJobs = Job::has('activeFeatured')
             ->whereStatus(Job::STATUS_OPEN)
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
@@ -595,7 +587,13 @@ class JobRepository extends BaseRepository {
             ->with(['company', 'jobCategory', 'jobsSkill', 'activeFeatured'])
             ->orderBy('created_at', 'desc')
             ->get();
-
+        $latestJobs = Job::whereStatus(Job::STATUS_OPEN)
+            ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
+            ->where('is_suspended', '=', Job::NOT_SUSPENDED)
+            ->with(['company', 'jobCategory', 'jobsSkill'])
+            ->orderBy('created_at', 'desc')
+            ->limit(6)
+            ->get();
         return $latestJobs->merge($featureJobs);
     }
 }
