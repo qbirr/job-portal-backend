@@ -20,6 +20,7 @@ Route::prefix('jobs')->group(function () {
     Route::get('search-autocomplete', [JobController::class, 'searchJobAutocomplete']);
     Route::post('search', [JobController::class, 'searchJob']);
     Route::get('details/{job}', [JobController::class, 'detail']);
+    Route::get('categories', [\App\Http\Controllers\web\CategoriesController::class, 'fetch']);
 });
 
 Route::prefix('companies')->group(function () {

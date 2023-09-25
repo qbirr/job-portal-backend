@@ -4,22 +4,23 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\WebHomeRepository;
-use Illuminate\Http\Request;
 
-class CategoriesController extends Controller
-{
+class CategoriesController extends Controller {
 
     /** @var WebHomeRepository */
-    private $homeRepository;
+    private WebHomeRepository $homeRepository;
 
-    public function __construct(WebHomeRepository $homeRepository)
-    {
+    public function __construct(WebHomeRepository $homeRepository) {
         $this->homeRepository = $homeRepository;
     }
-    public function index()
-    {
-        $jobCategories =  $this->homeRepository->getAllJobCategories();
-     
-        return view('front_web.categories.index',compact('jobCategories'));
+
+    public function index() {
+        $jobCategories = $this->homeRepository->getAllJobCategories();
+
+        return view('front_web.categories.index', compact('jobCategories'));
+    }
+
+    public function fetch() {
+        return $this->homeRepository->getAllJobCategories();
     }
 }
