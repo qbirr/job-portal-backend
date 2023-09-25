@@ -102,4 +102,8 @@ class PostCategoryController extends AppBaseController
 
         return $this->sendSuccess(__('messages.flash.post_category_delete'));
     }
+
+    public function fetch() {
+        return $this->postCategoryRepository->all(columns: ['id', 'name', 'description']);
+    }
 }

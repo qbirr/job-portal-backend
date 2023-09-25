@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\JobController;
+use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\web\CategoriesController;
 use App\Http\Controllers\Web\PostController;
 use Illuminate\Http\Request;
@@ -40,5 +41,6 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->group(function () {
 Route::prefix('articles')->group(function (){
     Route::get('/', [PostController::class, 'fetch']);
     Route::get('detail/{post}', [PostController::class, 'detail']);
+    Route::get('categories', [PostCategoryController::class, 'fetch']);
     Route::get('by-category/{postCategory}', [PostController::class, 'detailByCategory']);
 });
