@@ -740,7 +740,7 @@ function googleJobSchema()
                     'streetAddress' => $job->company->location ?? $job->company->location,
                     'addressLocality' => $job->company->location2 ?? $job->company->location2,
                     'addressRegion' => $job->city->name ?? $job->city->name,
-                    'addressCountry' => $job->country->name ?? $job->country->name,
+//                    'addressCountry' => $job->country->name ?? $job->country->name,
                 ],
             ])
             ->baseSalary([
