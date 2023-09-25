@@ -108,17 +108,20 @@ class JobSearch extends Component {
     }
 
     /**
+     * @param bool $withUser
      * @return array|LengthAwarePaginator|_IH_Job_C
      */
-    public function searchJobs(): array|LengthAwarePaginator|_IH_Job_C {
+    public function searchJobs(bool $withUser = true): array|LengthAwarePaginator|_IH_Job_C {
         /** @var Job $query */
         $query = Job::with([
-            'company', 'country', 'state', 'city', 'jobShift', 'company.user', 'jobsSkill', 'jobCategory',
+            'company', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory',
         ])
             ->whereStatus(Job::STATUS_OPEN)->where('status', '!=', Job::STATUS_DRAFT)
             ->whereIsSuspended(Job::NOT_SUSPENDED)
             ->whereSubmissionStatusId(Job::SUBMISSION_STATUS_APPROVED)
             ->whereDate('job_expiry_date', '>=', Carbon::tomorrow()->toDateString());
+        if ($withUser)
+            $query->with(['company.user']);
 
         $query->when(!empty($this->types), function (Builder $q) {
             $q->whereIn('job_type_id', $this->types);
