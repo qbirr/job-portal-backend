@@ -14,6 +14,7 @@
         "ext-zip": "*",
         "brotzka/laravel-dotenv-editor": "^2.1",
         "guzzlehttp/guzzle": "^7.2",
+        "itsgoingd/clockwork": "^5.1",
         "laracasts/flash": "^3.2",
         "laravel/cashier": "^13.7",
         "laravel/framework": "^9.42",

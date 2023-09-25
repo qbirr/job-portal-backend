@@ -26,8 +26,8 @@ Route::post('sanctum/token', [TokenController::class, 'login']);
 Route::post('register', [RegisterController::class, 'register']);
 
 Route::get('latest-jobs', [JobController::class, 'latestJobs']);
-Route::get('/get-jobs-search', [JobController::class, 'searchJobAutocomplete'])->name('get.jobs.search');
-Route::get('/search-jobs', [JobController::class, 'searchJob'])->name('front.search.jobs');
+Route::get('/get-jobs-search', [JobController::class, 'searchJobAutocomplete']);
+Route::post('/search-jobs', [JobController::class, 'searchJob']);
 Route::get('/job-details/{uniqueId?}', [Web\JobController::class, 'jobDetails'])->name('front.job.details');
 Route::get('/company-lists', [Web\CompanyController::class, 'getCompaniesLists'])->name('front.company.lists');
 Route::get('/candidate-lists',

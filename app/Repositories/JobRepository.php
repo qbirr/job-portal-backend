@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use LaravelIdea\Helper\App\Models\_IH_Job_C;
 use PragmaRX\Countries\Package\Countries;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Throwable;
@@ -498,26 +499,26 @@ class JobRepository extends BaseRepository {
             $q->where('functional_area_id', '=', $request->functional_area_id);
         });
 
-        $query->when($request->gender != '', function (Builder $q) use ($request) {
-            $q->where('no_preference', '=', $request->gender);
+        $query->when($request->no_preference != '', function (Builder $q) use ($request) {
+            $q->where('no_preference', '=', $request->no_preference);
         });
 
         $query->when(!empty($request->skill), function (Builder $q) use ($request) {
             $q->whereHas('jobsSkill', function (Builder $q) use ($request) {
-                $q->where('skill_id', '=', $request->skill);
+                $q->where('skill_id', '=', $request->skill_id);
             });
         });
         $query->when(!empty($request->company), function (Builder $q) use ($request) {
             $q->whereHas('company', function (Builder $q) use ($request) {
-                $q->where('company_id', '=', $request->company);
+                $q->where('company_id', '=', $request->company_id);
             });
         });
 
         $query->when(!empty($request->jobExperience), function (Builder $q) use ($request) {
-            $q->where('experience', '=', $request->jobExperience);
+            $q->where('experience', '=', $request->experience);
         });
 
-        $query->when(!empty($request->featuredJob), function (Builder $q) use ($request) {
+        $query->when(!empty($request->featuredJob), function (Builder|Job $q) use ($request) {
             $q->has('activeFeatured')
                 ->whereStatus(Job::STATUS_OPEN)
                 ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
@@ -526,21 +527,21 @@ class JobRepository extends BaseRepository {
 
         $query->when(!empty($request->searchByLocation), function (Builder $q) use ($request) {
             $q->where(function (Builder $q) use ($request) {
-                $q->where('job_title', 'like', '%' . $request->searchByLocation . '%');
+                $q->where('job_title', 'like', '%' . $request->location . '%');
                 $q->orWhereHas(
                     'country',
                     function (Builder $q) use ($request) {
-                        $q->where('name', 'like', '%' . $request->searchByLocation . '%');
+                        $q->where('name', 'like', '%' . $request->location . '%');
                     }
                 )->orWhereHas(
                     'state',
                     function (Builder $q) use ($request) {
-                        $q->where('name', 'like', '%' . $request->searchByLocation . '%');
+                        $q->where('name', 'like', '%' . $request->location . '%');
                     }
                 )->orWhereHas(
                     'city',
                     function (Builder $q) use ($request) {
-                        $q->where('name', 'like', '%' . $request->searchByLocation . '%');
+                        $q->where('name', 'like', '%' . $request->location . '%');
                     }
                 )->orWhereHas(
                     'company.user',
@@ -579,7 +580,7 @@ class JobRepository extends BaseRepository {
         return $all;
     }
 
-    public function latestJob(): Collection|\LaravelIdea\Helper\App\Models\_IH_Job_C|array {
+    public function latestJob(): Collection|_IH_Job_C|array {
         $featureJobs = Job::has('activeFeatured')
             ->whereStatus(Job::STATUS_OPEN)
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())

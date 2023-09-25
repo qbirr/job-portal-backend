@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Livewire\JobSearch;
+use App\Http\Requests\JobSearchRequest;
 use App\Repositories\JobRepository;
 use App\Repositories\WebHomeRepository;
 use Illuminate\Http\Request;
@@ -24,9 +25,7 @@ class JobController extends Controller {
         return $this->homeRepository->jobSearch($searchTerm);
     }
 
-    public function searchJob(Request $request) {
-        $jobSearch = new JobSearch();
-        $jobSearch->mount($request);
-        return $jobSearch->searchJobs(withUser: false);
+    public function searchJob(JobSearchRequest $request) {
+        return $this->jobRepository->searchJob($request);
     }
 }

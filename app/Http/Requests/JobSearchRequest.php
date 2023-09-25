@@ -10,6 +10,10 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property int $perPage
  * @property int $page
  * @property int $job_type_id
+ * @property int $no_preference
+ * @property int $skill_id
+ * @property mixed $company_id
+ * @property mixed $experience
  */
 class JobSearchRequest extends FormRequest {
     public function rules(): array {
