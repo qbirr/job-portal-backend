@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\CompanySearchRequest;
 use App\Models\Company;
 use App\Models\CompanySize;
 use App\Models\FavouriteCompany;
@@ -22,7 +23,9 @@ use Hash;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\ValidationException;
+use LaravelIdea\Helper\App\Models\_IH_Company_C;
 use PragmaRX\Countries\Package\Countries;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -393,5 +396,43 @@ class CompanyRepository extends BaseRepository {
         });
 
         return $result;
+    }
+
+    public function search(CompanySearchRequest $request): _IH_Company_C|LengthAwarePaginator|array {
+        $query = Company::with(['user.media', 'jobs', 'activeFeatured', 'industry', 'user.city'])
+            ->whereSubmissionStatusId(Job::SUBMISSION_STATUS_APPROVED);
+        $query->whereHas('user', function (Builder $q) use ($request) {
+            $q->where('first_name', 'like', '%' . strtolower($request->name) . '%')->where('is_active', '=',
+                1);
+        });
+
+        $query->when(!empty($request->searchByCity), function (Builder $q) use ($request) {
+            $q->where('location', 'like', '%' . strtolower($request->location) . '%');
+            $q->orWhere('location2', 'like', '%' . strtolower($request->location) . '%');
+        });
+
+        $query->whereHas('industry', function (Builder $q) use ($request) {
+            $q->where('name', 'like', '%' . strtolower($request->industry) . '%');
+        });
+        $query->when(!empty($request->isFeatured), function (Builder $query) {
+            $query->has('activeFeatured');
+        });
+        $query->withCount([
+            'jobs' => function (Builder $q) {
+                $q->where('status', '!=', Job::STATUS_DRAFT);
+                $q->where('status', '!=', Job::STATUS_CLOSED);
+                $q->where('job_expiry_date', '>=', Carbon::now()->toDateString());
+            },
+        ]);
+
+        $all = $query->paginate($request->perPage);
+        $currentPage = $all->currentPage();
+        $lastPage = $all->lastPage();
+        if ($currentPage > $lastPage) {
+            $request->page = $lastPage;
+            $all = $query->paginate($request->perPage);
+        }
+
+        return $all;
     }
 }
