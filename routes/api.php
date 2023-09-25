@@ -28,7 +28,7 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::get('latest-jobs', [JobController::class, 'latestJobs']);
 Route::get('/get-jobs-search', [JobController::class, 'searchJobAutocomplete']);
 Route::post('/search-jobs', [JobController::class, 'searchJob']);
-Route::get('/job-details/{uniqueId?}', [Web\JobController::class, 'jobDetails'])->name('front.job.details');
+Route::get('/job-details/{job}', [JobController::class, 'detail']);
 Route::get('/company-lists', [Web\CompanyController::class, 'getCompaniesLists'])->name('front.company.lists');
 Route::get('/candidate-lists',
     [Web\CandidateController::class, 'getCandidatesLists'])->name('front.candidate.lists')->middleware('role:Admin|Employer');
