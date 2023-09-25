@@ -257,7 +257,7 @@ class JobRepository extends BaseRepository {
                     'user_id' => auth()->id()
                 ]);
                 $message = match ((int) $input['submission_status_id']) {
-                    2 => "Congratulation! Admin has approved Your job post.",
+                    2 => "Congratulation! Admin has approved Your job post titled: {$job->job_title}.",
                     3 => "We are sorry! Admin has rejected Your job post: {$input['submission_notes']}",
                     default => false,
                 };
