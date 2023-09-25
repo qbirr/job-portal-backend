@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\TokenController;
+use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\JobController;
-use App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +27,8 @@ Route::prefix('companies')->group(function () {
     Route::get('detail/{company}', [CompanyController::class, 'detail']);
 });
 
-
-
-Route::get('/candidate-lists',
-    [Web\CandidateController::class, 'getCandidatesLists'])->name('front.candidate.lists')->middleware('role:Admin|Employer');
+Route::middleware(['auth:sanctum', 'role:Employer'])->group(function () {
+    Route::prefix('candidates')->group(function () {
+        Route::post('search', [CandidateController::class, 'search']);
+    });
+});

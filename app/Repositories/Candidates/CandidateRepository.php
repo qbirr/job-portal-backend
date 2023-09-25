@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Candidates;
 
+use App\Http\Requests\CandidateSearchRequest;
 use App\Models\Candidate;
 use App\Models\CandidateEducation;
 use App\Models\CandidateExperience;
@@ -21,8 +22,14 @@ use Auth;
 use DB;
 use Exception;
 use Hash;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
+use LaravelIdea\Helper\App\Models\_IH_Candidate_C;
 use PragmaRX\Countries\Package\Countries;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
@@ -36,12 +43,11 @@ use Throwable;
  *
  * @version July 20, 2020, 5:48 am UTC
  */
-class CandidateRepository extends BaseRepository
-{
+class CandidateRepository extends BaseRepository {
     /**
      * @var array
      */
-    protected $fieldSearchable = [
+    protected array $fieldSearchable = [
         'father_name',
         'marital_status_id',
         'national_id_card',
@@ -60,24 +66,21 @@ class CandidateRepository extends BaseRepository
      *
      * @return array
      */
-    public function getFieldsSearchable()
-    {
+    public function getFieldsSearchable(): array {
         return $this->fieldSearchable;
     }
 
     /**
      * Configure the Model
      **/
-    public function model()
-    {
+    public function model(): string {
         return Candidate::class;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function prepareData()
-    {
+    public function prepareData(): array {
         $countries = new Countries();
         $data['countries'] = getCountries();
         $data['maritalStatus'] = MaritalStatus::toBase()->pluck('marital_status', 'id');
@@ -92,10 +95,9 @@ class CandidateRepository extends BaseRepository
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getUniqueCandidateId()
-    {
+    public function getUniqueCandidateId(): string {
         $candidateUniqueId = Str::random(12);
         while (true) {
             $isExist = Candidate::whereUniqueId($candidateUniqueId)->exists();
@@ -109,19 +111,18 @@ class CandidateRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      *
      * @throws Throwable
      */
-    public function store($input)
-    {
+    public function store(array $input): bool {
         try {
             DB::beginTransaction();
             $input['is_active'] = isset($input['is_active']) ? 1 : 0;
             $input['is_verified'] = isset($input['is_verified']) ? 1 : 0;
             $input['password'] = Hash::make($input['password']);
-            $input['dob'] = (! empty($input['dob'])) ? $input['dob'] : null;
+            $input['dob'] = (!empty($input['dob'])) ? $input['dob'] : null;
             $input['current_salary'] = removeCommaFromNumbers($input['current_salary']);
             $input['expected_salary'] = removeCommaFromNumbers($input['expected_salary']);
             $input['unique_id'] = $this->getUniqueCandidateId();
@@ -142,12 +143,12 @@ class CandidateRepository extends BaseRepository
             $user->assignRole($candidateRole);
 
             //Update Candidate Skills
-            if (isset($input['candidateSkills']) && ! empty($input['candidateSkills'])) {
+            if (!empty($input['candidateSkills'])) {
                 $user->candidateSkill()->sync($input['candidateSkills']);
             }
 
             //update Candidate Languages
-            if (isset($input['candidateLanguage']) && ! empty($input['candidateLanguage'])) {
+            if (!empty($input['candidateLanguage'])) {
                 $user->candidateLanguage()->sync($input['candidateLanguage']);
             }
 
@@ -165,21 +166,18 @@ class CandidateRepository extends BaseRepository
             DB::rollBack();
             throw new UnprocessableEntityHttpException($e->getMessage());
         }
-
-        return true;
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      *
      * @throws Throwable
      */
-    public function updateProfile($input)
-    {
+    public function updateProfile(array $input): bool {
         try {
             DB::beginTransaction();
-            $input['dob'] = (! empty($input['dob'])) ? $input['dob'] : null;
+            $input['dob'] = (!empty($input['dob'])) ? $input['dob'] : null;
             $input['current_salary'] = removeCommaFromNumbers($input['current_salary']);
             $input['expected_salary'] = removeCommaFromNumbers($input['expected_salary']);
 
@@ -205,12 +203,12 @@ class CandidateRepository extends BaseRepository
             $user->candidate->update($input);
 
             //Update Candidate Skills
-            if (isset($input['candidateSkills']) && ! empty($input['candidateSkills'])) {
+            if (isset($input['candidateSkills']) && !empty($input['candidateSkills'])) {
                 $user->candidateSkill()->sync($input['candidateSkills']);
             }
 
             //update Candidate Languages
-            if (isset($input['candidateLanguage']) && ! empty($input['candidateLanguage'])) {
+            if (isset($input['candidateLanguage']) && !empty($input['candidateLanguage'])) {
                 $user->candidateLanguage()->sync($input['candidateLanguage']);
             }
 
@@ -224,13 +222,12 @@ class CandidateRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      *
      * @throws Throwable
      */
-    public function updateGeneralInformation($input)
-    {
+    public function updateGeneralInformation(array $input): User|bool {
         try {
             DB::beginTransaction();
             /** @var User $user */
@@ -245,7 +242,7 @@ class CandidateRepository extends BaseRepository
             $user->update($userInput);
             $user->candidate->update($input);
             //Update Candidate Skills
-            if (isset($input['candidateSkills']) && ! empty($input['candidateSkills'])) {
+            if (isset($input['candidateSkills']) && !empty($input['candidateSkills'])) {
                 $user->candidateSkill()->sync($input['candidateSkills']);
             }
             DB::commit();
@@ -258,11 +255,10 @@ class CandidateRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      */
-    public function uploadResume($input)
-    {
+    public function uploadResume(array $input): bool {
         try {
             $user = Auth::user();
             /** @var Candidate $candidate */
@@ -272,10 +268,10 @@ class CandidateRepository extends BaseRepository
                 $media = Media::where('model_type', '=', Candidate::class)->where('model_id', '=', $candidate->id)->where('custom_properties->is_default', '=', true)->first();
                 if (isset($media)) {
                     throw new BadRequestHttpException(
-                       __('messages.flash.default_resume_already_upload'),
-                       null,
-                       \Illuminate\Http\Response::HTTP_BAD_REQUEST
-                   );
+                        __('messages.flash.default_resume_already_upload'),
+                        null,
+                        Response::HTTP_BAD_REQUEST
+                    );
                 }
             }
 
@@ -293,19 +289,18 @@ class CandidateRepository extends BaseRepository
     }
 
     /**
-     * @param  Candidate  $candidate
-     * @param  array  $input
+     * @param Candidate $candidate
+     * @param array $input
      * @return bool
      */
-    public function updateCandidate($candidate, $input)
-    {
+    public function updateCandidate(Candidate $candidate, array $input): bool {
         unset($input['password']);
 
         $input['is_active'] = isset($input['is_active']) ? 1 : 0;
         $input['is_verified'] = isset($input['is_verified']) ? 1 : 0;
-        $input['dob'] = (! empty($input['dob'])) ? $input['dob'] : null;
-        $input['state'] = (! empty($input['state'])) ? $input['state'] : null;
-        $input['city'] = (! empty($input['city'])) ? $input['city'] : null;
+        $input['dob'] = (!empty($input['dob'])) ? $input['dob'] : null;
+        $input['state'] = (!empty($input['state'])) ? $input['state'] : null;
+        $input['city'] = (!empty($input['city'])) ? $input['city'] : null;
         $input['current_salary'] = removeCommaFromNumbers($input['current_salary']);
         $input['expected_salary'] = removeCommaFromNumbers($input['expected_salary']);
         $input['available_at'] = $input['immediate_available'] == 0 ? $input['available_at'] : null;
@@ -317,17 +312,17 @@ class CandidateRepository extends BaseRepository
         $user->update($input);
         $candidate->update($input);
 
-        if (! $user->email_verified_at && $input['is_verified'] == 1) {
+        if (!$user->email_verified_at && $input['is_verified'] == 1) {
             $user->update(['email_verified_at' => Carbon::now()]);
         }
 
         //Update Candidate Skills
-        if (isset($input['candidateSkills']) && ! empty($input['candidateSkills'])) {
+        if (isset($input['candidateSkills']) && !empty($input['candidateSkills'])) {
             $user->candidateSkill()->sync($input['candidateSkills']);
         }
 
         //update Candidate Languages
-        if (isset($input['candidateLanguage']) && ! empty($input['candidateLanguage'])) {
+        if (isset($input['candidateLanguage']) && !empty($input['candidateLanguage'])) {
             $user->candidateLanguage()->sync($input['candidateLanguage']);
         }
 
@@ -335,15 +330,14 @@ class CandidateRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      */
-    public function changePassword($input)
-    {
+    public function changePassword(array $input): bool {
         try {
             /** @var User $user */
             $user = Auth::user();
-            if (! Hash::check($input['password_current'], $user->password)) {
+            if (!Hash::check($input['password_current'], $user->password)) {
                 throw new UnprocessableEntityHttpException('Current password is invalid.');
             }
             $input['password'] = Hash::make($input['password']);
@@ -356,11 +350,10 @@ class CandidateRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      */
-    public function profileUpdate($input)
-    {
+    public function profileUpdate(array $input): bool {
         /** @var User $user */
         $user = Auth::user();
 
@@ -380,14 +373,13 @@ class CandidateRepository extends BaseRepository
 
     /**
      * @param $candidate
-     * @return mixed
+     * @return array
      */
-    public function getCandidateDetail($candidate)
-    {
+    public function getCandidateDetail($candidate): array {
         $candidateDetails = Candidate::with('user', 'functionalArea')->findOrFail($candidate);
         // update profile views count
         if ($candidateDetails->user->id != getLoggedInUserId()) {
-            if (! session()->has('user')) {
+            if (!session()->has('user')) {
                 $candidateDetails->user->increment('profile_views');
             }
         }
@@ -409,22 +401,20 @@ class CandidateRepository extends BaseRepository
 
     /**
      * @param $companyId
-     * @return mixed
+     * @return bool
      */
-    public function isAlreadyReported($candidateId)
-    {
+    public function isAlreadyReported($candidateId): bool {
         return ReportedToCandidate::where('user_id', Auth::id())
             ->where('candidate_id', $candidateId)
             ->exists();
     }
 
-    public function storeReportCandidate($input)
-    {
+    public function storeReportCandidate($input): bool {
         $candidateReportedAsAbuse = ReportedToCandidate::where('user_id', $input['userId'])
             ->where('candidate_id', $input['candidateId'])
             ->exists();
 
-        if (! $candidateReportedAsAbuse) {
+        if (!$candidateReportedAsAbuse) {
             $reportedCandidateNote = trim($input['note']);
             if (empty($reportedCandidateNote)) {
                 throw ValidationException::withMessages([
@@ -445,10 +435,9 @@ class CandidateRepository extends BaseRepository
 
     /**
      * @param $reportedToCandidate
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Builder|Builder[]|Collection|Model|null
      */
-    public function getReportedToCandidate($reportedToCandidate)
-    {
+    public function getReportedToCandidate($reportedToCandidate): Model|Collection|Builder|array|null {
         $query = ReportedToCandidate::with([
             'user', 'candidate.user',
         ])->select('reported_to_candidates.*')->findOrFail($reportedToCandidate);
@@ -457,10 +446,9 @@ class CandidateRepository extends BaseRepository
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getJobAlerts()
-    {
+    public function getJobAlerts(): array {
         $candidate = Candidate::with('jobAlerts')->whereUserId(Auth::id())->first();
         $data['jobTypes'] = JobType::all();
         $data['jobAlerts'] = $candidate->jobAlerts()->pluck('job_type_id')->toArray();
@@ -473,14 +461,13 @@ class CandidateRepository extends BaseRepository
      * @param $input
      * @return bool
      */
-    public function updateJobAlerts($input)
-    {
+    public function updateJobAlerts($input): bool {
         $candidate = Candidate::with('jobAlerts')->whereUserId(Auth::id())->first();
         try {
             $candidate->job_alert = (isset($input['job_alert'])) ? 1 : 0;
             $candidate->update();
 
-            if (isset($input['job_types']) && ! empty($input['job_types'])) {
+            if (isset($input['job_types']) && !empty($input['job_types'])) {
                 $candidate->jobAlerts()->sync($input['job_types']);
             } else {
                 $candidate->jobAlerts()->sync([]);
@@ -490,5 +477,67 @@ class CandidateRepository extends BaseRepository
         } catch (Exception $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         }
+    }
+
+    public function search(CandidateSearchRequest $request): array|LengthAwarePaginator|_IH_Candidate_C {
+        /** @var Candidate $query */
+        $query = Candidate::with(['user', 'jobApplications', 'industry'])->whereHas('user', function ($q) {
+            $q->where('is_active', '=', 1);
+        });
+
+        $query->when($request->name != '', function (Builder $q) use ($request) {
+            $q->whereHas('user', function (Builder $query) use ($request) {
+                $query->where('first_name', 'like', '%'.strtolower($request->name).'%');
+            });
+        });
+
+        $query->when($request->location != '', function (Builder $q) use ($request) {
+            $q->whereHas('user', function (Builder $query) use ($request) {
+                $query->WhereHas('country', function (Builder $q) use ($request) {
+                    $q->where('name', 'like', '%'.$request->location.'%');
+                });
+                $query->orWhereHas('state', function (Builder $q) use ($request) {
+                    $q->where('name', 'like', '%'.$request->location.'%');
+                });
+                $query->orWhereHas('city', function (Builder $q) use ($request) {
+                    $q->where('name', 'like', '%'.$request->location.'%');
+                });
+            });
+        });
+
+        $query->when($request->gender == 'all', function (Builder $q) use ($request) {
+            $q->whereHas('user', function (Builder $q) {
+                $q->whereIn('gender', [0, 1])->orWhereNull('gender');
+            });
+        });
+
+        $query->when($request->gender == 'male', function (Builder $q) {
+            $q->whereHas('user', function (Builder $q) {
+                $q->where('gender', '=', 0);
+            });
+        });
+
+        $query->when($request->gender == 'female', function (Builder $q) {
+            $q->whereHas('user', function (Builder $q) {
+                $q->where('gender', '=', 1);
+            });
+        });
+
+        $query->when(! empty($request->min), function (Builder $q) use ($request) {
+            $q->where('expected_salary', '>=', $request->min);
+        });
+        $query->when(! empty($request->max), function (Builder $q) use ($request) {
+            $q->where('expected_salary', '<=', $request->max);
+        });
+
+        $all = $query->paginate($request->perPage);
+        $currentPage = $all->currentPage();
+        $lastPage = $all->lastPage();
+        if ($currentPage > $lastPage) {
+            $request->page = $lastPage;
+            $all = $query->paginate($request->perPage);
+        }
+
+        return $all;
     }
 }
