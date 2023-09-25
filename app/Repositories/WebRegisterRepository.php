@@ -80,6 +80,12 @@ class WebRegisterRepository
                         'New Employer Registered',
                     ]) : false;
 
+                addNotification([
+                    Notification::NEW_EMPLOYER_REGISTERED,
+                    $user->id,
+                    Notification::EMPLOYER,
+                    'Welcome! Complete your company profile so Admin can verify your registration shortly'
+                ]);
                 /** @var SubscriptionRepository $subscriptionRepo */
                 $subscriptionRepo = app(SubscriptionRepository::class);
                 $subscriptionRepo->createStripeCustomer($user);

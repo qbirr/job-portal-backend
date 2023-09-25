@@ -188,13 +188,35 @@ class CompanyRepository extends BaseRepository {
                     'notes' => '',
                     'user_id' => auth()->id()
                 ]);
-            } elseif (isset($input['submission_status_id']) && auth()->user()->role('Admin') && $oldSubmissionStatusId != $input['submission_status_id'])
+
+                addNotification([
+                    Notification::NEW_EMPLOYER_REGISTERED,
+                    $user->id,
+                    Notification::ADMIN,
+                    "Employer {$user->email} change company data"
+                ]);
+            } elseif (isset($input['submission_status_id']) && auth()->user()->role('Admin') && $oldSubmissionStatusId != $input['submission_status_id']) {
                 SubmissionLog::create([
                     'company_id' => $company->id,
                     'submission_status_id' => $input['submission_status_id'],
                     'notes' => $input['submission_notes'] ?? '',
                     'user_id' => auth()->id()
                 ]);
+                $message = match ((int) $input['submission_status_id']) {
+                    2 => "Congratulation! Admin has approved Your company registration, you may now post new jobs.",
+                    3 => "We are sorry! Admin has rejected Your company registration: {$input['submission_notes']}",
+                    default => false,
+                };
+                logger($input['submission_status_id']);
+                logger($message);
+                if ($message)
+                    addNotification([
+                        Notification::NEW_EMPLOYER_REGISTERED,
+                        $user->id,
+                        Notification::EMPLOYER,
+                        $message
+                    ]);
+            }
 
             DB::commit();
 
