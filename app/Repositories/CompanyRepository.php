@@ -191,7 +191,7 @@ class CompanyRepository extends BaseRepository {
 
                 addNotification([
                     Notification::NEW_EMPLOYER_REGISTERED,
-                    $user->id,
+                    User::role('Admin')->first()->id,
                     Notification::ADMIN,
                     "Employer {$user->email} change company data"
                 ]);

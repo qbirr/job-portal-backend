@@ -245,17 +245,30 @@ class JobRepository extends BaseRepository {
 
                 addNotification([
                     Notification::JOB_APPLICATION_SUBMITTED,
-                    $user->id,
+                    User::role('Admin')->first()->id,
                     Notification::ADMIN,
-                    "Employer {$user->email} change company data"
+                    "Employer {$company->user->email} change job data"
                 ]);
-            } elseif (isset($input['submission_status_id']) && auth()->user()->role('Admin') && $oldSubmissionStatusId != $input['submission_status_id'])
+            } elseif (isset($input['submission_status_id']) && auth()->user()->role('Admin') && $oldSubmissionStatusId != $input['submission_status_id']) {
                 JobSubmissionLog::create([
                     'job_id' => $job->id,
                     'submission_status_id' => $input['submission_status_id'],
                     'notes' => $input['submission_notes'] ?? '',
                     'user_id' => auth()->id()
                 ]);
+                $message = match ((int) $input['submission_status_id']) {
+                    2 => "Congratulation! Admin has approved Your job post.",
+                    3 => "We are sorry! Admin has rejected Your job post: {$input['submission_notes']}",
+                    default => false,
+                };
+                if ($message)
+                    addNotification([
+                        Notification::JOB_APPLICATION_SUBMITTED,
+                        $company->user->id,
+                        Notification::EMPLOYER,
+                        $message
+                    ]);
+            }
 
             DB::commit();
 
