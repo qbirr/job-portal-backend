@@ -24,8 +24,10 @@ Route::prefix('jobs')->group(function () {
 
 Route::prefix('companies')->group(function () {
     Route::post('search', [CompanyController::class, 'search']);
+    Route::get('detail/{company}', [CompanyController::class, 'detail']);
 });
+
+
 
 Route::get('/candidate-lists',
     [Web\CandidateController::class, 'getCandidatesLists'])->name('front.candidate.lists')->middleware('role:Admin|Employer');
-Route::get('/company-details/{uniqueId?}', [Web\CompanyController::class, 'getCompaniesDetails'])->name('front.company.details');

@@ -102,6 +102,10 @@ class Company extends Model implements HasMedia {
 
     public const DEACTIVE = 0;
 
+    const SUBMISSION_STATUS_PENDING = 1;
+    const SUBMISSION_STATUS_APPROVED = 2;
+    const SUBMISSION_STATUS_REJECTED = 3;
+    const SUBMISSION_STATUS_RESUBMIT = 4;
     const BTN_BTN_COLOR = [
         'btn btn-green btn-small-effect',
         'btn btn-purple btn-small btn-effect',
