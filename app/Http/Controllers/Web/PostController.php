@@ -13,50 +13,45 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
-class PostController extends AppBaseController
-{
+class PostController extends AppBaseController {
     /** @var PostRepository */
-    private $postRepository;
+    private PostRepository $postRepository;
 
-    public function __construct(PostRepository $postRepository)
-    {
+    public function __construct(PostRepository $postRepository) {
         $this->postRepository = $postRepository;
     }
 
     /**
      * @return Application|Factory|View
      */
-    public function getBlogLists()
-    {
+    public function getBlogLists() {
         $data = $this->postRepository->getBlogLists();
 
         return view('front_web.blogs.index')->with($data);
     }
 
     /**
-     * @param  Post  $post
+     * @param Post $post
      * @return Application|Factory|View
      */
-    public function getBlogDetails(Post $post)
-    {
+    public function getBlogDetails(Post $post) {
         $data = $this->postRepository->getBlogDetails($post);
         $url = [
-            'gmail' => 'https://plus.google.com/share?url='.url()->current(),
-            'twitter' => 'https://twitter.com/intent/tweet?url='.url()->current(),
-            'facebook' => 'https://www.facebook.com/sharer/sharer.php?u='.url()->current(),
-            'pinterest' => 'http://pinterest.com/pin/create/button/?url='.url()->current(),
-            'linkedin' => 'https://www.linkedin.com/shareArticle/?url='.url()->current(),
+            'gmail' => 'https://plus.google.com/share?url=' . url()->current(),
+            'twitter' => 'https://twitter.com/intent/tweet?url=' . url()->current(),
+            'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . url()->current(),
+            'pinterest' => 'http://pinterest.com/pin/create/button/?url=' . url()->current(),
+            'linkedin' => 'https://www.linkedin.com/shareArticle/?url=' . url()->current(),
         ];
 
         return view('front_web.blogs.blogs_details', compact('url'))->with($data);
     }
 
     /**
-     * @param  PostCategory  $postCategory
+     * @param PostCategory $postCategory
      * @return Application|Factory|View
      */
-    public function getBlogDetailsByCategory(PostCategory $postCategory)
-    {
+    public function getBlogDetailsByCategory(PostCategory $postCategory) {
         $data = $this->postRepository->getBlogDetailsByCategory($postCategory);
 
         return view('front_web.blogs.blogs_based_on_category')->with($data);
@@ -65,12 +60,11 @@ class PostController extends AppBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  int  $blogId
-     * @param  CreateBlogCommentRequest  $request
+     * @param int $blogId
+     * @param CreateBlogCommentRequest $request
      * @return JsonResponse
      */
-    public function blogCommentStore($blogId, CreateBlogCommentRequest $request): JsonResponse
-    {
+    public function blogCommentStore(int $blogId, CreateBlogCommentRequest $request): JsonResponse {
         $input = $request->all();
         $comment = $this->postRepository->createComment($blogId, $input);
         $comment = PostComment::with('user')->find($comment->id);
@@ -79,10 +73,10 @@ class PostController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
+     * @return JsonResponse
      */
-    public function blogCommentDelete($id)
-    {
+    public function blogCommentDelete(int $id) {
         $commentId = PostComment::where('id', $id);
         $commentId->delete();
 
@@ -90,25 +84,27 @@ class PostController extends AppBaseController
     }
 
     /**
-     * @param  PostComment  $postComment
+     * @param PostComment $postComment
      * @return mixed
      */
-    public function blogCommentEdit(PostComment $postComment)
-    {
+    public function blogCommentEdit(PostComment $postComment) {
         return $this->sendResponse($postComment, __('messages.flash.comment_edit'));
     }
 
     /**
-     * @param  CreateBlogCommentRequest  $request
-     * @param  int  $id
+     * @param CreateBlogCommentRequest $request
+     * @param int $id
      * @return mixed
      */
-    public function blogCommentUpdate(CreateBlogCommentRequest $request, $id)
-    {
+    public function blogCommentUpdate(CreateBlogCommentRequest $request, int $id) {
         $input = $request->except(['_token', 'comment-id']);
         $comment = PostComment::where('id', $id);
         $comment->update($input);
 
         return $this->sendResponse($input, __('messages.flash.comment_updated'));
+    }
+
+    public function fetch() {
+        return $this->postRepository->getBlogLists();
     }
 }
