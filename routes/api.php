@@ -25,6 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('sanctum/token', [TokenController::class, 'login']);
 Route::post('register', [RegisterController::class, 'register']);
 
+Route::get('latest-jobs', [JobController::class, 'latestJobs']);
 Route::get('/get-jobs-search', [JobController::class, 'searchJobAutocomplete'])->name('get.jobs.search');
 Route::get('/search-jobs', [JobController::class, 'searchJob'])->name('front.search.jobs');
 Route::get('/job-details/{uniqueId?}', [Web\JobController::class, 'jobDetails'])->name('front.job.details');

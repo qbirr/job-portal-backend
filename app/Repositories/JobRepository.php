@@ -578,4 +578,24 @@ class JobRepository extends BaseRepository {
 
         return $all;
     }
+
+    public function latestJob() {
+        $latestJobs = Job::whereStatus(Job::STATUS_OPEN)
+            ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
+            ->where('is_suspended', '=', Job::NOT_SUSPENDED)
+            ->with(['company', 'jobCategory', 'jobsSkill'])
+            ->orderBy('created_at', 'desc')
+            ->limit(6)
+            ->get();
+
+        $featureJobs = Job::has('activeFeatured')
+            ->whereStatus(Job::STATUS_OPEN)
+            ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
+            ->where('is_suspended', '=', Job::NOT_SUSPENDED)
+            ->with(['company', 'jobCategory', 'jobsSkill', 'activeFeatured'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return $latestJobs->merge($featureJobs);
+    }
 }
