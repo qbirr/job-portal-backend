@@ -242,6 +242,13 @@ class JobRepository extends BaseRepository {
                     'notes' => '',
                     'user_id' => auth()->id()
                 ]);
+
+                addNotification([
+                    Notification::JOB_APPLICATION_SUBMITTED,
+                    $user->id,
+                    Notification::ADMIN,
+                    "Employer {$user->email} change company data"
+                ]);
             } elseif (isset($input['submission_status_id']) && auth()->user()->role('Admin') && $oldSubmissionStatusId != $input['submission_status_id'])
                 JobSubmissionLog::create([
                     'job_id' => $job->id,

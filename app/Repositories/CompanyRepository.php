@@ -207,8 +207,6 @@ class CompanyRepository extends BaseRepository {
                     3 => "We are sorry! Admin has rejected Your company registration: {$input['submission_notes']}",
                     default => false,
                 };
-                logger($input['submission_status_id']);
-                logger($message);
                 if ($message)
                     addNotification([
                         Notification::NEW_EMPLOYER_REGISTERED,

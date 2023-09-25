@@ -268,12 +268,12 @@ class JobController extends AppBaseController {
         $data['jobTags'] = $job->jobsTag()->pluck('tag_id')->toArray();
         $states = $cities = null;
         $submissionStatuses = SubmissionStatus::pluck('status_name', 'id');
-        if (isset($job->country_id)) {
+        /*if (isset($job->country_id)) {
             $states = getStates($job->country_id);
-        }
-        if (isset($job->state_id)) {
-            $cities = getCities($job->state_id);
-        }
+        }*/
+//        if (isset($job->state_id)) {
+            $cities = getCities(/*$job->state_id*/);
+//        }
         $countries = Country::pluck('name', 'id');
 
         return view('jobs.edit', compact('data', 'job', 'cities', 'states', 'countries', 'submissionStatuses'));
