@@ -107,4 +107,19 @@ class PostController extends AppBaseController {
     public function fetch() {
         return $this->postRepository->getBlogLists();
     }
+
+    public function detail(Post $post) {
+        $data = $this->postRepository->getBlogDetails($post);
+        $url = [
+            'gmail' => 'https://plus.google.com/share?url=' . url()->current(),
+            'twitter' => 'https://twitter.com/intent/tweet?url=' . url()->current(),
+            'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . url()->current(),
+            'pinterest' => 'https://pinterest.com/pin/create/button/?url=' . url()->current(),
+            'linkedin' => 'https://www.linkedin.com/shareArticle/?url=' . url()->current(),
+        ];
+        return [
+            'article' => $data,
+            'share_url' => $url,
+        ];
+    }
 }
