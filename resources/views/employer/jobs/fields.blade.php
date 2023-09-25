@@ -62,7 +62,7 @@
         <span class="required"></span>
         {{ Form::select('salary_period_id', $data['salaryPeriods'], null, ['id'=>'salaryPeriodsId','class' => 'form-select','placeholder' => __('messages.company.select_salary_period'),'data-control'=>'select2','required']) }}
     </div>
-    <div class="col-xl-4 col-md-4 col-sm-12 mb-5">
+    {{--<div class="col-xl-4 col-md-4 col-sm-12 mb-5">
         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label']) }}
         <span class="required"></span>
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-select','placeholder' => __('messages.company.select_country'),'data-control'=>'select2','required']) }}
@@ -71,11 +71,11 @@
         {{ Form::label('state', __('messages.company.state').':', ['class' => 'form-label']) }}
         <span class="required"></span>
         {{ Form::select('state_id', [], null, ['id'=>'stateId','class' => 'form-select','placeholder' => __('messages.company.select_state'),'data-control'=>'select2','required']) }}
-    </div>
-    <div class="col-xl-4 col-md-4 col-sm-12 mb-5">
+    </div>--}}
+    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label']) }}
         <span class="required"></span>
-        {{ Form::select('city_id', [], null, ['id'=>'cityId','class' => 'form-select','placeholder' => __('messages.company.select_city'),'data-control'=>'select2','required']) }}
+        {{ Form::select('city_id', getCities(), null, ['id'=>'cityId','class' => 'form-select','placeholder' => __('messages.company.select_city'),'data-control'=>'select2','required']) }}
     </div>
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('career_level_id', __('messages.job.career_level').':', ['class' => 'form-label']) }}

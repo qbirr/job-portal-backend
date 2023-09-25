@@ -228,9 +228,9 @@ function getStates($countryId)
  * @param $stateId
  * @return array
  */
-function getCities($stateId)
+function getCities($stateId = null)
 {
-    return City::where('state_id', $stateId)->orderBy('name')->pluck('name', 'id')->toArray();
+    return City::/*where('state_id', $stateId)->*/orderBy('name')->pluck('name', 'id')->toArray();
 }
 
 /**

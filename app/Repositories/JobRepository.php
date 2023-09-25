@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\JobSearchRequest;
 use App\Models\Candidate;
 use App\Models\CareerLevel;
 use App\Models\Company;
@@ -441,5 +442,120 @@ class JobRepository extends BaseRepository {
             'user.media', 'user.country', 'user.state', 'user.city',
         ])->select('reported_jobs.*')->orderBy('created_at',
             'desc')->findOrFail($reportedJobID);
+    }
+
+    public function searchJob(JobSearchRequest $request) {
+        /** @var Job $query */
+        $query = Job::with([
+            'company', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory',
+        ])
+            ->whereStatus(Job::STATUS_OPEN)->where('status', '!=', Job::STATUS_DRAFT)
+            ->whereIsSuspended(Job::NOT_SUSPENDED)
+            ->whereSubmissionStatusId(Job::SUBMISSION_STATUS_APPROVED)
+            ->whereDate('job_expiry_date', '>=', Carbon::tomorrow()->toDateString());
+
+        $query->when(!empty($request->types), function (Builder $q) use ($request) {
+            $q->whereIn('job_type_id', $request->job_type_id);
+        });
+
+        $query->when(!empty($request->category), function (Builder $q) use ($request) {
+            $q->where('job_category_id', '=', $request->job_category_id);
+        });
+
+        $query->when(!empty($request->salaryFrom), function (Builder $q) use ($request) {
+            $q->where('salary_from', '>=', $request->salary_from);
+        });
+
+        $query->when(!empty($request->salaryTo), function (Builder $q) use ($request) {
+            $q->where('salary_to', '<=', $request->salary_to);
+        });
+
+        $query->when(!empty($request->careerLevel), function (Builder $q) use ($request) {
+            $q->where('career_level_id', '=', $request->career_level_id);
+        });
+
+        $query->when(!empty($request->functionalArea), function (Builder $q) use ($request) {
+            $q->where('functional_area_id', '=', $request->functional_area_id);
+        });
+
+        $query->when($request->gender != '', function (Builder $q) use ($request) {
+            $q->where('no_preference', '=', $request->gender);
+        });
+
+        $query->when(!empty($request->skill), function (Builder $q) use ($request) {
+            $q->whereHas('jobsSkill', function (Builder $q) use ($request) {
+                $q->where('skill_id', '=', $request->skill);
+            });
+        });
+        $query->when(!empty($request->company), function (Builder $q) use ($request) {
+            $q->whereHas('company', function (Builder $q) use ($request) {
+                $q->where('company_id', '=', $request->company);
+            });
+        });
+
+        $query->when(!empty($request->jobExperience), function (Builder $q) use ($request) {
+            $q->where('experience', '=', $request->jobExperience);
+        });
+
+        $query->when(!empty($request->featuredJob), function (Builder $q) use ($request) {
+            $q->has('activeFeatured')
+                ->whereStatus(Job::STATUS_OPEN)
+                ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
+                ->where('is_suspended', '=', Job::NOT_SUSPENDED);
+        });
+
+        $query->when(!empty($request->searchByLocation), function (Builder $q) use ($request) {
+            $q->where(function (Builder $q) use ($request) {
+                $q->where('job_title', 'like', '%' . $request->searchByLocation . '%');
+                $q->orWhereHas(
+                    'country',
+                    function (Builder $q) use ($request) {
+                        $q->where('name', 'like', '%' . $request->searchByLocation . '%');
+                    }
+                )->orWhereHas(
+                    'state',
+                    function (Builder $q) use ($request) {
+                        $q->where('name', 'like', '%' . $request->searchByLocation . '%');
+                    }
+                )->orWhereHas(
+                    'city',
+                    function (Builder $q) use ($request) {
+                        $q->where('name', 'like', '%' . $request->searchByLocation . '%');
+                    }
+                )->orWhereHas(
+                    'company.user',
+                    function (Builder $q) use ($request) {
+                        $q->where('first_name', 'like', '%' . $request->location . '%')
+                            ->orWhere('last_name', 'like', '%' . $request->location . '%');
+                    }
+                )->orWhereHas(
+                    'jobsSkill',
+                    function (Builder $q) use ($request) {
+                        $q->where('name', 'like', '%' . $request->location . '%');
+                    }
+                );
+            });
+        });
+
+        $query->when(!empty($request->title), function (Builder $q) use ($request) {
+            $q->where('job_title', 'like', '%' . $request->title . '%')
+                ->orWhereHas('jobsSkill', function (Builder $q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->title . '%');
+                })
+                ->orWhereHas('company.user', function (Builder $q) use ($request) {
+                    $q->where('first_name', 'like', '%' . $request->title . '%')
+                        ->orWhere('last_name', 'like', '%' . $request->title . '%');
+                });
+        });
+
+        $all = $query->paginate($request->perPage);
+        $currentPage = $all->currentPage();
+        $lastPage = $all->lastPage();
+        if ($currentPage > $lastPage) {
+            $request->page = $lastPage;
+            $all = $query->paginate($request->perPage);
+        }
+
+        return $all;
     }
 }
