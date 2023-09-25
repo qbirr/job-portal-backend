@@ -40,4 +40,5 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->group(function () {
 Route::prefix('articles')->group(function (){
     Route::get('/', [PostController::class, 'fetch']);
     Route::get('detail/{post}', [PostController::class, 'detail']);
+    Route::get('by-category/{postCategory}', [PostController::class, 'detailByCategory']);
 });

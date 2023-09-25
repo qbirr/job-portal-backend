@@ -122,4 +122,8 @@ class PostController extends AppBaseController {
             'share_url' => $url,
         ];
     }
+
+    public function detailByCategory(PostCategory $postCategory) {
+        return $this->postRepository->getBlogDetailsByCategory($postCategory);
+    }
 }
