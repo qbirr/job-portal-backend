@@ -30,5 +30,6 @@ Route::prefix('companies')->group(function () {
 Route::middleware(['auth:sanctum', 'role:Employer'])->group(function () {
     Route::prefix('candidates')->group(function () {
         Route::post('search', [CandidateController::class, 'search']);
+        Route::get('detail/{candidate}', [CandidateController::class, 'detail']);
     });
 });

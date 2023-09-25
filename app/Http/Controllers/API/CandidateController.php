@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CandidateSearchRequest;
+use App\Models\Candidate;
 use App\Repositories\Candidates\CandidateRepository;
 
 class CandidateController extends Controller {
@@ -14,5 +15,9 @@ class CandidateController extends Controller {
 
     public function search(CandidateSearchRequest $request) {
         return $this->candidateRepository->search($request);
+    }
+
+    public function detail(Candidate $candidate) {
+        return $this->candidateRepository->getCandidateDetail($candidate->id);
     }
 }
