@@ -17,9 +17,10 @@ use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Cashier\Billable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
@@ -125,9 +126,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereThemeMode($value)
  * @mixin Eloquent
  */
-class User extends Authenticatable implements HasMedia
-{
-    use Notifiable, HasRoles, InteractsWithMedia, Billable;
+class User extends Authenticatable implements HasMedia {
+    use HasApiTokens, Notifiable, HasRoles, InteractsWithMedia, Billable;
 
     const DARK_MODE = 1;
 
@@ -202,56 +202,52 @@ class User extends Authenticatable implements HasMedia
     /**
      * @return BelongsTo
      */
-    public function country()
-    {
+    public function country(): BelongsTo {
         return $this->belongsTo(Country::class, 'country_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function state()
-    {
+    public function state(): BelongsTo {
         return $this->belongsTo(State::class, 'state_id');
     }
 
     /**
      * @return BelongsTo
      */
-    public function city()
-    {
+    public function city(): BelongsTo {
         return $this->belongsTo(City::class, 'city_id');
     }
 
-    public function getCountryNameAttribute()
-    {
-        if (! empty($this->country)) {
+    public function getCountryNameAttribute(): ?string {
+        if (!empty($this->country)) {
             return $this->country->name;
         }
+        return null;
     }
 
-    public function getStateNameAttribute()
-    {
-        if (! empty($this->state)) {
+    public function getStateNameAttribute(): ?string {
+        if (!empty($this->state)) {
             return $this->state->name;
         }
+        return null;
     }
 
-    public function getCityNameAttribute()
-    {
-        if (! empty($this->city)) {
+    public function getCityNameAttribute(): ?string {
+        if (!empty($this->city)) {
             return $this->city->name;
         }
+        return null;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAvatarAttribute()
-    {
+    public function getAvatarAttribute(): string {
         /** @var Media $media */
         $media = $this->getMedia(self::PROFILE)->first();
-        if (! empty($media)) {
+        if (!empty($media)) {
             return $media->getFullUrl();
         }
 
@@ -270,7 +266,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * @var array
      */
-    public static $messages = [
+    public static array $messages = [
         'email.regex' => 'Please enter valid email.',
     ];
 
@@ -308,56 +304,49 @@ class User extends Authenticatable implements HasMedia
     /**
      * @return string
      */
-    public function getFullNameAttribute()
-    {
-        return ucfirst($this->first_name).' '.ucfirst($this->last_name);
+    public function getFullNameAttribute(): string {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
     }
 
     /**
      * @return HasOne
      */
-    public function candidate()
-    {
+    public function candidate(): HasOne {
         return $this->hasOne(Candidate::class, 'user_id', 'id');
     }
 
     /**
      * @return HasOne
      */
-    public function company()
-    {
+    public function company(): HasOne {
         return $this->hasOne(Company::class, 'user_id', 'id');
     }
 
     /**
      * @return BelongsToMany
      */
-    public function candidateSkill()
-    {
+    public function candidateSkill(): BelongsToMany {
         return $this->belongsToMany(Skill::class, 'candidate_skills', 'user_id', 'skill_id');
     }
 
     /**
      * @return BelongsToMany
      */
-    public function candidateLanguage()
-    {
+    public function candidateLanguage(): BelongsToMany {
         return $this->belongsToMany(Language::class, 'candidate_language', 'user_id', 'language_id');
     }
 
     /**
      * @return HasMany
      */
-    public function followings()
-    {
+    public function followings(): HasMany {
         return $this->hasMany(FavouriteCompany::class, 'user_id');
     }
 
     /**
      * @return bool
      */
-    public function getIsOnlineProfileAvailbalAttribute()
-    {
+    public function getIsOnlineProfileAvailbalAttribute(): bool {
         if (empty($this->facebook_url) && empty($this->twitter_url) && empty($this->linkedin_url) && empty($this->google_plus_url) && empty($this->pinterest_url)) {
             return false;
         }
@@ -365,19 +354,17 @@ class User extends Authenticatable implements HasMedia
         return true;
     }
 
-    public function sendEmailVerificationNotification()
-    {
+    public function sendEmailVerificationNotification(): void {
         $this->notify(new UserVerifyNotification($this));  //pass the currently logged in user to the notification class
     }
 
     /**
      * Send the password reset notification.
      *
-     * @param  string  $token
+     * @param string $token
      * @return void
      */
-    public function sendPasswordResetNotification($token)
-    {
+    public function sendPasswordResetNotification($token): void {
         $this->notify(new PasswordReset($token));
     }
 }
