@@ -31,6 +31,10 @@ Route::prefix('jobs')->group(function () {
     Route::get('categories', [CategoriesController::class, 'fetch']);
     Route::get('types', [JobTypeController::class, 'fetch']);
     Route::get('skills', [SkillController::class, 'fetch']);
+
+    Route::prefix('salaries')->group(function () {
+        Route::get('currencies', [SalaryCurrencyController::class, 'fetch']);
+    });
 });
 
 Route::prefix('companies')->group(function () {
@@ -56,7 +60,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
 
     Route::prefix('jobs')->group(function () {
         Route::post('/', [JobController::class, 'employerJobs']);
-        Route::get('{jobId}/applications', [JobApplicationController::class, 'index'])->name('job-applications');
+//        Route::get('{jobId}/applications', [JobApplicationController::class, 'index'])->name('job-applications');
     });
 });
 
@@ -66,5 +70,3 @@ Route::prefix('articles')->group(function () {
     Route::get('categories', [PostCategoryController::class, 'fetch']);
     Route::get('by-category/{postCategory}', [PostController::class, 'detailByCategory']);
 });
-
-Route::get('salary-currencies', [SalaryCurrencyController::class, 'fetch']);
