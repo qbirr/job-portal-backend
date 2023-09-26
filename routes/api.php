@@ -12,9 +12,11 @@ use App\Http\Controllers\JobShiftController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostCategoryController;
+use App\Http\Controllers\RequiredDegreeLevelController;
 use App\Http\Controllers\SalaryCurrencyController;
 use App\Http\Controllers\SalaryPeriodController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\web\CategoriesController;
 use App\Http\Controllers\Web\PostController;
 use Illuminate\Http\Request;
@@ -42,7 +44,8 @@ Route::prefix('jobs')->group(function () {
     });
     Route::get('career-levels', [CareerLevelController::class, 'fetch']);
     Route::get('job-shifts', [JobShiftController::class, 'fetch']);
-    Route::get('tags', [\App\Http\Controllers\TagController::class, 'fetch']);
+    Route::get('tags', [TagController::class, 'fetch']);
+    Route::get('degrees', [RequiredDegreeLevelController::class, 'fetch']);
 });
 
 Route::prefix('companies')->group(function () {

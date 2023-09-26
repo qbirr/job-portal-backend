@@ -13,37 +13,33 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class RequiredDegreeLevelController extends AppBaseController
-{
+class RequiredDegreeLevelController extends AppBaseController {
     /** @var RequiredDegreeLevelRepository */
-    private $requiredDegreeLevelRepository;
+    private RequiredDegreeLevelRepository $requiredDegreeLevelRepository;
 
-    public function __construct(RequiredDegreeLevelRepository $requiredDegreeLevelRepo)
-    {
+    public function __construct(RequiredDegreeLevelRepository $requiredDegreeLevelRepo) {
         $this->requiredDegreeLevelRepository = $requiredDegreeLevelRepo;
     }
 
     /**
      * Display a listing of the JobType.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         return view('required_degree_levels.index');
     }
 
     /**
      * Store a newly created RequiredDegreeLevel in storage.
      *
-     * @param  CreateRequiredDegreeLevelRequest  $request
+     * @param CreateRequiredDegreeLevelRequest $request
      * @return JsonResponse
      */
-    public function store(CreateRequiredDegreeLevelRequest $request)
-    {
+    public function store(CreateRequiredDegreeLevelRequest $request) {
         $input = $request->all();
         $degreeLevel = $this->requiredDegreeLevelRepository->create($input);
 
@@ -53,34 +49,31 @@ class RequiredDegreeLevelController extends AppBaseController
     /**
      * Display the specified RequiredDegreeLevel.
      *
-     * @param  RequiredDegreeLevel  $requiredDegreeLevel
-     * @return Response
+     * @param RequiredDegreeLevel $requiredDegreeLevel
+     * @return JsonResponse
      */
-    public function show(RequiredDegreeLevel $requiredDegreeLevel)
-    {
+    public function show(RequiredDegreeLevel $requiredDegreeLevel) {
         return $this->sendResponse($requiredDegreeLevel, __('messages.flash.degree_level_retrieve'));
     }
 
     /**
      * Show the form for editing the specified RequiredDegreeLevel.
      *
-     * @param  RequiredDegreeLevel  $requiredDegreeLevel
-     * @return Response
+     * @param RequiredDegreeLevel $requiredDegreeLevel
+     * @return JsonResponse
      */
-    public function edit(RequiredDegreeLevel $requiredDegreeLevel)
-    {
+    public function edit(RequiredDegreeLevel $requiredDegreeLevel) {
         return $this->sendResponse($requiredDegreeLevel, 'Degree Level Successfully.');
     }
 
     /**
      * Update the specified RequiredDegreeLevel in storage.
      *
-     * @param  UpdateRequiredDegreeLevelRequest  $request
-     * @param  RequiredDegreeLevel  $requiredDegreeLevel
-     * @return Response
+     * @param UpdateRequiredDegreeLevelRequest $request
+     * @param RequiredDegreeLevel $requiredDegreeLevel
+     * @return JsonResponse
      */
-    public function update(UpdateRequiredDegreeLevelRequest $request, RequiredDegreeLevel $requiredDegreeLevel)
-    {
+    public function update(UpdateRequiredDegreeLevelRequest $request, RequiredDegreeLevel $requiredDegreeLevel) {
         $input = $request->all();
         $this->requiredDegreeLevelRepository->update($input, $requiredDegreeLevel->id);
 
@@ -90,13 +83,12 @@ class RequiredDegreeLevelController extends AppBaseController
     /**
      * Remove the specified RequiredDegreeLevel from storage.
      *
-     * @param  RequiredDegreeLevel  $requiredDegreeLevel
-     * @return Response
+     * @param RequiredDegreeLevel $requiredDegreeLevel
+     * @return JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(RequiredDegreeLevel $requiredDegreeLevel)
-    {
+    public function destroy(RequiredDegreeLevel $requiredDegreeLevel) {
         $jobModels = [
             Job::class,
         ];
@@ -107,5 +99,9 @@ class RequiredDegreeLevelController extends AppBaseController
         $requiredDegreeLevel->delete();
 
         return $this->sendSuccess(__('messages.flash.degree_level_delete'));
+    }
+
+    public function fetch() {
+        return $this->requiredDegreeLevelRepository->fetch();
     }
 }
