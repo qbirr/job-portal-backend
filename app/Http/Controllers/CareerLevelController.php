@@ -15,35 +15,31 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class CareerLevelController extends AppBaseController
-{
+class CareerLevelController extends AppBaseController {
     /** @var CareerLevelRepository */
-    private $careerLevelRepository;
+    private CareerLevelRepository $careerLevelRepository;
 
-    public function __construct(CareerLevelRepository $careerLevelRepo)
-    {
+    public function __construct(CareerLevelRepository $careerLevelRepo) {
         $this->careerLevelRepository = $careerLevelRepo;
     }
 
     /**
      * Display a listing of the CareerLevel.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Application|Factory|View
      */
-    public function index()
-    {
+    public function index() {
         return view('career_levels.index');
     }
 
     /**
      * Store a newly created CareerLevel in storage.
      *
-     * @param  CreateCareerLevelRequest  $request
+     * @param CreateCareerLevelRequest $request
      * @return JsonResponse
      */
-    public function store(CreateCareerLevelRequest $request): JsonResponse
-    {
+    public function store(CreateCareerLevelRequest $request): JsonResponse {
         $input = $request->all();
         $careerLevel = $this->careerLevelRepository->create($input);
 
@@ -53,23 +49,21 @@ class CareerLevelController extends AppBaseController
     /**
      * Show the form for editing the specified CareerLevel.
      *
-     * @param  CareerLevel  $careerLevel
+     * @param CareerLevel $careerLevel
      * @return JsonResponse
      */
-    public function edit(CareerLevel $careerLevel)
-    {
+    public function edit(CareerLevel $careerLevel) {
         return $this->sendResponse($careerLevel, __('messages.flash.career_level_retrieved'));
     }
 
     /**
      * Update the specified CareerLevel in storage.
      *
-     * @param  UpdateCareerLevelRequest  $request
-     * @param  CareerLevel  $careerLevel
+     * @param UpdateCareerLevelRequest $request
+     * @param CareerLevel $careerLevel
      * @return JsonResponse
      */
-    public function update(UpdateCareerLevelRequest $request, CareerLevel $careerLevel)
-    {
+    public function update(UpdateCareerLevelRequest $request, CareerLevel $careerLevel) {
         $input = $request->all();
         $this->careerLevelRepository->update($input, $careerLevel->id);
 
@@ -79,13 +73,12 @@ class CareerLevelController extends AppBaseController
     /**
      * Remove the specified CareerLevel from storage.
      *
-     * @param  CareerLevel  $careerLevel
+     * @param CareerLevel $careerLevel
      * @return JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(CareerLevel $careerLevel)
-    {
+    public function destroy(CareerLevel $careerLevel) {
         $Models = [
             Candidate::class,
             Job::class,
@@ -97,5 +90,9 @@ class CareerLevelController extends AppBaseController
         $careerLevel->delete();
 
         return $this->sendSuccess(__('messages.flash.career_level_delete'));
+    }
+
+    public function fetch() {
+        return $this->careerLevelRepository->fetch();
     }
 }

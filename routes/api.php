@@ -38,6 +38,7 @@ Route::prefix('jobs')->group(function () {
         Route::get('currencies', [SalaryCurrencyController::class, 'fetch']);
         Route::get('periods', [SalaryPeriodController::class, 'fetch']);
     });
+    Route::get('career-levels', [\App\Http\Controllers\CareerLevelController::class, 'fetch']);
 });
 
 Route::prefix('companies')->group(function () {

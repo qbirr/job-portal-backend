@@ -36,6 +36,6 @@ class SalaryPeriodRepository extends BaseRepository {
     }
 
     public function fetch(): array|Collection {
-        return SalaryPeriod::select(['id', 'period', 'description'])->get();
+        return SalaryPeriod::select(['id', 'period', 'description'])->orderBy('id')->get();
     }
 }
