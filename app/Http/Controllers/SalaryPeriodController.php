@@ -11,40 +11,35 @@ use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\View\View;
 
-class SalaryPeriodController extends AppBaseController
-{
+class SalaryPeriodController extends AppBaseController {
     /** @var SalaryPeriodRepository */
-    private $salaryPeriodRepository;
+    private SalaryPeriodRepository $salaryPeriodRepository;
 
-    public function __construct(SalaryPeriodRepository $salaryPeriodRepo)
-    {
+    public function __construct(SalaryPeriodRepository $salaryPeriodRepo) {
         $this->salaryPeriodRepository = $salaryPeriodRepo;
     }
 
     /**
      * Display a listing of the SalaryPeriod.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         return view('salary_periods.index');
     }
 
     /**
      * Store a newly created SalaryPeriod in storage.
      *
-     * @param  CreateSalaryPeriodRequest  $request
+     * @param CreateSalaryPeriodRequest $request
      * @return JsonResponse
      */
-    public function store(CreateSalaryPeriodRequest $request)
-    {
+    public function store(CreateSalaryPeriodRequest $request) {
         $input = $request->all();
         $salaryPeriod = $this->salaryPeriodRepository->create($input);
 
@@ -54,34 +49,31 @@ class SalaryPeriodController extends AppBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  SalaryPeriod  $salaryPeriod
+     * @param SalaryPeriod $salaryPeriod
      * @return JsonResponse
      */
-    public function edit(SalaryPeriod $salaryPeriod)
-    {
+    public function edit(SalaryPeriod $salaryPeriod) {
         return $this->sendResponse($salaryPeriod, 'Salary Period Retrieved Successfully.');
     }
 
     /**
      * Show the form for editing the specified SalaryPeriod.
      *
-     * @param  SalaryPeriod  $salaryPeriod
-     * @return JsonResource
+     * @param SalaryPeriod $salaryPeriod
+     * @return JsonResponse
      */
-    public function show(SalaryPeriod $salaryPeriod)
-    {
+    public function show(SalaryPeriod $salaryPeriod) {
         return $this->sendResponse($salaryPeriod, __('messages.flash.salary_period_retrieve'));
     }
 
     /**
      * Update the specified SalaryPeriod in storage.
      *
-     * @param  UpdateSalaryPeriodRequest  $request
-     * @param  SalaryPeriod  $salaryPeriod
-     * @return JsonResource
+     * @param UpdateSalaryPeriodRequest $request
+     * @param SalaryPeriod $salaryPeriod
+     * @return JsonResponse
      */
-    public function update(UpdateSalaryPeriodRequest $request, SalaryPeriod $salaryPeriod)
-    {
+    public function update(UpdateSalaryPeriodRequest $request, SalaryPeriod $salaryPeriod) {
         $input = $request->all();
         $this->salaryPeriodRepository->update($input, $salaryPeriod->id);
 
@@ -91,13 +83,12 @@ class SalaryPeriodController extends AppBaseController
     /**
      * Remove the specified SalaryPeriod from storage.
      *
-     * @param  SalaryPeriod  $salaryPeriod
-     * @return JsonResource
+     * @param SalaryPeriod $salaryPeriod
+     * @return JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(SalaryPeriod $salaryPeriod)
-    {
+    public function destroy(SalaryPeriod $salaryPeriod) {
         $jobModels = [
             Job::class,
         ];
@@ -108,5 +99,9 @@ class SalaryPeriodController extends AppBaseController
         $salaryPeriod->delete();
 
         return $this->sendSuccess(__('messages.flash.salary_period_delete'));
+    }
+
+    public function fetch() {
+        return $this->salaryPeriodRepository->fetch();
     }
 }
