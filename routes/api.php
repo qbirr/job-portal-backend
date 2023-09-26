@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\JobController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\web\CategoriesController;
 use App\Http\Controllers\Web\PostController;
@@ -35,6 +36,11 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->group(function () {
     Route::prefix('candidates')->group(function () {
         Route::post('search', [CandidateController::class, 'search']);
         Route::get('detail/{candidate}', [CandidateController::class, 'detail']);
+    });
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', [NotificationController::class, 'fetch']);
+        Route::post('{notification}/read', [NotificationController::class, 'readNotification']);
+        Route::post('read-all', [NotificationController::class, 'readAllNotification']);
     });
 });
 
