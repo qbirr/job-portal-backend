@@ -28,6 +28,7 @@ Route::prefix('jobs')->group(function () {
     Route::get('details/{job}', [JobController::class, 'detail']);
     Route::get('categories', [CategoriesController::class, 'fetch']);
     Route::get('types', [JobTypeController::class, 'fetch']);
+    Route::get('skills', [\App\Http\Controllers\SkillController::class, 'fetch']);
 });
 
 Route::prefix('companies')->group(function () {

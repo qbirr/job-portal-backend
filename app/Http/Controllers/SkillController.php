@@ -10,40 +10,35 @@ use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\View\View;
 
-class SkillController extends AppBaseController
-{
+class SkillController extends AppBaseController {
     /** @var SkillRepository */
-    private $skillRepository;
+    private SkillRepository $skillRepository;
 
-    public function __construct(SkillRepository $skillRepository)
-    {
+    public function __construct(SkillRepository $skillRepository) {
         $this->skillRepository = $skillRepository;
     }
 
     /**
      * Display a listing of the Skill.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         return view('skills.index');
     }
 
     /**
      * Store a newly created Skill in storage.
      *
-     * @param  CreateSkillRequest  $request
+     * @param CreateSkillRequest $request
      * @return JsonResponse
      */
-    public function store(CreateSkillRequest $request): JsonResponse
-    {
+    public function store(CreateSkillRequest $request): JsonResponse {
         $input = $request->all();
         $skill = $this->skillRepository->create($input);
 
@@ -53,34 +48,31 @@ class SkillController extends AppBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Skill  $skill
+     * @param Skill $skill
      * @return JsonResponse
      */
-    public function edit(Skill $skill)
-    {
+    public function edit(Skill $skill) {
         return $this->sendResponse($skill, 'Skill Retrieved Successfully.');
     }
 
     /**
      * Show the form for editing the specified Skill.
      *
-     * @param  Skill  $skill
-     * @return JsonResource
+     * @param Skill $skill
+     * @return JsonResponse
      */
-    public function show(Skill $skill)
-    {
+    public function show(Skill $skill) {
         return $this->sendResponse($skill, 'Skill Retrieved Successfully.');
     }
 
     /**
      * Update the specified Skill in storage.
      *
-     * @param  UpdateSkillRequest  $request
-     * @param  Skill  $skill
-     * @return JsonResource
+     * @param UpdateSkillRequest $request
+     * @param Skill $skill
+     * @return JsonResponse
      */
-    public function update(UpdateSkillRequest $request, Skill $skill)
-    {
+    public function update(UpdateSkillRequest $request, Skill $skill) {
         $input = $request->all();
         $this->skillRepository->update($input, $skill->id);
 
@@ -90,13 +82,12 @@ class SkillController extends AppBaseController
     /**
      * Remove the specified Skill from storage.
      *
-     * @param  Skill  $skill
-     * @return JsonResource
+     * @param Skill $skill
+     * @return JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(Skill $skill)
-    {
+    public function destroy(Skill $skill) {
         $candidateskillIds = $skill->candidate()->pluck('skill_id')->toArray();
         $jobskillIds = $skill->jobs()->pluck('skill_id')->toArray();
         if (in_array($skill->id, $candidateskillIds) || in_array($skill->id, $jobskillIds)) {
@@ -106,5 +97,9 @@ class SkillController extends AppBaseController
         }
 
         return $this->sendSuccess(__('messages.flash.skill_delete'));
+    }
+
+    public function fetch() {
+        return $this->skillRepository->fetch();
     }
 }

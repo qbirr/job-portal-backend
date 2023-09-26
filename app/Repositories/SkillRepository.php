@@ -3,18 +3,18 @@
 namespace App\Repositories;
 
 use App\Models\Skill;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class SkillRepository
  *
  * @version June 22, 2020, 5:43 am UTC
  */
-class SkillRepository extends BaseRepository
-{
+class SkillRepository extends BaseRepository {
     /**
      * @var array
      */
-    protected $fieldSearchable = [
+    protected array $fieldSearchable = [
         'name',
     ];
 
@@ -23,16 +23,18 @@ class SkillRepository extends BaseRepository
      *
      * @return array
      */
-    public function getFieldsSearchable()
-    {
+    public function getFieldsSearchable(): array {
         return $this->fieldSearchable;
     }
 
     /**
      * Configure the Model
      **/
-    public function model()
-    {
+    public function model(): string {
         return Skill::class;
+    }
+
+    public function fetch(): array|Collection {
+        return Skill::select(['id', 'name', 'description'])->get();
     }
 }
