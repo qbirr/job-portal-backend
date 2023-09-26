@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\JobController;
+use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\web\CategoriesController;
@@ -33,6 +34,11 @@ Route::prefix('companies')->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'role:Employer'])->group(function () {
+    Route::prefix('profiles')->group(function () {
+        Route::get('/', [EmployerController::class, 'editProfile']);
+        Route::post('change-password', [EmployerController::class, 'changePassword']);
+        Route::post('update', [EmployerController::class, 'profileUpdate']);
+    });
     Route::prefix('candidates')->group(function () {
         Route::post('search', [CandidateController::class, 'search']);
         Route::get('detail/{candidate}', [CandidateController::class, 'detail']);
@@ -44,7 +50,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->group(function () {
     });
 });
 
-Route::prefix('articles')->group(function (){
+Route::prefix('articles')->group(function () {
     Route::get('/', [PostController::class, 'fetch']);
     Route::get('detail/{post}', [PostController::class, 'detail']);
     Route::get('categories', [PostCategoryController::class, 'fetch']);
