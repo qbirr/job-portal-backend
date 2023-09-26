@@ -5,8 +5,10 @@ use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\JobController;
+use App\Http\Controllers\CareerLevelController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\JobShiftController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostCategoryController;
@@ -38,7 +40,8 @@ Route::prefix('jobs')->group(function () {
         Route::get('currencies', [SalaryCurrencyController::class, 'fetch']);
         Route::get('periods', [SalaryPeriodController::class, 'fetch']);
     });
-    Route::get('career-levels', [\App\Http\Controllers\CareerLevelController::class, 'fetch']);
+    Route::get('career-levels', [CareerLevelController::class, 'fetch']);
+    Route::get('job-shifts', [JobShiftController::class, 'fetch']);
 });
 
 Route::prefix('companies')->group(function () {

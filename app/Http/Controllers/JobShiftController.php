@@ -11,40 +11,35 @@ use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\View\View;
 
-class JobShiftController extends AppBaseController
-{
+class JobShiftController extends AppBaseController {
     /** @var JobShiftRepository */
-    private $jobShiftRepository;
+    private JobShiftRepository $jobShiftRepository;
 
-    public function __construct(JobShiftRepository $jobShiftRepo)
-    {
+    public function __construct(JobShiftRepository $jobShiftRepo) {
         $this->jobShiftRepository = $jobShiftRepo;
     }
 
     /**
      * Display a listing of the JobShift.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         return view('job_shifts.index');
     }
 
     /**
      * Store a newly created JobShift in storage.
      *
-     * @param  CreateJobShiftRequest  $request
+     * @param CreateJobShiftRequest $request
      * @return JsonResponse
      */
-    public function store(CreateJobShiftRequest $request): JsonResponse
-    {
+    public function store(CreateJobShiftRequest $request): JsonResponse {
         $input = $request->all();
         $jobShift = $this->jobShiftRepository->create($input);
 
@@ -54,34 +49,31 @@ class JobShiftController extends AppBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  JobShift  $jobShift
+     * @param JobShift $jobShift
      * @return JsonResponse
      */
-    public function edit(JobShift $jobShift)
-    {
+    public function edit(JobShift $jobShift) {
         return $this->sendResponse($jobShift, 'Job Shift Retrieved Successfully.');
     }
 
     /**
      * Show the form for editing the specified JobShift.
      *
-     * @param  JobShift  $jobShift
-     * @return JsonResource
+     * @param JobShift $jobShift
+     * @return JsonResponse
      */
-    public function show(JobShift $jobShift)
-    {
+    public function show(JobShift $jobShift) {
         return $this->sendResponse($jobShift, __('messages.flash.job_shift_retrieve'));
     }
 
     /**
      * Update the specified JobShift in storage.
      *
-     * @param  UpdateJobShiftRequest  $request
-     * @param  JobShift  $jobShift
-     * @return JsonResource
+     * @param UpdateJobShiftRequest $request
+     * @param JobShift $jobShift
+     * @return JsonResponse
      */
-    public function update(UpdateJobShiftRequest $request, JobShift $jobShift)
-    {
+    public function update(UpdateJobShiftRequest $request, JobShift $jobShift) {
         $input = $request->all();
         $this->jobShiftRepository->update($input, $jobShift->id);
 
@@ -91,13 +83,12 @@ class JobShiftController extends AppBaseController
     /**
      * Remove the specified JobShift from storage.
      *
-     * @param  JobShift  $jobShift
-     * @return JsonResource
+     * @param JobShift $jobShift
+     * @return JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(JobShift $jobShift)
-    {
+    public function destroy(JobShift $jobShift) {
         $jobModels = [
             Job::class,
         ];
@@ -108,5 +99,9 @@ class JobShiftController extends AppBaseController
         $jobShift->delete();
 
         return $this->sendSuccess(__('messages.flash.job_shift_delete'));
+    }
+
+    public function fetch() {
+        return $this->jobShiftRepository->fetch();
     }
 }
