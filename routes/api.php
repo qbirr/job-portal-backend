@@ -6,6 +6,7 @@ use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\JobController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\web\CategoriesController;
@@ -26,6 +27,7 @@ Route::prefix('jobs')->group(function () {
     Route::post('search', [JobController::class, 'searchJob']);
     Route::get('details/{job}', [JobController::class, 'detail']);
     Route::get('categories', [CategoriesController::class, 'fetch']);
+    Route::get('types', [JobTypeController::class, 'fetch']);
 });
 
 Route::prefix('companies')->group(function () {
@@ -51,6 +53,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
 
     Route::prefix('jobs')->group(function () {
         Route::post('/', [JobController::class, 'employerJobs']);
+        Route::get('{jobId}/applications', [JobApplicationController::class, 'index'])->name('job-applications');
     });
 });
 

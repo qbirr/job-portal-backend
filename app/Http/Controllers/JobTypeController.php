@@ -11,40 +11,35 @@ use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\View\View;
 
-class JobTypeController extends AppBaseController
-{
+class JobTypeController extends AppBaseController {
     /** @var JobTypeRepository */
-    private $jobTypeRepository;
+    private JobTypeRepository $jobTypeRepository;
 
-    public function __construct(JobTypeRepository $jobTypeRepo)
-    {
+    public function __construct(JobTypeRepository $jobTypeRepo) {
         $this->jobTypeRepository = $jobTypeRepo;
     }
 
     /**
      * Display a listing of the JobType.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         return view('job_types.index');
     }
 
     /**
      * Store a newly created JobType in storage.
      *
-     * @param  CreateJobTypeRequest  $request
+     * @param CreateJobTypeRequest $request
      * @return JsonResponse
      */
-    public function store(CreateJobTypeRequest $request): JsonResponse
-    {
+    public function store(CreateJobTypeRequest $request): JsonResponse {
         $input = $request->all();
         $jobType = $this->jobTypeRepository->create($input);
 
@@ -54,34 +49,31 @@ class JobTypeController extends AppBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  JobType  $jobType
+     * @param JobType $jobType
      * @return JsonResponse
      */
-    public function edit(JobType $jobType)
-    {
+    public function edit(JobType $jobType) {
         return $this->sendResponse($jobType, 'Job Type Retrieved Successfully.');
     }
 
     /**
      * Show the form for editing the specified JobType.
      *
-     * @param  JobType  $jobType
-     * @return JsonResource
+     * @param JobType $jobType
+     * @return JsonResponse
      */
-    public function show(JobType $jobType)
-    {
+    public function show(JobType $jobType) {
         return $this->sendResponse($jobType, __('messages.flash.job_type_retrieve'));
     }
 
     /**
      * Update the specified JobType in storage.
      *
-     * @param  UpdateJobTypeRequest  $request
-     * @param  JobType  $jobType
-     * @return JsonResource
+     * @param UpdateJobTypeRequest $request
+     * @param JobType $jobType
+     * @return JsonResponse
      */
-    public function update(UpdateJobTypeRequest $request, JobType $jobType)
-    {
+    public function update(UpdateJobTypeRequest $request, JobType $jobType) {
         $input = $request->all();
         $this->jobTypeRepository->update($input, $jobType->id);
 
@@ -91,13 +83,12 @@ class JobTypeController extends AppBaseController
     /**
      * Remove the specified JobType from storage.
      *
-     * @param  JobType  $jobType
-     * @return JsonResource
+     * @param JobType $jobType
+     * @return JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(JobType $jobType)
-    {
+    public function destroy(JobType $jobType) {
         $jobModels = [
             Job::class,
         ];
@@ -108,5 +99,9 @@ class JobTypeController extends AppBaseController
         $jobType->delete();
 
         return $this->sendSuccess(__('messages.flash.job_type_delete'));
+    }
+
+    public function fetch() {
+        return $this->jobTypeRepository->fetch();
     }
 }

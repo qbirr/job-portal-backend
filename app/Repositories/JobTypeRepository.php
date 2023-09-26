@@ -3,18 +3,19 @@
 namespace App\Repositories;
 
 use App\Models\JobType;
+use Illuminate\Database\Eloquent\Collection;
+use LaravelIdea\Helper\App\Models\_IH_JobType_C;
 
 /**
  * Class JobTypeRepository
  *
  * @version June 22, 2020, 5:43 am UTC
  */
-class JobTypeRepository extends BaseRepository
-{
+class JobTypeRepository extends BaseRepository {
     /**
      * @var array
      */
-    protected $fieldSearchable = [
+    protected array $fieldSearchable = [
         'name',
     ];
 
@@ -23,16 +24,18 @@ class JobTypeRepository extends BaseRepository
      *
      * @return array
      */
-    public function getFieldsSearchable()
-    {
+    public function getFieldsSearchable(): array {
         return $this->fieldSearchable;
     }
 
     /**
      * Configure the Model
      **/
-    public function model()
-    {
+    public function model(): string {
         return JobType::class;
+    }
+
+    public function fetch(): _IH_JobType_C|Collection|array {
+        return JobType::select(['id', 'name', 'description'])->get();
     }
 }
