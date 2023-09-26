@@ -42,6 +42,7 @@ Route::prefix('jobs')->group(function () {
     });
     Route::get('career-levels', [CareerLevelController::class, 'fetch']);
     Route::get('job-shifts', [JobShiftController::class, 'fetch']);
+    Route::get('tags', [\App\Http\Controllers\TagController::class, 'fetch']);
 });
 
 Route::prefix('companies')->group(function () {

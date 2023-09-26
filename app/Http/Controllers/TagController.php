@@ -10,40 +10,35 @@ use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\View\View;
 
-class TagController extends AppBaseController
-{
+class TagController extends AppBaseController {
     /** @var JobTagRepository */
-    private $jobTagRepository;
+    private JobTagRepository $jobTagRepository;
 
-    public function __construct(JobTagRepository $jobTagRepo)
-    {
+    public function __construct(JobTagRepository $jobTagRepo) {
         $this->jobTagRepository = $jobTagRepo;
     }
 
     /**
      * Display a listing of the JobTag.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         return view('job_tags.index');
     }
 
     /**
      * Store a newly created JobTag in storage.
      *
-     * @param  CreateTagRequest  $request
+     * @param CreateTagRequest $request
      * @return JsonResponse
      */
-    public function store(CreateTagRequest $request): JsonResponse
-    {
+    public function store(CreateTagRequest $request): JsonResponse {
         $input = $request->all();
         $jobTag = $this->jobTagRepository->create($input);
 
@@ -53,34 +48,31 @@ class TagController extends AppBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Tag  $tag
+     * @param Tag $tag
      * @return JsonResponse
      */
-    public function edit(Tag $tag)
-    {
+    public function edit(Tag $tag) {
         return $this->sendResponse($tag, __('messages.flash.job_tag_retrieve'));
     }
 
     /**
      * Show the form for editing the specified JobTag.
      *
-     * @param  Tag  $tag
-     * @return JsonResource
+     * @param Tag $tag
+     * @return JsonResponse
      */
-    public function show(Tag $tag)
-    {
+    public function show(Tag $tag) {
         return $this->sendResponse($tag, __('messages.flash.job_tag_retrieve'));
     }
 
     /**
      * Update the specified JobTag in storage.
      *
-     * @param  UpdateTagRequest  $request
-     * @param  Tag  $jobTag
-     * @return JsonResource
+     * @param UpdateTagRequest $request
+     * @param Tag $jobTag
+     * @return JsonResponse
      */
-    public function update(UpdateTagRequest $request, Tag $tag)
-    {
+    public function update(UpdateTagRequest $request, Tag $tag) {
         $input = $request->all();
         $this->jobTagRepository->update($input, $tag->id);
 
@@ -90,13 +82,12 @@ class TagController extends AppBaseController
     /**
      * Remove the specified JobTag from storage.
      *
-     * @param  Tag  $jobTag
-     * @return JsonResource
+     * @param Tag $jobTag
+     * @return JsonResponse
      *
      * @throws Exception
      */
-    public function destroy(Tag $tag)
-    {
+    public function destroy(Tag $tag) {
         $jobTag = $tag->jobs()->pluck('tag_id')->toArray();
         if (in_array($tag->id, $jobTag)) {
             return $this->sendError(__('messages.flash.job_tag_cant_delete'));
@@ -105,5 +96,9 @@ class TagController extends AppBaseController
         }
 
         return $this->sendSuccess(__('messages.flash.job_tag_delete'));
+    }
+
+    public function fetch() {
+        return $this->jobTagRepository->fetch();
     }
 }
