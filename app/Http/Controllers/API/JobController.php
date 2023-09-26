@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Http\Livewire\JobSearch;
+use App\Http\Controllers\AppBaseController;
+use App\Http\Requests\EmployerJobSearchRequest;
 use App\Http\Requests\JobSearchRequest;
 use App\Models\Job;
 use App\Repositories\JobRepository;
@@ -12,7 +12,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class JobController extends Controller {
+class JobController extends AppBaseController {
     public function __construct(
         private readonly JobRepository $jobRepository,
         private readonly WebHomeRepository $homeRepository,
@@ -56,5 +56,9 @@ class JobController extends Controller {
             'job' => $job,
             'meta' => $data,
         ];
+    }
+
+    public function employerJobs(EmployerJobSearchRequest $request) {
+        return $this->jobRepository->employerJobs(auth()->user()->company, $request);
     }
 }

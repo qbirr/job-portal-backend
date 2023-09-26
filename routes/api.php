@@ -33,7 +33,7 @@ Route::prefix('companies')->group(function () {
     Route::get('detail/{company}', [CompanyController::class, 'detail']);
 });
 
-Route::middleware(['auth:sanctum', 'role:Employer'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(function () {
     Route::prefix('profiles')->group(function () {
         Route::get('/', [EmployerController::class, 'editProfile']);
         Route::post('change-password', [EmployerController::class, 'changePassword']);
@@ -47,6 +47,10 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->group(function () {
         Route::get('/', [NotificationController::class, 'fetch']);
         Route::post('{notification}/read', [NotificationController::class, 'readNotification']);
         Route::post('read-all', [NotificationController::class, 'readAllNotification']);
+    });
+
+    Route::prefix('jobs')->group(function () {
+        Route::post('/', [JobController::class, 'employerJobs']);
     });
 });
 

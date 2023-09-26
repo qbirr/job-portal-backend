@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\EmployerJobSearchRequest;
 use App\Http\Requests\JobSearchRequest;
 use App\Models\Candidate;
 use App\Models\CareerLevel;
@@ -33,6 +34,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -465,7 +467,7 @@ class JobRepository extends BaseRepository {
             'desc')->findOrFail($reportedJobID);
     }
 
-    public function searchJob(JobSearchRequest $request) {
+    public function searchJob(JobSearchRequest $request): LengthAwarePaginator|_IH_Job_C|array {
         /** @var Job $query */
         $query = Job::with([
             'company', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory',
@@ -567,6 +569,51 @@ class JobRepository extends BaseRepository {
                     $q->where('first_name', 'like', '%' . $request->title . '%')
                         ->orWhere('last_name', 'like', '%' . $request->title . '%');
                 });
+        });
+
+        $all = $query->paginate($request->perPage);
+        $currentPage = $all->currentPage();
+        $lastPage = $all->lastPage();
+        if ($currentPage > $lastPage) {
+            $request->page = $lastPage;
+            $all = $query->paginate($request->perPage);
+        }
+
+        return $all;
+    }
+
+    public function employerJobs(Company $company, EmployerJobSearchRequest $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator|_IH_Job_C|LengthAwarePaginator|array {
+        $query = Job::with(
+            [
+                'appliedJobs' => function ($query) {
+                    $query->where('status', '!=', JobApplication::STATUS_DRAFT);
+                },
+            ],
+            'activeFeatured',
+            'featured',
+            'company',
+            'jobCategory',
+            'jobType',
+            'jobShift'
+        )
+            ->where('company_id', $company->id)
+            ->select('jobs.*')
+            ->withCount('appliedJobs as total_applied_jobs');
+        $query->when(!empty($request->q), function (Builder $q) use ($request) {
+            $q->where(function (Builder $q) use ($request) {
+                $q->where('job_title', 'like', "%{$request->q}%")
+                    ->orWhere('job_expiry_date', 'like', "%{$request->q}%");
+            });
+        });
+        $query->when(!empty($request->featured), function (Builder $q) use ($request) {
+            if ($request->featured == 'yes') {
+                $q->has('activeFeatured');
+            } else {
+                $q->doesnthave('activeFeatured');
+            }
+        });
+        $query->when(!empty($request->status), function (Builder $q) use ($request) {
+            $q->where(['status' => $request->status]);
         });
 
         $all = $query->paginate($request->perPage);
