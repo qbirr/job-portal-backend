@@ -98,4 +98,8 @@ class SalaryCurrencyController extends AppBaseController
 
         return $this->sendSuccess(__('messages.flash.salary_currency_destroy'));
     }
+
+    public function fetch() {
+        return $this->salaryCurrencyRepository->fetch();
+    }
 }

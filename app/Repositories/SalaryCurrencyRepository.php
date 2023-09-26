@@ -3,18 +3,18 @@
 namespace App\Repositories;
 
 use App\Models\SalaryCurrency;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class SalaryCurrencyRepository
  *
  * @version July 7, 2020, 6:41 am UTC
  */
-class SalaryCurrencyRepository extends BaseRepository
-{
+class SalaryCurrencyRepository extends BaseRepository {
     /**
      * @var array
      */
-    protected $fieldSearchable = [
+    protected array $fieldSearchable = [
         'currency_name',
     ];
 
@@ -23,16 +23,18 @@ class SalaryCurrencyRepository extends BaseRepository
      *
      * @return array
      */
-    public function getFieldsSearchable()
-    {
+    public function getFieldsSearchable(): array {
         return $this->fieldSearchable;
     }
 
     /**
      * Configure the Model
      **/
-    public function model()
-    {
+    public function model(): string {
         return SalaryCurrency::class;
+    }
+
+    public function fetch(): Collection|array {
+        return SalaryCurrency::select(['id', 'currency_name', 'currency_icon', 'currency_code'])->get();
     }
 }

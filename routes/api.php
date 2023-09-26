@@ -9,6 +9,8 @@ use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostCategoryController;
+use App\Http\Controllers\SalaryCurrencyController;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\web\CategoriesController;
 use App\Http\Controllers\Web\PostController;
 use Illuminate\Http\Request;
@@ -28,7 +30,7 @@ Route::prefix('jobs')->group(function () {
     Route::get('details/{job}', [JobController::class, 'detail']);
     Route::get('categories', [CategoriesController::class, 'fetch']);
     Route::get('types', [JobTypeController::class, 'fetch']);
-    Route::get('skills', [\App\Http\Controllers\SkillController::class, 'fetch']);
+    Route::get('skills', [SkillController::class, 'fetch']);
 });
 
 Route::prefix('companies')->group(function () {
@@ -64,3 +66,5 @@ Route::prefix('articles')->group(function () {
     Route::get('categories', [PostCategoryController::class, 'fetch']);
     Route::get('by-category/{postCategory}', [PostController::class, 'detailByCategory']);
 });
+
+Route::get('salary-currencies', [SalaryCurrencyController::class, 'fetch']);
