@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\City;
+use Illuminate\Database\Eloquent\Collection;
+use LaravelIdea\Helper\App\Models\_IH_City_C;
 
 /**
  * Class CityRepository
@@ -14,7 +16,7 @@ class CityRepository extends BaseRepository
     /**
      * @var array
      */
-    protected $fieldSearchable = [
+    protected array $fieldSearchable = [
         'name',
         'state_id',
     ];
@@ -24,16 +26,18 @@ class CityRepository extends BaseRepository
      *
      * @return array
      */
-    public function getFieldsSearchable()
-    {
+    public function getFieldsSearchable(): array {
         return $this->fieldSearchable;
     }
 
     /**
      * Configure the Model
      **/
-    public function model()
-    {
+    public function model(): string {
         return City::class;
+    }
+
+    public function fetch(): Collection|_IH_City_C|array {
+        return City::all(['id', 'state_id', 'name']);
     }
 }

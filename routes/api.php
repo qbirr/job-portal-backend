@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\JobController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\NotificationController;
@@ -73,4 +74,4 @@ Route::prefix('articles')->group(function () {
     Route::get('by-category/{postCategory}', [PostController::class, 'detailByCategory']);
 });
 
-//Route::get('cities', [\App\Http\Controllers\CityController::class, ''])
+Route::get('cities', [CityController::class, 'fetch']);

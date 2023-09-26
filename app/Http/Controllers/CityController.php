@@ -97,4 +97,8 @@ class CityController extends AppBaseController
 
         return $this->sendSuccess(__('messages.flash.city_delete'));
     }
+
+    public function fetch() {
+        return $this->cityRepository->fetch();
+    }
 }
