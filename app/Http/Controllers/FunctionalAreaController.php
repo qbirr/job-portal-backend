@@ -17,7 +17,7 @@ use Illuminate\View\View;
 class FunctionalAreaController extends AppBaseController
 {
     /** @var FunctionalAreaRepository */
-    private $functionalAreaRepository;
+    private FunctionalAreaRepository $functionalAreaRepository;
 
     public function __construct(FunctionalAreaRepository $functionalAreaRepo)
     {
@@ -96,5 +96,9 @@ class FunctionalAreaController extends AppBaseController
         $functionalArea->delete();
 
         return $this->sendSuccess(__('messages.flash.functional_area_delete'));
+    }
+
+    public function fetch() {
+        return $this->functionalAreaRepository->fetch();
     }
 }
