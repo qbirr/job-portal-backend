@@ -5,9 +5,11 @@ use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\JobController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\CareerLevelController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\FunctionalAreaController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobShiftController;
 use App\Http\Controllers\JobTypeController;
@@ -47,12 +49,16 @@ Route::prefix('jobs')->group(function () {
     Route::get('job-shifts', [JobShiftController::class, 'fetch']);
     Route::get('tags', [TagController::class, 'fetch']);
     Route::get('degrees', [RequiredDegreeLevelController::class, 'fetch']);
-    Route::get('functional-areas', [\App\Http\Controllers\FunctionalAreaController::class, 'fetch']);
+    Route::get('functional-areas', [FunctionalAreaController::class, 'fetch']);
 });
 
 Route::prefix('companies')->group(function () {
     Route::post('search', [CompanyController::class, 'search']);
     Route::get('detail/{company}', [CompanyController::class, 'detail']);
+});
+
+Route::middleware(['auth:sanctum', 'role:Employer|Candidate'])->group(function () {
+    Route::get('profile', [UserController::class, 'profile']);
 });
 
 Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(function () {
