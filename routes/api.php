@@ -8,6 +8,7 @@ use App\Http\Controllers\API\JobController;
 use App\Http\Controllers\CareerLevelController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobShiftController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\NotificationController;
@@ -72,7 +73,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
 
     Route::prefix('jobs')->group(function () {
         Route::post('/', [JobController::class, 'employerJobs']);
-//        Route::get('{jobId}/applications', [JobApplicationController::class, 'index'])->name('job-applications');
+        Route::post('{job}/applications', [JobApplicationController::class, 'fetch'])->name('job-applications');
     });
 });
 

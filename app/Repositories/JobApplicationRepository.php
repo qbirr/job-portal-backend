@@ -2,10 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\JobApplicationSearchRequest;
 use App\Models\Candidate;
 use App\Models\Job;
 use App\Models\JobApplication;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -15,12 +17,11 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 /**
  * Class JobApplicationRepository
  */
-class JobApplicationRepository extends BaseRepository
-{
+class JobApplicationRepository extends BaseRepository {
     /**
      * @var array
      */
-    protected $fieldSearchable = [
+    protected array $fieldSearchable = [
         'job_id',
         'resume_id',
         'expected_salary',
@@ -32,27 +33,24 @@ class JobApplicationRepository extends BaseRepository
      *
      * @return array
      */
-    public function getFieldsSearchable()
-    {
+    public function getFieldsSearchable(): array {
         return $this->fieldSearchable;
     }
 
     /**
      * Configure the Model
      **/
-    public function model()
-    {
+    public function model(): string {
         return JobApplication::class;
     }
 
     /**
-     * @param  int  $jobId
-     * @param  int  $candidateId
-     * @param  int  $status
-     * @return mixed
+     * @param int $jobId
+     * @param int $candidateId
+     * @param int $status
+     * @return bool
      */
-    public function checkJobStatus($jobId, $candidateId, $status)
-    {
+    public function checkJobStatus(int $jobId, int $candidateId, int $status): bool {
         return JobApplication::where('job_id', $jobId)
             ->where('candidate_id', $candidateId)
             ->where('status', $status)
@@ -60,11 +58,10 @@ class JobApplicationRepository extends BaseRepository
     }
 
     /**
-     * @param  int  $jobId
-     * @return mixed
+     * @param int $jobId
+     * @return array
      */
-    public function showApplyJobForm($jobId)
-    {
+    public function showApplyJobForm(int $jobId): array {
         /** @var Candidate $candidate */
         $candidate = Candidate::findOrFail(Auth::user()->owner_id);
 
@@ -77,7 +74,7 @@ class JobApplicationRepository extends BaseRepository
 
         $data['resumes'] = [];
         $data['isJobDrafted'] = false;
-        if (! $data['isApplied']) {
+        if (!$data['isApplied']) {
             // get candidate resumes
             $data['resumes'] = $candidate->getMedia('resumes')->pluck('custom_properties.title', 'id');
             $data['default_resume'] = $candidate->getMedia('resumes', ['is_default' => true])->first();
@@ -98,11 +95,10 @@ class JobApplicationRepository extends BaseRepository
     }
 
     /**
-     * @param  array  $input
+     * @param array $input
      * @return bool
      */
-    public function store($input)
-    {
+    public function store(array $input): bool {
         try {
             $input['candidate_id'] = Auth::user()->owner_id;
 
@@ -137,11 +133,10 @@ class JobApplicationRepository extends BaseRepository
     }
 
     /**
-     * @param  JobApplication  $jobApplication
+     * @param JobApplication $jobApplication
      * @return array
      */
-    public function downloadMedia($jobApplication)
-    {
+    public function downloadMedia(JobApplication $jobApplication): array {
         try {
             $documentMedia = Media::find($jobApplication->resume_id);
             if ($documentMedia == null) {
@@ -166,5 +161,37 @@ class JobApplicationRepository extends BaseRepository
         } catch (Exception $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         }
+    }
+
+    public function search(int $jobId, JobApplicationSearchRequest $request) {
+        $query = JobApplication::with(['job.currency', 'candidate.user', 'jobStage', 'job'])
+            ->where('job_id', $jobId)
+            ->where('status', '!=', JobApplication::STATUS_DRAFT)
+            ->select('job_applications.*');
+        $query->when(!empty($request->q), function (Builder $q) use ($request) {
+            $q->where(function (Builder $q) use ($request) {
+                $q->whereHas('candidate.user', function (Builder $q) use ($request) {
+                    $q->where('first_name', 'like', "%{$request->q}%");
+                })
+                    ->orWhereHas('candidate', function (Builder $q) use ($request) {
+                        $q->orWhere('expected_salary', 'like', "%{$request->q}%")
+                            ->orWhere('created_at', 'like', "%{$request->q}%")
+                            ->orWhere('status', 'like', "%{$request->q}%");
+                    });
+            });
+        });
+        $query->when(!empty($request->status), function (Builder $q) use ($request) {
+            $q->where(['status' => $request->status]);
+        });
+
+        $all = $query->paginate($request->perPage);
+        $currentPage = $all->currentPage();
+        $lastPage = $all->lastPage();
+        if ($currentPage > $lastPage) {
+            $request->page = $lastPage;
+            $all = $query->paginate($request->perPage);
+        }
+
+        return $all;
     }
 }
