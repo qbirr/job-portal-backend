@@ -8,9 +8,11 @@ use App\Models\Job;
 use App\Models\JobApplication;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use LaravelIdea\Helper\App\Models\_IH_JobApplication_C;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
@@ -163,7 +165,7 @@ class JobApplicationRepository extends BaseRepository {
         }
     }
 
-    public function search(int $jobId, JobApplicationSearchRequest $request) {
+    public function search(int $jobId, JobApplicationSearchRequest $request): _IH_JobApplication_C|LengthAwarePaginator|array {
         $query = JobApplication::with(['job.currency', 'candidate.user', 'jobStage', 'job'])
             ->where('job_id', $jobId)
             ->where('status', '!=', JobApplication::STATUS_DRAFT)
