@@ -162,18 +162,15 @@ class JobApplicationController extends AppBaseController {
         }
     }
 
-//    /**
-//     * @param  Request  $request
-//     *
-//     *
-//     * @return JsonResponse
-//     */
-//    public function getJobStage(Request $request)
-//    {
+    /**
+     * @param JobApplication $jobApplication
+     * @return JsonResponse
+     */
+    public function getJobStage(JobApplication $jobApplication) {
 //        $jobApplication = JobApplication::findOrFail($request->get('jobApplicationId'));
-//
-//        return $this->sendResponse($jobApplication,'Job Stage retrieve successfully.');
-//    }
+
+        return $this->sendResponse($jobApplication, 'Job Stage retrieve successfully.');
+    }
 
     /**
      * @param Request $request
