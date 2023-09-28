@@ -12,6 +12,7 @@ use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\FunctionalAreaController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobShiftController;
+use App\Http\Controllers\JobStageController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostCategoryController;
@@ -80,6 +81,9 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
     Route::prefix('jobs')->group(function () {
         Route::post('/', [JobController::class, 'employerJobs']);
         Route::post('{job}/applications', [JobApplicationController::class, 'fetch'])->name('job-applications');
+        Route::prefix('stages')->group(function () {
+            Route::get('/', [JobStageController::class, 'fetch']);
+        });
         Route::prefix('applications')->group(function () {
             Route::post('{id}/status/{status}', [JobApplicationController::class, 'changeJobApplicationStatus']);
             Route::delete('{jobApplication}', [JobApplicationController::class, 'destroy']);

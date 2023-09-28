@@ -14,37 +14,33 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class JobStageController extends AppBaseController
-{
+class JobStageController extends AppBaseController {
     /** @var JobStageRepository */
-    private $jobStageRepository;
+    private JobStageRepository $jobStageRepository;
 
-    public function __construct(JobStageRepository $jobStageRepository)
-    {
+    public function __construct(JobStageRepository $jobStageRepository) {
         $this->jobStageRepository = $jobStageRepository;
     }
 
     /**
      * Display a listing of the JobType.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Factory|View
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         return view('employer.job_stages.index');
     }
 
     /**
      * Store a newly created JobType in storage.
      *
-     * @param  CreateJobStageRequest  $request
+     * @param CreateJobStageRequest $request
      * @return JsonResponse
      */
-    public function store(CreateJobStageRequest $request): JsonResponse
-    {
+    public function store(CreateJobStageRequest $request): JsonResponse {
         $input = $request->all();
         $jobStageExists = JobStage::whereName($input['name'])
             ->where('company_id', '=', getLoggedInUser()->owner_id)
@@ -61,15 +57,14 @@ class JobStageController extends AppBaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  JobStage  $jobStage
+     * @param JobStage $jobStage
      * @return JsonResponse
      */
-    public function edit(JobStage $jobStage)
-    {
+    public function edit(JobStage $jobStage) {
         $companyId = getLoggedInUser()->company->id;
         $jobStageId = JobStage::whereCompanyId($companyId)->pluck('id')->toArray();
 
-        if (! in_array($jobStage->id, $jobStageId)) {
+        if (!in_array($jobStage->id, $jobStageId)) {
             return $this->sendError(__('messages.common.seems_message'));
         }
 
@@ -79,16 +74,15 @@ class JobStageController extends AppBaseController
     /**
      * Update the specified JobStage in storage.
      *
-     * @param  UpdateJobStageRequest  $request
-     * @param  JobStage  $jobStage
+     * @param UpdateJobStageRequest $request
+     * @param JobStage $jobStage
      * @return JsonResponse
      */
-    public function update(UpdateJobStageRequest $request, JobStage $jobStage)
-    {
+    public function update(UpdateJobStageRequest $request, JobStage $jobStage) {
         $companyId = getLoggedInUser()->company->id;
         $jobStageId = JobStage::whereCompanyId($companyId)->pluck('id')->toArray();
 
-        if (! in_array($jobStage->id, $jobStageId)) {
+        if (!in_array($jobStage->id, $jobStageId)) {
             return $this->sendError(__('messages.common.seems_message'));
         }
 
@@ -107,15 +101,14 @@ class JobStageController extends AppBaseController
     /**
      * Show the form for editing the specified JobStage.
      *
-     * @param  JobStage  $jobStage
+     * @param JobStage $jobStage
      * @return JsonResponse
      */
-    public function show(JobStage $jobStage)
-    {
+    public function show(JobStage $jobStage) {
         $companyId = getLoggedInUser()->company->id;
         $jobStageId = JobStage::whereCompanyId($companyId)->pluck('id')->toArray();
 
-        if (! in_array($jobStage->id, $jobStageId)) {
+        if (!in_array($jobStage->id, $jobStageId)) {
             return $this->sendError(__('messages.common.seems_message'));
         }
 
@@ -125,15 +118,14 @@ class JobStageController extends AppBaseController
     /**
      * Remove the specified JobStage from storage.
      *
-     * @param  JobStage  $jobStage
+     * @param JobStage $jobStage
      * @return JsonResponse
      */
-    public function destroy(JobStage $jobStage)
-    {
+    public function destroy(JobStage $jobStage) {
         $companyId = getLoggedInUser()->company->id;
         $jobStageId = JobStage::whereCompanyId($companyId)->pluck('id')->toArray();
 
-        if (! in_array($jobStage->id, $jobStageId)) {
+        if (!in_array($jobStage->id, $jobStageId)) {
             return $this->sendError(__('messages.common.seems_message'));
         }
 
@@ -155,5 +147,10 @@ class JobStageController extends AppBaseController
         $jobStage->delete();
 
         return $this->sendSuccess(__('messages.flash.job_stage_delete'));
+    }
+
+    public function fetch() {
+        $company = auth()->user()->company;
+        return $this->jobStageRepository->fetch($company);
     }
 }
