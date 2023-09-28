@@ -80,10 +80,11 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
 
     Route::prefix('jobs')->group(function () {
         Route::post('/', [JobController::class, 'employerJobs']);
-        Route::post('{job}/applications', [JobApplicationController::class, 'fetch'])->name('job-applications');
+        Route::post('{job}/applications', [JobApplicationController::class, 'fetch']);
         Route::prefix('stages')->group(function () {
             Route::get('/', [JobStageController::class, 'fetch']);
             Route::post('/', [JobStageController::class, 'store']);
+            Route::put('{jobStage}', [JobStageController::class, 'update']);
         });
         Route::prefix('applications')->group(function () {
             Route::post('{id}/status/{status}', [JobApplicationController::class, 'changeJobApplicationStatus']);
