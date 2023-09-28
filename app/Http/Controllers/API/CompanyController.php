@@ -22,4 +22,9 @@ class CompanyController extends Controller {
             return response()->json(null, 404);
         return $this->companyRepository->getCompanyDetail($company->id);
     }
+
+    public function profile() {
+        $company = auth()->user()->company;
+        return $this->companyRepository->getCompanyDetail($company->id);
+    }
 }

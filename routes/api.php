@@ -68,6 +68,9 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
         Route::post('change-password', [EmployerController::class, 'changePassword']);
         Route::post('update', [EmployerController::class, 'profileUpdate']);
     });
+    Route::prefix('company')->group(function () {
+        Route::get('/', [CompanyController::class, 'profile']);
+    });
     Route::prefix('candidates')->group(function () {
         Route::post('search', [CandidateController::class, 'search']);
         Route::get('detail/{candidate}', [CandidateController::class, 'detail']);
