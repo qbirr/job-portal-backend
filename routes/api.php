@@ -80,6 +80,17 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
     Route::prefix('jobs')->group(function () {
         Route::post('/', [JobController::class, 'employerJobs']);
         Route::post('{job}/applications', [JobApplicationController::class, 'fetch'])->name('job-applications');
+        Route::prefix('applications')->group(function () {
+            Route::post('{id}/status/{status}', [JobApplicationController::class, 'changeJobApplicationStatus']);
+        });
+    });
+});
+
+Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->group(function () {
+    Route::prefix('profiles')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Candidates\CandidateController::class, 'editCandidateProfile']);
+        Route::post('change-password', [\App\Http\Controllers\Candidates\CandidateController::class, 'changePassword']);
+        Route::post('update', [\App\Http\Controllers\Candidates\CandidateController::class, 'profileUpdate']);
     });
 });
 

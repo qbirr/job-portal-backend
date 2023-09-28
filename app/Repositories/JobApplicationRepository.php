@@ -63,13 +63,13 @@ class JobApplicationRepository extends BaseRepository {
      * @param int $jobId
      * @return array
      */
-    public function showApplyJobForm(int $jobId): array {
+    public function showApplyJobForm(int|string $jobId): array {
         /** @var Candidate $candidate */
         $candidate = Candidate::findOrFail(Auth::user()->owner_id);
 
         /** @var Job $job */
         $job = Job::whereJobId($jobId)->with('company')->first();
-        $data['isActive'] = ($job->status == Job::STATUS_OPEN) ? true : false;
+        $data['isActive'] = $job->status == Job::STATUS_OPEN;
 
         $jobRepo = app(JobRepository::class);
         $data['isApplied'] = $this->checkJobStatus($job->id, $candidate->id, JobApplication::STATUS_APPLIED);
