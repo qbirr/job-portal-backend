@@ -82,6 +82,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
         Route::post('{job}/applications', [JobApplicationController::class, 'fetch'])->name('job-applications');
         Route::prefix('applications')->group(function () {
             Route::post('{id}/status/{status}', [JobApplicationController::class, 'changeJobApplicationStatus']);
+            Route::delete('{jobApplication}', [JobApplicationController::class, 'destroy']);
         });
     });
 });
