@@ -110,4 +110,8 @@ class IndustryController extends AppBaseController
 
         return $this->sendSuccess(__('messages.flash.industry_delete'));
     }
+
+    public function fetch() {
+        return $this->industryRepository->fetch();
+    }
 }

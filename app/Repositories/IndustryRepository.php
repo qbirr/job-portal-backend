@@ -39,6 +39,6 @@ class IndustryRepository extends BaseRepository
     }
 
     public function fetch(): Collection|_IH_Industry_C|array {
-        return Industry::all();
+        return Industry::get(['id', 'name', 'description', 'is_default']);
     }
 }
