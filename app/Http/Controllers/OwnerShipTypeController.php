@@ -108,4 +108,8 @@ class OwnerShipTypeController extends AppBaseController
 
         return $this->sendSuccess(__('messages.flash.ownership_type_delete'));
     }
+
+    public function fetch() {
+        return $this->ownerShipTypeRepository->fetch();
+    }
 }

@@ -118,3 +118,4 @@ Route::prefix('articles')->group(function () {
 
 Route::get('cities', [CityController::class, 'fetch']);
 Route::get('industries', [\App\Http\Controllers\IndustryController::class, 'fetch']);
+Route::get('ownership-types', [\App\Http\Controllers\OwnerShipTypeController::class, 'fetch']);

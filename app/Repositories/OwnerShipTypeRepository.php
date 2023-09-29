@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\OwnerShipType;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class OwnerShipTypeRepository
@@ -35,5 +36,9 @@ class OwnerShipTypeRepository extends BaseRepository
     public function model()
     {
         return OwnerShipType::class;
+    }
+
+    public function fetch(): Collection|array {
+        return OwnerShipType::get(['id', 'name', 'description', 'is_default']);
     }
 }
