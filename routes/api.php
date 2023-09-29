@@ -6,15 +6,18 @@ use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\JobController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\Candidates\CandidateProfileController;
 use App\Http\Controllers\CareerLevelController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\FunctionalAreaController;
+use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobShiftController;
 use App\Http\Controllers\JobStageController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OwnerShipTypeController;
 use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\RequiredDegreeLevelController;
 use App\Http\Controllers\SalaryCurrencyController;
@@ -112,6 +115,9 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
             Route::delete('/{media}', [\App\Http\Controllers\Candidates\CandidateController::class, 'deletedResume']);
         });
     });
+    Route::prefix('experiences')->group(function () {
+        Route::post('/', [CandidateProfileController::class, 'createExperience']);
+    });
 });
 
 Route::prefix('articles')->group(function () {
@@ -122,5 +128,5 @@ Route::prefix('articles')->group(function () {
 });
 
 Route::get('cities', [CityController::class, 'fetch']);
-Route::get('industries', [\App\Http\Controllers\IndustryController::class, 'fetch']);
-Route::get('ownership-types', [\App\Http\Controllers\OwnerShipTypeController::class, 'fetch']);
+Route::get('industries', [IndustryController::class, 'fetch']);
+Route::get('ownership-types', [OwnerShipTypeController::class, 'fetch']);
