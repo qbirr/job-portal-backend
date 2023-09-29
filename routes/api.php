@@ -124,6 +124,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
         Route::post('/', [CandidateProfileController::class, 'createEducation']);
         Route::get('/', [CandidateProfileController::class, 'fetchEducation']);
         Route::put('{candidateEducation}', [CandidateProfileController::class, 'updateEducation']);
+        Route::delete('{candidateEducation}', [CandidateProfileController::class, 'destroyEducation']);
     });
 });
 
