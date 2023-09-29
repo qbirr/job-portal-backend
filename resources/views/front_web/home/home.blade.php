@@ -510,7 +510,7 @@
         <!-- end-about-section -->
 
         <!-- start pricing-packages-section -->
-        @if(count($plans) > 0)
+        @if(getSettingValue('enable_subscription_plan') && count($plans) > 0)
             <section class="pricing-packages-section py-50">
                 <div class="container">
                     <div class="row justify-content-center">
