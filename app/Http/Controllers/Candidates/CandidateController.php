@@ -54,7 +54,7 @@ class CandidateController extends AppBaseController
     {
         /** @var User $user */
         $user = Auth::user();
-        
+
         $user->phone = preparePhoneNumber($user->phone, $user->region_code);
         $data = $this->candidateRepository->prepareData();
         $countries = getCountries();
@@ -191,7 +191,7 @@ class CandidateController extends AppBaseController
         foreach ($data['candidateEducations'] as $education) {
             $education->country = getCountryName($education->country_id);
         }
-        
+
         $data['user']->phone = empty($data['user']->phone) ? 'N/A' : $data['user']->phone;
 
         return view('candidate.profile.cv_template')->with($data)->render();
@@ -308,6 +308,11 @@ class CandidateController extends AppBaseController
     public function showCandidateAppliedJob()
     {
         return view('candidate.applied_job.index');
+    }
+
+    public function fetchCandidateAppliedJobs() {
+        $candidate = auth()->user()->candidate;
+        return $this->candidateRepository->fetchAppliedJobs($candidate);
     }
 
     /**

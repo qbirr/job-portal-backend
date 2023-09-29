@@ -9,6 +9,7 @@ use App\Models\CandidateExperience;
 use App\Models\CareerLevel;
 use App\Models\FunctionalArea;
 use App\Models\Industry;
+use App\Models\JobApplication;
 use App\Models\JobType;
 use App\Models\Language;
 use App\Models\MaritalStatus;
@@ -30,6 +31,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
 use LaravelIdea\Helper\App\Models\_IH_Candidate_C;
+use LaravelIdea\Helper\App\Models\_IH_JobApplication_C;
+use LaravelIdea\Helper\App\Models\_IH_JobApplication_QB;
 use PragmaRX\Countries\Package\Countries;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
@@ -539,5 +542,9 @@ class CandidateRepository extends BaseRepository {
         }
 
         return $all;
+    }
+
+    public function fetchAppliedJobs(Candidate $candidate): Collection|_IH_JobApplication_C|array {
+        return JobApplication::whereCandidateId($candidate->id)->with(['job', 'jobStage'])->latest()->get();
     }
 }

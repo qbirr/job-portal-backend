@@ -127,6 +127,9 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
         Route::delete('{candidateEducation}', [CandidateProfileController::class, 'destroyEducation']);
     });
     Route::prefix('jobs')->group(function () {
+        Route::prefix('applied')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Candidates\CandidateController::class, 'fetchCandidateAppliedJobs']);
+        });
         Route::prefix('favourite-jobs')->group(function () {
             Route::post('/', [\App\Http\Controllers\Web\JobController::class, 'saveFavouriteJob']);
             Route::get('/', [\App\Http\Controllers\Web\JobController::class, 'fetchFavouriteJobs']);

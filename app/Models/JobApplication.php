@@ -42,6 +42,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder|JobApplication whereJobStageId($value)
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\JobApplicationSchedule> $applicationSchedule
  * @property-read int|null $application_schedule_count
+ * @property-read Media|null $resume
  * @mixin Eloquent
  */
 class JobApplication extends Model
@@ -156,5 +157,9 @@ class JobApplication extends Model
     public function applicationSchedule(): HasMany
     {
         return $this->hasMany(JobApplicationSchedule::class, 'job_application_id');
+    }
+
+    public function resume(): BelongsTo {
+        return $this->belongsTo(Media::class, 'resume_id');
     }
 }

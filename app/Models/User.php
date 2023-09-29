@@ -124,6 +124,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereRegionCode($value)
  * @property string|null $theme_mode
  * @method static Builder|User whereThemeMode($value)
+ * @property-read Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
  * @mixin Eloquent
  */
 class User extends Authenticatable implements HasMedia {
