@@ -126,6 +126,9 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
         Route::put('{candidateEducation}', [CandidateProfileController::class, 'updateEducation']);
         Route::delete('{candidateEducation}', [CandidateProfileController::class, 'destroyEducation']);
     });
+    Route::prefix('jobs')->group(function () {
+        Route::post('/save-favourite-job', [\App\Http\Controllers\Web\JobController::class, 'saveFavouriteJob']);
+    });
 });
 
 Route::prefix('articles')->group(function () {
