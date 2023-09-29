@@ -33,7 +33,7 @@ class JobController extends AppBaseController
      */
     public function index(Request $request)
     {
-      
+
         $data = $this->jobRepository->prepareJobData();
         $data['input'] = $request->all();
 
@@ -97,6 +97,10 @@ class JobController extends AppBaseController
         }
 
         return $this->sendResponse($favouriteJob, __('messages.flash.fav_job_removed'));
+    }
+
+    public function fetchFavouriteJobs() {
+        return $this->jobRepository->fetchFavouriteJobs(auth()->user());
     }
 
     /**

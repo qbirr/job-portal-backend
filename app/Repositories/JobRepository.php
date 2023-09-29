@@ -38,6 +38,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use LaravelIdea\Helper\App\Models\_IH_FavouriteJob_C;
 use LaravelIdea\Helper\App\Models\_IH_Job_C;
 use PragmaRX\Countries\Package\Countries;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -368,6 +369,10 @@ class JobRepository extends BaseRepository {
 
             return false;
         }
+    }
+
+    public function fetchFavouriteJobs(User $user): array|Collection|_IH_FavouriteJob_C {
+        return FavouriteJob::whereUserId($user->id)->with(['job'])->latest()->get();
     }
 
     /**
