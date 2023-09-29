@@ -130,6 +130,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
         Route::prefix('favourite-jobs')->group(function () {
             Route::post('/', [\App\Http\Controllers\Web\JobController::class, 'saveFavouriteJob']);
             Route::get('/', [\App\Http\Controllers\Web\JobController::class, 'fetchFavouriteJobs']);
+            Route::delete('{favouriteJob}', [\App\Http\Controllers\Candidates\CandidateController::class, 'deleteFavouriteJob']);
         });
     });
 });
