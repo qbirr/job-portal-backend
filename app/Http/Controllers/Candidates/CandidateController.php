@@ -247,11 +247,14 @@ class CandidateController extends AppBaseController
 
     /**
      * @param  Request  $request
-     * @return RedirectResponse|Redirector
+     * @return JsonResponse|RedirectResponse|Redirector
      */
     public function updateJobAlert(Request $request)
     {
         $this->candidateRepository->updateJobAlerts($request->all());
+        if ($request->ajax())
+            return $this->sendSuccess('Job alerts saved');
+
         Flash::success(__('messages.flash.job_alert'));
 
         return redirect(route('candidate.job.alert'));
