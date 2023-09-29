@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\Requests\EmailJobToFriendRequest;
 use App\Http\Requests\EmployerJobSearchRequest;
 use App\Http\Requests\JobSearchRequest;
 use App\Models\Job;
@@ -60,5 +61,14 @@ class JobController extends AppBaseController {
 
     public function employerJobs(EmployerJobSearchRequest $request) {
         return $this->jobRepository->employerJobs(auth()->user()->company, $request);
+    }
+
+    public function emailJobToFriend(EmailJobToFriendRequest $request) {
+        $input = $request->all();
+        $job = Job::findOrFail($request->job_id);
+        $input = array_merge($input, ['user_id' => auth()->id(), 'job_url' => url('job-details/' . $job->job_id)]);
+        $this->jobRepository->emailJobToFriend($input);
+
+        return $this->sendSuccess(__('messages.flash.job_emailed_to'));
     }
 }

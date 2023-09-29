@@ -5,6 +5,9 @@ namespace App\Http\Requests;
 use App\Models\EmailJob;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property int $job_id
+ */
 class EmailJobToFriendRequest extends FormRequest
 {
     /**

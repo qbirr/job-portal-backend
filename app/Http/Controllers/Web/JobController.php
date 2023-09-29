@@ -15,24 +15,21 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 
-class JobController extends AppBaseController
-{
+class JobController extends AppBaseController {
     /** @var JobRepository */
-    private $jobRepository;
+    private JobRepository $jobRepository;
 
-    public function __construct(JobRepository $jobRepo)
-    {
+    public function __construct(JobRepository $jobRepo) {
         $this->jobRepository = $jobRepo;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Application|Factory|View
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
 
         $data = $this->jobRepository->prepareJobData();
         $data['input'] = $request->all();
@@ -40,12 +37,7 @@ class JobController extends AppBaseController
         return view('front_web.jobs.index')->with($data);
     }
 
-    /**
-     * @param  string  $uniqueJobId
-     * @return Application|Factory|View
-     */
-    public function jobDetails($uniqueJobId)
-    {
+    public function jobDetails(string|int $uniqueJobId) {
         $job = Job::with('jobsTag')->whereJobId($uniqueJobId)->first();
 
         if (empty($job)) {
@@ -75,21 +67,20 @@ class JobController extends AppBaseController
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString());
         $data['getRelatedJobs'] = $relatedJobs->whereNotIn('id', [$job->id])->orderByDesc('created_at')->take(6)->get();
         $url = [
-            'gmail' => 'https://plus.google.com/share?url='.url()->current(),
-            'twitter' => 'https://twitter.com/intent/tweet?url='.url()->current(),
-            'facebook' => 'https://www.facebook.com/sharer/sharer.php?u='.url()->current(),
-            'pinterest' => 'http://pinterest.com/pin/create/button/?url='.url()->current(),
+            'gmail' => 'https://plus.google.com/share?url=' . url()->current(),
+            'twitter' => 'https://twitter.com/intent/tweet?url=' . url()->current(),
+            'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . url()->current(),
+            'pinterest' => 'http://pinterest.com/pin/create/button/?url=' . url()->current(),
         ];
 
         return view('front_web.jobs.job_details', compact('job', 'url'))->with($data);
     }
 
     /**
-     * @param  Request  $request
-     * @return JsonResource
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function saveFavouriteJob(Request $request)
-    {
+    public function saveFavouriteJob(Request $request) {
         $input = $request->all();
         $favouriteJob = $this->jobRepository->storeFavouriteJobs($input);
         if ($favouriteJob) {
@@ -104,11 +95,10 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return JsonResource
      */
-    public function reportJobAbuse(Request $request)
-    {
+    public function reportJobAbuse(Request $request) {
         $input = $request->all();
         $this->jobRepository->storeReportJobAbuse($input);
 
@@ -116,11 +106,10 @@ class JobController extends AppBaseController
     }
 
     /**
-     * @param  EmailJobToFriendRequest  $request
-     * @return JsonResource
+     * @param EmailJobToFriendRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function emailJobToFriend(EmailJobToFriendRequest $request)
-    {
+    public function emailJobToFriend(EmailJobToFriendRequest $request) {
         $input = $request->all();
         $this->jobRepository->emailJobToFriend($input);
 

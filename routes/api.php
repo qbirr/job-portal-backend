@@ -140,6 +140,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
             Route::get('/', [\App\Http\Controllers\Candidates\CandidateController::class, 'fetchJobAlert']);
             Route::post('/', [\App\Http\Controllers\Candidates\CandidateController::class, 'updateJobAlert']);
         });
+        Route::post('email-job', [JobController::class, 'emailJobToFriend']);
     });
     Route::prefix('favourite-companies')->group(function () {
         Route::post('/', [\App\Http\Controllers\Web\CompanyController::class, 'saveFavouriteCompany']);
