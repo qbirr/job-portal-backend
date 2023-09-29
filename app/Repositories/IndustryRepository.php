@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Industry;
+use Illuminate\Database\Eloquent\Collection;
+use LaravelIdea\Helper\App\Models\_IH_Industry_C;
 
 /**
  * Class IndustryRepository
@@ -34,5 +36,9 @@ class IndustryRepository extends BaseRepository
     public function model()
     {
         return Industry::class;
+    }
+
+    public function fetch(): Collection|_IH_Industry_C|array {
+        return Industry::all();
     }
 }
