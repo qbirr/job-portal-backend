@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Validation\ValidationException;
 use LaravelIdea\Helper\App\Models\_IH_Company_C;
+use LaravelIdea\Helper\App\Models\_IH_FavouriteCompany_C;
+use LaravelIdea\Helper\App\Models\_IH_FavouriteJob_C;
 use PragmaRX\Countries\Package\Countries;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -300,6 +302,10 @@ class CompanyRepository extends BaseRepository {
             ->delete();
 
         return false;
+    }
+
+    public function fetchFavouriteCompanies(User $user): array|Collection|_IH_FavouriteJob_C|_IH_FavouriteCompany_C {
+        return FavouriteCompany::whereUserId($user->id)->with(['company'])->latest()->get();
     }
 
     /**

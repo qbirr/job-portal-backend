@@ -69,6 +69,10 @@ class CompanyController extends AppBaseController
         return $this->sendResponse($favouriteJob, __('messages.flash.unfollow_company'));
     }
 
+    public function fetchFavouriteCompany() {
+        return $this->companyRepository->fetchFavouriteCompanies(auth()->user());
+    }
+
     /**
      * @param  Request  $request
      * @return JsonResource

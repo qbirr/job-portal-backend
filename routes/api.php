@@ -135,6 +135,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
     });
     Route::prefix('favourite-companies')->group(function () {
         Route::post('/', [\App\Http\Controllers\Web\CompanyController::class, 'saveFavouriteCompany']);
+        Route::get('/', [\App\Http\Controllers\Web\CompanyController::class, 'fetchFavouriteCompany']);
     });
 });
 
