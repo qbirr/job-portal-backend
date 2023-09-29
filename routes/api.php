@@ -123,6 +123,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
     Route::prefix('educations')->group(function () {
         Route::post('/', [CandidateProfileController::class, 'createEducation']);
         Route::get('/', [CandidateProfileController::class, 'fetchEducation']);
+        Route::put('{candidateEducation}', [CandidateProfileController::class, 'updateEducation']);
     });
 });
 
