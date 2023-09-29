@@ -106,6 +106,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
         Route::get('/', [\App\Http\Controllers\Candidates\CandidateController::class, 'editCandidateProfile']);
         Route::post('change-password', [\App\Http\Controllers\Candidates\CandidateController::class, 'changePassword']);
         Route::post('update', [\App\Http\Controllers\Candidates\CandidateController::class, 'profileUpdate']);
+        Route::post('resume', [\App\Http\Controllers\Candidates\CandidateController::class, 'uploadResume']);
     });
 });
 
