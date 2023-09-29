@@ -109,6 +109,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
         Route::prefix('resumes')->group(function () {
             Route::post('/', [\App\Http\Controllers\Candidates\CandidateController::class, 'uploadResume']);
             Route::get('/{media}', [\App\Http\Controllers\CandidateController::class, 'downloadResume']);
+            Route::delete('/{media}', [\App\Http\Controllers\Candidates\CandidateController::class, 'deletedResume']);
         });
     });
 });
