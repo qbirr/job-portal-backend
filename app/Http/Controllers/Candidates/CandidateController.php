@@ -241,6 +241,10 @@ class CandidateController extends AppBaseController
         return view('candidate.job_alert.edit')->with($data);
     }
 
+    public function fetchJobAlert() {
+        return $this->candidateRepository->getJobAlerts();
+    }
+
     /**
      * @param  Request  $request
      * @return RedirectResponse|Redirector
