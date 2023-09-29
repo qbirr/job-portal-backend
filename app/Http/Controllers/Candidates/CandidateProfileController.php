@@ -115,6 +115,11 @@ class CandidateProfileController extends AppBaseController
         return $this->sendResponse($candidateEducation, __('messages.flash.candidate_education_save'));
     }
 
+    public function fetchEducation() {
+        $candidate = auth()->user()->candidate;
+        return $this->candidateProfileRepository->fetchEducation($candidate);
+    }
+
     /**
      * @param  CandidateEducation  $candidateEducation
      * @return mixed

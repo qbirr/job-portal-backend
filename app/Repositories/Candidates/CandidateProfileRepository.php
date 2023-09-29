@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use LaravelIdea\Helper\App\Models\_IH_CandidateEducation_C;
 use LaravelIdea\Helper\App\Models\_IH_CandidateExperience_C;
 
 /**
@@ -90,5 +91,9 @@ class CandidateProfileRepository extends BaseRepository
     {
         return CandidateEducation::with('degreeLevel')
             ->where('id', $candidateEducation->id)->first();
+    }
+
+    public function fetchEducation(Candidate $candidate): Collection|array|_IH_CandidateEducation_C {
+        return CandidateEducation::whereCandidateId($candidate->id)->get();
     }
 }
