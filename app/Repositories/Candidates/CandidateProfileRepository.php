@@ -7,8 +7,10 @@ use App\Models\CandidateEducation;
 use App\Models\CandidateExperience;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use LaravelIdea\Helper\App\Models\_IH_CandidateExperience_C;
 
 /**
  * Class CandidateProfileRepository
@@ -60,6 +62,10 @@ class CandidateProfileRepository extends BaseRepository
         $candidateExperience->country = getCountryName($candidateExperience->country_id);
 
         return $candidateExperience;
+    }
+
+    public function fetchExperience(Candidate $candidate): Collection|array|_IH_CandidateExperience_C {
+        return CandidateExperience::whereCandidateId($candidate->id)->get();
     }
 
     /**

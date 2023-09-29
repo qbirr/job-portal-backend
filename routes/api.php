@@ -117,6 +117,8 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
     });
     Route::prefix('experiences')->group(function () {
         Route::post('/', [CandidateProfileController::class, 'createExperience']);
+        Route::get('/', [CandidateProfileController::class, 'fetchExperience']);
+        Route::put('/{candidateExperience}', [CandidateProfileController::class, 'updateExperience']);
     });
 });
 

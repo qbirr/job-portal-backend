@@ -37,6 +37,11 @@ class CandidateProfileController extends AppBaseController
         return $this->sendResponse($candidateExperience, __('messages.flash.candidate_experience_save'));
     }
 
+    public function fetchExperience() {
+        $candidate = auth()->user()->candidate;
+        return $this->candidateProfileRepository->fetchExperience($candidate);
+    }
+
     /**
      * @param  CandidateExperience  $candidateExperience
      * @return mixed
