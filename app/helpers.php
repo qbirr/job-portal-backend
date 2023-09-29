@@ -737,9 +737,9 @@ function googleJobSchema()
                 '@type' => 'Place',
                 'address' => [
                     '@type' => 'PostalAddress',
-                    'streetAddress' => $job->company->location ?? $job->company->location,
-                    'addressLocality' => $job->company->location2 ?? $job->company->location2,
-                    'addressRegion' => $job->city->name ?? $job->city->name,
+                    'streetAddress' => $job->company?->location,
+                    'addressLocality' => $job->company?->location2,
+                    'addressRegion' => $job->city?->name,
 //                    'addressCountry' => $job->country->name ?? $job->country->name,
                 ],
             ])
