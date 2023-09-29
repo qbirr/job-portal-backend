@@ -70,6 +70,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
     });
     Route::prefix('company')->group(function () {
         Route::get('/', [CompanyController::class, 'profile']);
+        Route::put('/', [CompanyController::class, 'update']);
     });
     Route::prefix('candidates')->group(function () {
         Route::post('search', [CandidateController::class, 'search']);
