@@ -120,6 +120,9 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
         Route::get('/', [CandidateProfileController::class, 'fetchExperience']);
         Route::put('/{candidateExperience}', [CandidateProfileController::class, 'updateExperience']);
     });
+    Route::prefix('educations')->group(function () {
+        Route::post('/', [CandidateProfileController::class, 'createEducation']);
+    });
 });
 
 Route::prefix('articles')->group(function () {
