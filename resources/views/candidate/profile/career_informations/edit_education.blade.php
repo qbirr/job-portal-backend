@@ -14,7 +14,7 @@
         <span class="required"></span>
         {{ Form::text('degree_title', null, ['class' => 'form-control','id' => 'editDegreeTitle']) }}
     </div>
-    <div class="col-sm-6 mb-5">
+    {{--<div class="col-sm-6 mb-5">
         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label ']) }}
         <span class="required"></span>
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'editCvEducationCountry','class' => 'form-select','placeholder' => __('messages.company.select_country'), 'data-modal-type' => 'education', 'data-is-edit' => 'true']) }}
@@ -26,7 +26,7 @@
     <div class="col-sm-6 mb-5">
         {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label']) }}
         {{ Form::select('city_id', [], null, ['id'=>'editCvEducationCity','class' => 'form-select','placeholder' => __('messages.company.select_city'), 'data-is-edit' => 'true']) }}
-    </div>
+    </div>--}}
     <div class="col-sm-6 mb-5">
         {{ Form::label('institute',__('messages.candidate_profile.institute').':', ['class' => 'form-label ']) }}
         <span class="required"></span>
