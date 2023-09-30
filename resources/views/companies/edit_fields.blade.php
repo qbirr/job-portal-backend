@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
+    {{--<div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label']) }}
         <div class="input-group flex-nowrap select2-width-input-grp">
             {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-select ','placeholder' => __('messages.company.select_country')]) }}
@@ -74,7 +74,7 @@
                             class="fa fa-plus"></i></a>
             </div>
         </div>
-    </div>
+    </div>--}}
     {{--<div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('company_size_id', __('messages.company.company_size').':', ['class' => 'form-label']) }}
         <span class="required"></span>
@@ -205,7 +205,7 @@
         {{ Form::select('submission_status_id', $submissionStatuses, isset($company)?$company->submission_status_id:null,
 ['id'=>'submission_status_id','class' => 'form-select ','placeholder' => __('messages.company.select_submission_status')]) }}
         {{ Form::textarea('submission_notes', $company->lastSubmissionLog->notes ?? '',
-['class' => 'form-control mt-2 ', 'id' => 'submission_notes', 'required', $company->submission_status_id == 3 ? '' : 'hidden novalidate',
+['class' => 'form-control mt-2 ', 'id' => 'submission_notes', $company->submission_status_id == 3 ? 'required' : 'hidden novalidate',
 'autocomplete' => 'off', 'placeholder' => 'Rejection Reason / Notes']) }}
     </div>
     <!-- Submit Field -->

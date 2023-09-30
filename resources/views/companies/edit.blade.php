@@ -41,9 +41,9 @@
         @include('companies.modals.states')
         @include('companies.modals.cities')
         @include('companies.modals.company_sizes')
-        {{ Form::hidden('country-id', $company->user->country_id, ['id' => 'countryId']) }}
+        {{--{{ Form::hidden('country-id', $company->user->country_id, ['id' => 'countryId']) }}
         {{ Form::hidden('state-id', $company->user->state_id, ['id' => 'stateId']) }}
-        {{ Form::hidden('city-id', $company->user->city_id, ['id' => 'cityId']) }}
+        {{ Form::hidden('city-id', $company->user->city_id, ['id' => 'cityId']) }}--}}
         {{Form::hidden('employerDetail', $company->details, ['id' => 'employerDetail'])}}
         {{Form::hidden('employerPanel',false,['class'=>'employerPanel'])}}
         {{Form::hidden('isEdit', true, ['class' => 'isEdit'])}}
