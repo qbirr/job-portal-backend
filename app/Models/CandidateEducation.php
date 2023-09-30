@@ -57,7 +57,7 @@ class CandidateEducation extends Model
      */
     public static $rules = [
         'degree_title' => 'required|max:150',
-        'country_id' => 'required',
+//        'country_id' => 'required',
         'institute' => 'required|max:150',
         'result' => 'required|max:150',
         'year' => 'required',
