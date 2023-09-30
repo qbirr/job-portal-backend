@@ -205,7 +205,7 @@
         {{ Form::select('submission_status_id', $submissionStatuses, isset($company)?$company->submission_status_id:null,
 ['id'=>'submission_status_id','class' => 'form-select ','placeholder' => __('messages.company.select_submission_status')]) }}
         {{ Form::textarea('submission_notes', $company->lastSubmissionLog->notes ?? '',
-['class' => 'form-control mt-2 ', 'id' => 'submission_notes', 'required', $company->submission_status_id == 3 ? '' : 'hidden',
+['class' => 'form-control mt-2 ', 'id' => 'submission_notes', 'required', $company->submission_status_id == 3 ? '' : 'hidden novalidate',
 'autocomplete' => 'off', 'placeholder' => 'Rejection Reason / Notes']) }}
     </div>
     <!-- Submit Field -->
@@ -220,10 +220,15 @@
     $(_ => {
         $('#submission_status_id').on('change', function() {
             console.log(this.value)
-            if (parseInt(this.value) === 3)
-                $('#submission_notes').removeAttr('hidden')
-            else
-                $('#submission_notes').prop('hidden', true)
+            if (parseInt(this.value) === 3) {
+                $('#submission_notes')
+                    .removeAttr('hidden')
+                    .prop('required', true)
+            } else {
+                $('#submission_notes')
+                    .prop('hidden', true)
+                    .removeAttr('required')
+            }
         })
     })
 </script>
