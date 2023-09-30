@@ -74,4 +74,16 @@ class JobController extends AppBaseController {
 
         return $this->sendSuccess(__('messages.flash.job_emailed_to'));
     }
+
+    public function reportJobAbuse(Request $request, Job $job) {
+        $input = array_merge($request->all(),
+            [
+                'jobId' => $job->id,
+                'userId' => auth()->id(),
+            ]
+        );
+        $this->jobRepository->storeReportJobAbuse($input);
+
+        return $this->sendSuccess(__('messages.flash.job_abuse_reported'));
+    }
 }
