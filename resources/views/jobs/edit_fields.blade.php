@@ -110,7 +110,7 @@
                 <a href="javascript:void(0)" class=" text-gray-500 createStateModal"><i class="fa fa-plus"></i></a>
             </div>
         </div>
-    </div>--}}
+    </div>
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label ']) }}<span
                 class="required"></span>
@@ -120,7 +120,7 @@
                 <a href="javascript:void(0)" class=" text-gray-500 createCityModal"><i class="fa fa-plus"></i></a>
             </div>
         </div>
-    </div>
+    </div>--}}
     <div class="col-xl-6 col-md-6 col-sm-12 mb-55">
         {{ Form::label('career_level_id', __('messages.job.career_level').':', ['class' => 'form-label ']) }}
         <div class="input-group flex-nowrap">
@@ -196,7 +196,7 @@
     {{--        </label>--}}
 {{--    </div>--}}
 
-    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
+    <div class="col-xl-3 col-md-3 col-sm-12 mb-5">
         <label class="form-label ">{{ __('messages.job.hide_salary').':' }}</label>
         <label class="form-check form-switch form-switch-sm">
             <input type="checkbox" name="hide_salary" class="form-check-input"
@@ -211,7 +211,7 @@
 {{--            <span class="custom-switch-indicator"></span>--}}
 {{--        </label>--}}
 {{--    </div>--}}
-    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
+    <div class="col-xl-3 col-md-3 col-sm-12 mb-5">
         <label class="form-label">{{ __('messages.job.is_freelance').':' }}</label>
         <label class="form-check form-switch form-switch-sm">
             <input type="checkbox" name="is_freelance" class="form-check-input"
