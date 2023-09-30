@@ -43,9 +43,9 @@
                 @endif
                 @include('employer.companies.edit_fields')
                 {{ Form::close() }}
-                {{ Form::hidden('countryId',$company->user->country_id,['id' => 'countryId']) }}
+                {{--{{ Form::hidden('countryId',$company->user->country_id,['id' => 'countryId']) }}
                 {{ Form::hidden('stateId',$company->user->state_id,['id' => 'stateId']) }}
-                {{ Form::hidden('cityId',$company->user->city_id,['id' => 'cityId']) }}
+                {{ Form::hidden('cityId',$company->user->city_id,['id' => 'cityId']) }}--}}
                 {{ Form::hidden('companyId',$company->id,['id' => 'employerCompanyId']) }}
                     {{ Form::hidden('employerPanel',true,['class'=>'employerPanel'])}}
                     {{Form::hidden('isEdit', true, ['class' => 'isEdit'])}}
