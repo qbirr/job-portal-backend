@@ -148,6 +148,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
         Route::post('/', [\App\Http\Controllers\Web\CompanyController::class, 'saveFavouriteCompany']);
         Route::get('/', [\App\Http\Controllers\Web\CompanyController::class, 'fetchFavouriteCompany']);
     });
+    Route::post('companies/{company}/report-to-company', [CompanyController::class, 'reportToCompany']);
 });
 
 Route::prefix('articles')->group(function () {
