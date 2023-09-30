@@ -21,7 +21,7 @@
                            data-id="{{ $candidateEducation->id }}"><i class="fa-solid fa-trash"></i></a>
                     </div>
                 </div>
-                <span class="text-muted">{{ $candidateEducation->year }} | {{ $candidateEducation->country }}</span>
+                <span class="text-muted">{{ $candidateEducation->year }} {{--| {{ $candidateEducation->country }}--}}</span>
                 <p class="mb-0">{{ Str::limit($candidateEducation->institute,50,'...') }}</p>
             </div>
         </article>
