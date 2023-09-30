@@ -59,7 +59,7 @@ class CandidateExperience extends Model
     public static $rules = [
         'experience_title' => 'required|max:150',
         'company' => 'required|max:150',
-        'country_id' => 'required',
+//        'country_id' => 'required',
         'start_date' => 'required|date',
         'end_date' => 'nullable|date',
     ];
