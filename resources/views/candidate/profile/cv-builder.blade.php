@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.css') }}">
 @endpush
 @section('section')
-    
+
             <div class="row">
                 <div class="d-flex justify-content-end">
                     <a href="#cvModal" role="button" class="btn btn-primary cv-preview"
@@ -82,9 +82,9 @@
             {{ Form::hidden('style-css-url', asset('assets/css/style.css'), ['id' => 'styleCssUrl']) }}
             {{ Form::hidden('font-css-url', asset('assets/css/font-awesome.min.css'), ['id' => 'fontCssUrl']) }}
             {{ Form::hidden('isEditProfile', true, ['id' => 'isEditProfile']) }}
-            {{ Form::hidden('countryId', $user->country_id, ['id' => 'countryId']) }}
+            {{--{{ Form::hidden('countryId', $user->country_id, ['id' => 'countryId']) }}
             {{ Form::hidden('stateId', $user->state_id, ['id' => 'stateId']) }}
-            {{ Form::hidden('cityId', $user->city_id, ['id' => 'cityId']) }}
+            {{ Form::hidden('cityId', $user->city_id, ['id' => 'cityId']) }}--}}
             {{ Form::hidden('present', __('messages.candidate_profile.present'), ['id' => 'cvPresent']) }}
             {{ Form::hidden('cvBuilderData',true, ['id' => 'indexCvBuilderData']) }}
 @endsection
