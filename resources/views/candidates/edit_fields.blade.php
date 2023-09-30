@@ -62,9 +62,9 @@
     </div>
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('marital_status', __('messages.candidate.marital_status').':', ['class' => 'form-label ']) }}
-        <span class="required"></span>
+{{--        <span class="required"></span>--}}
         <div class="input-group flex-nowrap">
-            {{ Form::select('marital_status_id', $data['maritalStatus'], isset($candidate)?$candidate->marital_status_id:null, ['class' => 'form-select','required','id' => 'maritalStatusId','placeholder'=>__('messages.candidate.marital_status')]) }}
+            {{ Form::select('marital_status_id', $data['maritalStatus'], isset($candidate)?$candidate->marital_status_id:null, ['class' => 'form-select','id' => 'maritalStatusId','placeholder'=>__('messages.candidate.marital_status')]) }}
             <div class="input-group-text border-0">
                 <a href="javascript:void(0)" class="text-gray-500 createCandidateMaritalStatusModal"><i
                             class="fa fa-plus"></i></a>
@@ -79,7 +79,7 @@
         {{ Form::label('national_id_card', __('messages.candidate.national_id_card').':', ['class' => 'form-label ']) }}
         {{ Form::text('national_id_card', isset($candidate) ? $candidate->national_id_card : null, ['class' => 'form-control', 'placeholder' => __('messages.candidate.national_id_card')]) }}
     </div>
-    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
+    {{--<div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label ']) }}
         <div class="input-group flex-nowrap">
             {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-select','placeholder' => __('messages.company.select_country')]) }}
@@ -108,7 +108,7 @@
                             class="fa fa-plus"></i></a>
             </div>
         </div>
-    </div>
+    </div>--}}
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('phone', __('messages.candidate.phone').':', ['class' => 'form-label']) }}
         {{ Form::tel('phone', null, ['class' => 'form-control', 'onkeyup' => 'if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")','id'=>'phoneNumber','placeholder' => __('messages.inquiry.phone_no')]) }}
