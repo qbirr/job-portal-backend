@@ -13,7 +13,7 @@
         <span class="required"></span>
         {{ Form::text('company', null, ['class' => 'form-control','required','placeholder'=>__('messages.candidate_profile.company')]) }}
     </div>
-    <div class="col-sm-6 mb-5">
+    {{--<div class="col-sm-6 mb-5">
         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label ']) }}
         <span class="required"></span>
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','required','class' => 'form-select','placeholder' => __('messages.company.select_country'), 'data-modal-type' => 'experience']) }}
@@ -25,7 +25,7 @@
     <div class="col-sm-6 mb-5">
         {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label']) }}
         {{ Form::select('city_id', [], null, ['id'=>'cityId','class' => 'form-select ','placeholder' => __('messages.company.select_city')]) }}
-    </div>
+    </div>--}}
     <div class="col-sm-6 mb-5">
         {{ Form::label('start_date', __('messages.candidate_profile.start_date').':', ['class' => 'form-label ']) }}
         <span class="required"></span>
@@ -37,7 +37,7 @@
                 class="required" id="requiredText"></span>
 
         <input type="text" name="end_date" id="endDate" class="form-control {{(getLoggedInUser()->theme_mode) ? 'bg-light' : 'bg-white'}}" autocomplete="off" placeholder="{{__('messages.candidate_profile.end_date')}}">
-  
+
     </div>
     <div class="col-sm-6 mb-0 pt-3">
         <label

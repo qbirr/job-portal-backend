@@ -23,7 +23,7 @@
                 <span class="text-muted">{{ \Carbon\Carbon::parse($candidateExperience->start_date)->translatedFormat('jS M, Y')}} - </span>
                 <span class="text-muted">
                     {{ ($candidateExperience->currently_working) ? __('messages.candidate_profile.present') : \Carbon\Carbon::parse($candidateExperience->end_date)->translatedFormat('jS M, Y') }}
-                 | {{ $candidateExperience->country }}</span>
+                 {{--| {{ $candidateExperience->country }}--}}</span>
                 @if(!empty($candidateExperience->description))
                     <p class="mb-0">{{ Str::limit($candidateExperience->description,225,'...') }}</p>
                 @endif
