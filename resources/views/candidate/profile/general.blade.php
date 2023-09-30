@@ -78,7 +78,7 @@
                         {{ Form::label('national_id_card', __('messages.candidate.national_id_card').':', ['class' => 'form-label']) }}
                         {{ Form::text('national_id_card', $user->candidate->national_id_card ?? null, ['class' => 'form-control ', 'placeholder' => __('messages.candidate.national_id_card') ]) }}
                     </div>
-                    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
+                    {{--<div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label']) }}
                         {{ Form::select('country_id',  $data['countries'], null, ['class' => 'form-select ','id'=>'countryId','placeholder' => __('messages.company.select_country')]) }}
                     </div>
@@ -89,7 +89,7 @@
                     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
                         {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label']) }}
                         {{ Form::select('city_id',(isset($cities) && $cities!=null?$cities:[]), null,['class' => 'form-select ','id'=>'cityId','placeholder' => __('messages.company.select_city')]) }}
-                    </div>
+                    </div>--}}
                     <div class="col-sm-6 mb-5 mobile-itel-width">
                         {{ Form::label('phone',__('messages.candidate.phone').(':'),['class' => 'form-label']) }}
                         <div class="col-sm-12 mb-5">
