@@ -69,7 +69,7 @@
 
     </a>
 </li>
-<li class="nav-item {{ Request::is('admin/countries*','admin/states*','admin/cities*') ? 'active' : '' }}">
+{{--<li class="nav-item {{ Request::is('admin/countries*','admin/states*','admin/cities*') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center py-3" aria-current="page" href="{{ route('countries.index') }}">
         <span class="aside-menu-icon pe-3"><i class="fas fa-globe-americas"></i></span>
         <span class="aside-menu-title">{{ __('messages.country.countries') }}</span>
@@ -78,7 +78,7 @@
         <span class="d-none">{{ __('messages.city.cities') }}</span>
 
     </a>
-</li>
+</li>--}}
 <li class="nav-item {{ Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center py-3" aria-current="page" href="{{ route('maritalStatus.index') }}">
         <span class="aside-menu-icon pe-3"><i class="fas fa-life-ring"></i></span>
