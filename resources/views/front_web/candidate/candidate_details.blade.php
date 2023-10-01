@@ -30,7 +30,7 @@
                                             {{!empty($candidateDetails->functionalArea->name)? $candidateDetails->functionalArea->name : __('messages.common.n/a')}}</p>
                                     </div>
 
-                                    @if(!empty($candidateDetails->user->country_name))
+                                    {{--@if(!empty($candidateDetails->user->country_name))
                                         <div class="desc d-flex align-items-center me-lg-4 me-2 pe-2">
                                             <i class="fa-solid fa-location-dot text-gray me-3 fs-18"></i>
                                             <p class="fs-14 text-gray mb-0">
@@ -43,7 +43,7 @@
                                                 @endif
                                             </p>
                                         </div>
-                                    @endif
+                                    @endif--}}
                                     <div class="desc d-flex align-items-center me-lg-4 me-2 pe-2">
                                         <i class="fa-solid fa-envelope text-gray me-3 fs-18"></i>
                                         <p class="fs-14 text-gray mb-0">
