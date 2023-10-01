@@ -105,7 +105,7 @@
             </div>
         </div>
     </div>--}}
-    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
+    {{--<div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label ']) }}<span
                 class="required"></span>
         <div class="input-group flex-nowrap">
@@ -114,7 +114,7 @@
                 <a href="javascript:void(0)" class="text-gray-500 createCityModal"><i class="fa fa-plus"></i></a>
             </div>
         </div>
-    </div>
+    </div>--}}
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('career_level_id', __('messages.job.career_level').':', ['class' => 'form-label ']) }}
         <div class="input-group flex-nowrap">
