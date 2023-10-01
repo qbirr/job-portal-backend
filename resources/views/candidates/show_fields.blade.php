@@ -54,7 +54,7 @@
         {{ Form::label('national_id_card', __('messages.candidate.national_id_card').':', ['class' => 'pb-2 fs-5 text-gray-600']) }}
         <p class="fs-5 text-gray-800">{{ !empty($candidate->national_id_card)?$candidate->national_id_card:__('messages.common.n/a') }}</p>
     </div>
-    <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
+    {{--<div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
         {{ Form::label('country', __('messages.company.country').':', ['class' => 'pb-2 fs-5 text-gray-600']) }}
         <p class="fs-5 text-gray-800">{{ !empty($candidate->user->country_id) ?$candidate->user->country_name:__('messages.common.n/a') }}</p>
     </div>
@@ -65,7 +65,7 @@
     <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
         {{ Form::label('city', __('messages.company.city').':', ['class' => 'pb-2 fs-5 text-gray-600']) }}
         <p class="fs-5 text-gray-800">{{ !empty($candidate->user->city_id)?$candidate->user->city_name:__('messages.common.n/a') }}</p>
-    </div>
+    </div>--}}
     <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
         {{ Form::label('phone', __('messages.candidate.phone').':', ['class' => 'pb-2 fs-5 text-gray-600']) }}
         <p class="fs-5 text-gray-800">{{ !empty($candidate->user->phone)?$candidate->user->phone:__('messages.common.n/a') }}</p>
