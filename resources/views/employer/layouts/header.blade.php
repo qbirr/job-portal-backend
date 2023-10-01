@@ -94,10 +94,10 @@
                                 <img src="{{ getLoggedInUser()->avatar }}" class="img-fluid" alt="profile image">
                             </div>
                             <h3 class="text-gray-900">{{\Illuminate\Support\Facades\Auth::user()->full_name}}</h3>
-                            <h4 class="mb-0 fw-400 fs-6">{{\Illuminate\Support\Facades\Auth::user()->email}}</h4>
+                            <h4 class="mb-2 fw-400 fs-6">{{\Illuminate\Support\Facades\Auth::user()->email}}</h4>
                             <div class="badge
                             @switch(Auth::user()->company->submissionStatus->id) @case(3) bg-red-500 @break @case(2) bg-success @break @default bg-warning @break @endswitch bg-success">
-                                {{ Auth::user()->company->submissionStatus->status_name }}
+                                {{ Str::ucfirst(Auth::user()->company->submissionStatus->status_name) }}
                             </div>
                         </div>
                         <ul class="pt-4">
