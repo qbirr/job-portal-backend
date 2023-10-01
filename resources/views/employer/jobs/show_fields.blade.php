@@ -74,24 +74,24 @@
 
         <p  class="fw-bolder fs-6 text-gray-800">{{ $job->position }}</p>
     </div>
-    <div class="form-group col-xl-6 col-md-6 col-sm-12">
-{{--        {{ Form::label('country', __('messages.job.country').':') }}--}}
+    {{--<div class="form-group col-xl-6 col-md-6 col-sm-12">
+--}}{{--        {{ Form::label('country', __('messages.job.country').':') }}--}}{{--
         {{ Form::label('country', __('messages.job.country').':'), ['class' => 'form-label fs-6 fw-bolder text-gray-700 mb-3']) }}
 
         <p  class="fw-bolder fs-6 text-gray-800">{{ !empty($job->country_id) ?$job->country_name:__('messages.common.n/a') }}</p>
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-{{--        {{ Form::label('state', __('messages.job.state').':') }}--}}
+--}}{{--        {{ Form::label('state', __('messages.job.state').':') }}--}}{{--
         {{ Form::label('state', __('messages.job.state').':'), ['class' => 'form-label fs-6 fw-bolder text-gray-700 mb-3']) }}
 
         <p  class="fw-bolder fs-6 text-gray-800">{{ !empty($job->state_id) ?$job->state_name:__('messages.common.n/a') }}</p>
     </div>
     <div class="form-group col-xl-6 col-md-6 col-sm-12">
-{{--        {{ Form::label('city', __('messages.job.city').':') }}--}}
+--}}{{--        {{ Form::label('city', __('messages.job.city').':') }}--}}{{--
         {{ Form::label('city', __('messages.job.city').':'), ['class' => 'form-label fs-6 fw-bolder text-gray-700 mb-3']) }}
 
         <p  class="fw-bolder fs-6 text-gray-800">{{ !empty($job->city_id) ?$job->city_name:__('messages.common.n/a') }}</p>
-    </div>
+    </div>--}}
     <div class="form-group col-xl-12 col-md-12 col-sm-12">
 {{--        {{ Form::label('description', __('messages.job.description').':') }}--}}
         {{ Form::label('description', __('messages.job.description').':'), ['class' => 'form-label fs-6 fw-bolder text-gray-700 mb-3']) }}
