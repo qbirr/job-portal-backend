@@ -63,7 +63,7 @@
         {{ Form::label('position', __('messages.job_experience.job_experience').':', ['class' => 'pb-2 fs-5 text-gray-600']) }}
         <p class="fs-5 text-gray-800">{{ $job->experience .' '. __('messages.candidate_profile.year') }} </p>
     </div>
-    <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
+    {{--<div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
         {{ Form::label('country', __('messages.job.country').':', ['class' => 'pb-2 fs-5 text-gray-600']) }}
         <p class="fs-5 text-gray-800">{{ !empty($job->country_id) ?$job->country_name:__('messages.common.n/a') }}</p>
     </div>
@@ -74,7 +74,7 @@
     <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
         {{ Form::label('city', __('messages.job.city').':',['class' => 'pb-2 fs-5 text-gray-600']) }}
         <p class="fs-5 text-gray-800">{{ !empty($job->city_id) ?$job->city_name:__('messages.common.n/a') }}</p>
-    </div>
+    </div>--}}
     <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
         {{ Form::label('salary_from', __('messages.job.salary_from').':', ['class' => 'pb-2 fs-5 text-gray-600']) }}
         <p class="fs-5 text-gray-800">{{ numberFormatShort($job->salary_from) }}</p>
