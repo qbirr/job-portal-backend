@@ -231,7 +231,7 @@
                                                 {{ \Carbon\Carbon::parse($job->job_expiry_date)->translatedFormat('jS M, Y') }}
                                             </p>
                                         </div>
-                                        <div class="col-5 mt-3">
+                                        {{--<div class="col-5 mt-3">
                                             <i class="fa-solid fa-location-dot text-primary fs-4"></i>
                                             <p class="details-page-card-text mb-0" >
                                                 @lang('web.common.location')</p>
@@ -249,7 +249,7 @@
                                                     {{ __('web.job_details.location_information_not_available') }}
                                                 @endif
                                             </p>
-                                        </div>
+                                        </div>--}}
                                         <div class="col-5 mt-3">
                                             <i class="fa-solid fa-briefcase text-primary fs-4"></i>
                                             <p class="details-page-card-text mb-0" >
