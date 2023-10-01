@@ -30,13 +30,13 @@
                                             <p class="fs-14 text-gray mb-0">
                                                 {{!empty($companyDetail->industry->name)? $companyDetail->industry->name : __('messages.common.n/a')}}</p>
                                         </div>
-                                        @if(!empty($companyDetail->user->city_id) || (!empty($companyDetail->user->state_id)) || (!empty($companyDetail->user->country_id)))
+                                        {{--@if(!empty($companyDetail->user->city_id) || (!empty($companyDetail->user->state_id)) || (!empty($companyDetail->user->country_id)))
                                             <div class="desc d-flex align-items-center me-lg-4 me-2 pe-2">
                                                 <i class="fa-solid fa-location-dot text-gray me-3 fs-18"></i>
                                                 <p class="fs-14 text-gray mb-0">
                                                     {{ (!empty($companyDetail->user->city_id)) ? $companyDetail->user->city_name.', ' : '' }} {{ (!empty($companyDetail->user->country_id)) ? $companyDetail->user->country_name : '' }}</p>
                                             </div>
-                                        @endif
+                                        @endif--}}
                                         @isset($companyDetail->user->phone)
                                             <div class="desc d-flex align-items-center me-lg-4 me-2 pe-2">
                                                 <i class="fa-solid fa-phone text-gray me-3 fs-18"></i>
@@ -98,7 +98,7 @@
                                 {!! nl2br($companyDetail->details) !!}
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="col-lg-4">
                         <div class="col-12">
@@ -231,7 +231,7 @@
                                                         <i class="fa-brands fa-pinterest-p fs-3 mx-2"></i></a>
                                                 @endif
                                             </div>
-                                      
+
                                     </div>
                                 </div>
                             </div>
