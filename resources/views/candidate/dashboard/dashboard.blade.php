@@ -29,7 +29,8 @@
                             </a>
                             <a class="d-flex align-items-center text-gray-600 text-hover-primary me-5 mb-2 text-decoration-none">
                                 <i class="fa-solid fa-location-dot fs-3 me-2"></i>
-                                {{ !empty($candidate->city_name) ?  $candidate->city_name. ', '  .$candidate->state_name . ', ' . $candidate->country_name : (!empty($candidate->country_id) ? $candidate->country_name :   __('messages.candidate_dashboard.location_information')) }}
+                                {{--{{ !empty($candidate->city_name) ?  $candidate->city_name. ', '  .$candidate->state_name . ', ' . $candidate->country_name : (!empty($candidate->country_id) ? $candidate->country_name :   __('messages.candidate_dashboard.location_information')) }}--}}
+                                {{ $candidate->address ?? '' }}
                             </a>
                             <a class="d-flex align-items-center text-gray-600 text-hover-primary mb-2 text-decoration-none">
                                 <i class="fa-solid fa-envelope  me-2"></i>
