@@ -31,7 +31,7 @@
         {{Form::select('candidateSkills[]',$data['skills'], (count($candidateSkills) > 0)?$candidateSkills:null, ['class' => 'form-select ','id'=>'skillId','multiple'=>true,'required'])}}
     </div>
 
-    <div class="col-sm-12 mb-5">
+    {{--<div class="col-sm-12 mb-5">
         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label ']) }}
         <span class="required"></span>
         {{ Form::select('country_id', $data['countries'], null, ['id'=>'candidateCountryId','class' => 'form-select','placeholder' => __('messages.company.select_country'),'required']) }}
@@ -43,7 +43,7 @@
     <div class="col-sm-12 mb-5">
         {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label']) }}
         {{ Form::select('city_id', [],  null, ['id'=>'candidateCityId','class' => 'form-select','placeholder' => __('messages.company.select_city')]) }}
-    </div>
+    </div>--}}
 </div>
 <div class="d-flex justify-content-end">
     {{ Form::button(__('messages.common.save'), ['type'=>'submit','class' => 'btn btn-primary me-3','id'=>'btnEditGeneralSave','data-loading-text'=>"<span class='spinner-border spinner-border-sm'></span> Processing..."]) }}
