@@ -122,7 +122,7 @@
                                                 {{!empty($companyDetail->ownerShipType->name)? $companyDetail->ownerShipType->name : __('messages.common.n/a')}}
                                             </p>
                                         </div>
-                                        <div class=" col-5 mt-3">
+                                        {{--<div class=" col-5 mt-3">
                                             <i class="fa-solid fa-users text-primary fs-4"></i>
                                             <p class="details-page-card-text mb-0" >
                                                 @lang('web.web_company.company_size')
@@ -130,7 +130,7 @@
                                             <p class="text-secondary fs-14">
                                                 {{!empty($companyDetail->companySize->size)? $companyDetail->companySize->size : __('messages.common.n/a')}}
                                             </p>
-                                        </div>
+                                        </div>--}}
 
                                     </div>
                                 </div>
