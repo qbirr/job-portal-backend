@@ -58,7 +58,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
+    {{--<div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('country', __('messages.company.country').':', ['class' => 'form-label ']) }}
         <div class="input-group flex-nowrap">
             {{ Form::select('country_id', $data['countries'], null, ['id'=>'countryId','class' => 'form-select','placeholder' => __('messages.company.select_country')]) }}
@@ -87,7 +87,7 @@
                             class="fa fa-plus"></i></a>
             </div>
         </div>
-    </div>
+    </div>--}}
     {{--<div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('company_size_id', __('messages.company.company_size').':', ['class' => 'form-label']) }}
         <span class="required"></span>
