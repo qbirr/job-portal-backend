@@ -89,7 +89,7 @@ window.loadCaptchaForCompanyRegistration = function () {
     if (!captchaContainer) {
         return false;
     }
-    
+
     captchaContainer.innerHTML = ''
     let recaptcha = document.createElement('div')
 
@@ -102,4 +102,11 @@ window.loadCaptchaForCompanyRegistration = function () {
         })
         captchaContainer.appendChild(recaptcha)
     // }, 500)
+}
+
+window.selectTheme = function (theme) {
+    let link = theme
+        ? `http://127.0.0.1:8000/front_web/scss/bootstrap-${theme}.css` : 'http://127.0.0.1:8000/front_web/scss/bootstrap.css'
+    document.querySelector('#theme').setAttribute('href', link)
+    console.log(link)
 }

@@ -12,21 +12,21 @@
         <link rel="shortcut icon" href="{{ getSettingValue('favicon') }}" type="image/x-icon">
         <link rel="icon" href="{{ getSettingValue('favicon') }}" type="image/x-icon">
         <link href="{{asset('assets/css/all.min.css')}}" rel="stylesheet" type="text/css">
-        <link href="{{asset('front_web/scss/bootstrap.css')}}" rel="stylesheet" type="text/css">
-        
+        <link id="theme" href="{{asset('front_web/scss/bootstrap.css')}}" rel="stylesheet" type="text/css">
+
         <link rel="stylesheet" type="text/css" href="{{ asset('front_web/css/jquery-ui.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/iziToast.min.css') }}">
-        
+
         <link href="{{asset('assets/css/front-third-party.css')}}" rel="stylesheet" type="text/css">
         <link href="{{ mix('css/front-pages.css') }}" rel="stylesheet" type="text/css">
-        
+
         @yield('page_css')
-        @livewireStyles         
+        @livewireStyles
         @routes
 {{--        @livewireScripts--}}
         <script src="{{ asset('vendor/livewire/livewire.js') }}"></script>
         @include('livewire.livewire-turbo')
-        
+
         <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
                 data-turbolinks-eval="false" data-turbo-eval="false">
         </script>

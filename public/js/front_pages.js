@@ -5257,6 +5257,12 @@ window.loadCaptchaForCompanyRegistration = function () {
   });
   captchaContainer.appendChild(recaptcha); // }, 500)
 };
+
+window.selectTheme = function (theme) {
+  var link = theme ? "http://127.0.0.1:8000/front_web/scss/bootstrap-".concat(theme, ".css") : 'http://127.0.0.1:8000/front_web/scss/bootstrap.css';
+  document.querySelector('#theme').setAttribute('href', link);
+  console.log(link);
+};
 })();
 
 // This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.

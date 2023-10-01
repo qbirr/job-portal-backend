@@ -73,146 +73,164 @@
                                     @endforeach
                                 </ul>
                             </li>
-                        @if(!Auth::check())
-                            <div class="text-lg-end header-btn-grp ms-xxl-5 ms-lg-3">
-                                <ul class="navbar-nav align-items-center py-2 py-lg-0">
-                                    <li class="nav-item">
-                                        <a href="{{route('front.candidate.login')}}" class="nav-link btn btn-secondary me-xxl-3 me-2 mb-3 mb-lg-0 nav-link">{{ __('web.login') }}</a>
-                                        <ul class="nav submenu">
-                                            <li class="nav-item">
-                                                <a href="{{ route('front.candidate.login') }}"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.notification_settings.candidate') }}
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('front.employee.login') }}"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.company.employer') }}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{route('candidate.register')}}" class="btn btn-primary mb-3 mb-lg-0">{{ __('web.register') }}</a>
-                                        <ul class="nav submenu">
-                                            <li class="nav-item">
-                                                <a href="{{ route('candidate.register') }}"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.notification_settings.candidate') }}
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('employer.register') }}"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.company.employer') }}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        @else
-                            <div class="text-lg-end header-btn-grp ms-xxl-5 ms-lg-3">
-                                <ul class="navbar-nav align-items-center py-2 py-lg-0">
-                                    <li class="nav-item">
-                                        <a href="javascript:void(0)" class="mb-3 mb-lg-0 user-logo d-flex align-items-center" >
-                                            <img src="{{ getLoggedInUser()->avatar }}" width="50" class="rounded object-cover"/>&nbsp;&nbsp;
-                                            <span class="text-truncate"> {{ __('messages.common.hi') }}, {{getLoggedInUser()->full_name}}</span>
-                                        </a>
-                                        <ul class="nav submenu">
-                                            <li class="nav-item">
-                                                <a href="{{ dashboardURL() }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('web.go_to_dashboard') }}
-                                                </a>
-                                            </li>
-                                            @role('Candidate')
-                                            <li class="nav-item">
-                                                <a href="{{ route('candidate.profile') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('web.my_profile') }}
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('favourite.jobs') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.favourite_jobs') }}
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('favourite.companies') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.candidate_dashboard.followings') }}
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('candidate.applied.job') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.applied_job.applied_jobs') }}
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('candidate.job.alert') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.job.job_alert') }}
-                                                </a>
-                                            </li>
-                                            @endrole
-                                            @role('Employer')
-                                            <li class="nav-item">
-                                                <a href="{{ route('company.edit.form', \Illuminate\Support\Facades\Auth::user()->owner_id) }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('web.my_profile') }}
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('job.index') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.employer_menu.jobs') }}
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="{{ route('followers.index') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.employer_menu.followers') }}
-                                                </a>
-                                            </li>
-                                            @if(getSettingValue('enable_subscription_plan'))
+                            @if(!Auth::check())
+                                <div class="text-lg-end header-btn-grp ms-xxl-5 ms-lg-3">
+                                    <ul class="navbar-nav align-items-center py-2 py-lg-0">
+                                        <li class="nav-item">
+                                            <a href="{{route('front.candidate.login')}}"
+                                               class="nav-link btn btn-secondary me-xxl-3 me-2 mb-3 mb-lg-0 nav-link">{{ __('web.login') }}</a>
+                                            <ul class="nav submenu">
                                                 <li class="nav-item">
-                                                    <a href="{{ route('manage-subscription.index') }}" data-turbo="false"
+                                                    <a href="{{ route('front.candidate.login') }}"
                                                        class="nav-link d-flex align-items-center">
-                                                        {{ __('messages.employer_menu.manage_subscriptions') }}
+                                                        {{ __('messages.notification_settings.candidate') }}
                                                     </a>
                                                 </li>
-                                            @endif
-                                            <li class="nav-item">
-                                                <a href="{{ route('transactions.index') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center">
-                                                    {{ __('messages.employer_menu.transactions') }}
-                                                </a>
-                                            </li>
-                                            @endrole
-                                            <li class="nav-item">
-                                                <a href="{{ url('logout') }}" data-turbo="false"
-                                                   class="nav-link d-flex align-items-center"
-                                                   onclick="event.preventDefault(); localStorage.clear();  document.getElementById('logout-form').submit();">
-                                                    {{ __('web.logout') }}
-                                                </a>
-                                                <form id="logout-form" action="{{ url('/logout') }}" method="POST"
-                                                      class="d-none">
-                                                    {{ csrf_field() }}
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
+                                                <li class="nav-item">
+                                                    <a href="{{ route('front.employee.login') }}"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.company.employer') }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('candidate.register')}}"
+                                               class="btn btn-primary mb-3 mb-lg-0">{{ __('web.register') }}</a>
+                                            <ul class="nav submenu">
+                                                <li class="nav-item">
+                                                    <a href="{{ route('candidate.register') }}"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.notification_settings.candidate') }}
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{ route('employer.register') }}"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.company.employer') }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @else
+                                <div class="text-lg-end header-btn-grp ms-xxl-5 ms-lg-3">
+                                    <ul class="navbar-nav align-items-center py-2 py-lg-0">
+                                        <li class="nav-item">
+                                            <a href="javascript:void(0)"
+                                               class="mb-3 mb-lg-0 user-logo d-flex align-items-center">
+                                                <img src="{{ getLoggedInUser()->avatar }}" width="50"
+                                                     class="rounded object-cover"/>&nbsp;&nbsp;
+                                                <span
+                                                    class="text-truncate"> {{ __('messages.common.hi') }}, {{getLoggedInUser()->full_name}}</span>
+                                            </a>
+                                            <ul class="nav submenu">
+                                                <li class="nav-item">
+                                                    <a href="{{ dashboardURL() }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('web.go_to_dashboard') }}
+                                                    </a>
+                                                </li>
+                                                @role('Candidate')
+                                                <li class="nav-item">
+                                                    <a href="{{ route('candidate.profile') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('web.my_profile') }}
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{ route('favourite.jobs') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.favourite_jobs') }}
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{ route('favourite.companies') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.candidate_dashboard.followings') }}
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{ route('candidate.applied.job') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.applied_job.applied_jobs') }}
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{ route('candidate.job.alert') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.job.job_alert') }}
+                                                    </a>
+                                                </li>
+                                                @endrole
+                                                @role('Employer')
+                                                <li class="nav-item">
+                                                    <a href="{{ route('company.edit.form', \Illuminate\Support\Facades\Auth::user()->owner_id) }}"
+                                                       data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('web.my_profile') }}
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{ route('job.index') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.employer_menu.jobs') }}
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{ route('followers.index') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.employer_menu.followers') }}
+                                                    </a>
+                                                </li>
+                                                @if(getSettingValue('enable_subscription_plan'))
+                                                    <li class="nav-item">
+                                                        <a href="{{ route('manage-subscription.index') }}"
+                                                           data-turbo="false"
+                                                           class="nav-link d-flex align-items-center">
+                                                            {{ __('messages.employer_menu.manage_subscriptions') }}
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                <li class="nav-item">
+                                                    <a href="{{ route('transactions.index') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center">
+                                                        {{ __('messages.employer_menu.transactions') }}
+                                                    </a>
+                                                </li>
+                                                @endrole
+                                                <li class="nav-item">
+                                                    <div class="nav-link d-flex align-items-center pb-0">
+                                                        Select Theme
+                                                    </div>
+                                                    <div class="nav-link d-flex align-items-center pt-0">
+                                                        <div class="theme-selector" onclick="selectTheme()"></div>
+                                                        <div class="theme-selector" onclick="selectTheme('slate')"></div>
+                                                        <div class="theme-selector" onclick="selectTheme('vapor')"></div>
+                                                        <div class="theme-selector" onclick="selectTheme('sketchy')"></div>
+                                                    </div>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="{{ url('logout') }}" data-turbo="false"
+                                                       class="nav-link d-flex align-items-center"
+                                                       onclick="event.preventDefault(); localStorage.clear();  document.getElementById('logout-form').submit();">
+                                                        {{ __('web.logout') }}
+                                                    </a>
+                                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST"
+                                                          class="d-none">
+                                                        {{ csrf_field() }}
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                         @endif
                     </div>
                 </nav>
             </div>
         </div>
-        </div>
+    </div>
 </header>
 <!-- end header section -->

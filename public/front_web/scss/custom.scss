@@ -32,7 +32,7 @@
     padding: 10px 30px;
     border-radius: $border-radius-lg;
     box-shadow: none !important;
-}   
+}
 
 .btn-primary {
     color:$white;
@@ -52,8 +52,8 @@
 
     &:hover,&:active, &:focus {
         background-color: $white;
-        color: $secondary !important; 
-    } 
+        color: $secondary !important;
+    }
 }
 
 .btn-success {
@@ -61,7 +61,7 @@
         color: $success;
         background-color: #e9fbf3;
         border: 1px solid #e9fbf3;
-    } 
+    }
 }
 
 .btn-light-success {
@@ -95,7 +95,7 @@
 
 .linkedin-btn {
     color: #0A66C2;
-    border: 1px solid #0A66C2; 
+    border: 1px solid #0A66C2;
 
     &:hover {
         color: #ffffff;
@@ -146,19 +146,19 @@
 
     @media (max-width:991px) {
         padding:20px 0 50px 0;
-    } 
+    }
 }
 
 .py-100 {
     padding:100px 0;
     @media (max-width:991px) {
-        padding:50px 0;  
+        padding:50px 0;
     }
 }
 .pt-100 {
     padding-top:100px;
     @media (max-width:991px) {
-        padding-top:50px;  
+        padding-top:50px;
     }
 }
 
@@ -166,10 +166,10 @@
     margin-bottom:40px;
 
     @media (max-width:767px) {
-    margin-bottom:30px; 
+    margin-bottom:30px;
     }
     @media (max-width:480px) {
-        margin-bottom:20px; 
+        margin-bottom:20px;
     }
 }
 
@@ -177,7 +177,7 @@
     padding:60px 0;
 
     @media (max-width:991px) {
-    padding:40px 0;  
+    padding:40px 0;
     }
 }
 
@@ -186,11 +186,11 @@
 
     @media (max-width:991px) {
         padding:30px 40px;
-    } 
+    }
 }
 
 .py-20 {
-    padding: 20px !important;  
+    padding: 20px !important;
 }
 
 .py-30 {
@@ -204,7 +204,7 @@
 .pb-150 {
     padding-bottom:150px;
     @media (max-width:991px) {
-        padding-bottom:75px;  
+        padding-bottom:75px;
     }
 }
 
@@ -288,7 +288,7 @@ h4 {
         height:60px;
         @media (max-width:480px) {
             width:50px;
-            height:50px;  
+            height:50px;
         }
     }
     .card-body {
@@ -310,13 +310,13 @@ h4 {
     margin-bottom:60px;
 
     @media (max-width:991px) {
-    margin-bottom:40px;  
+    margin-bottom:40px;
     }
     @media (max-width:575px) {
-        margin-bottom:30px;  
+        margin-bottom:30px;
     }
 
-    h2 {  
+    h2 {
         position: relative !important;
         &:after,&:before {
             content: "";
@@ -393,7 +393,7 @@ h4 {
         .text {
             background-color:#f94a4a1f;
             padding:5px 15px;
-            border-radius:5px;   
+            border-radius:5px;
         }
     }
 }
@@ -427,4 +427,38 @@ h4 {
             }
         }
     }
+}
+
+.theme-selector {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    display: block;
+    float: left;
+    margin: 10px 8px 10px 13px;
+    cursor: pointer;
+}
+
+.theme-selector:nth-child(1) {
+    background: #E8F4F3;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.8;
+}
+
+.theme-selector:nth-child(2) {
+    background: #222;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.8;
+}
+
+.theme-selector:nth-child(3) {
+    background: #32fbe2;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.8;
+}
+
+.theme-selector:nth-child(4) {
+    background: #333333;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.8;
 }
