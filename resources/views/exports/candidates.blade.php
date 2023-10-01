@@ -9,7 +9,7 @@
         <th>{{ __('messages.candidate.gender') }} </th>
         <th>{{ __('messages.job.country') }} </th>
         <th>{{ __('messages.company.state') }} </th>
-        <th>{{ __('messages.company.city') }} </th>
+{{--        <th>{{ __('messages.company.city') }} </th>--}}
         <th>{{ __('messages.candidate.immediate_available') }} </th>
         <th>{{ __('messages.skills') }} </th>
         <th>{{ __('messages.languages') }} </th>
@@ -30,7 +30,7 @@
             <td>{{ $candidate->user->gender == 0 ? __('messages.common.male') : __('messages.common.female') }}</td>
             <td>{{ !empty($candidate->user->country_id) ?$candidate->user->country_name:__('messages.common.n/a') }}</td>
             <td>{{ !empty($candidate->user->state_id)?$candidate->user->state_name:__('messages.common.n/a') }}</td>
-            <td>{{ !empty($candidate->user->city_id)?$candidate->user->city_name:__('messages.common.n/a') }}</td>
+{{--            <td>{{ !empty($candidate->user->city_id)?$candidate->user->city_name:__('messages.common.n/a') }}</td>--}}
             <td>{{ $candidate->immediate_available == 1 ? __('messages.candidate.immediate_available'):__('messages.candidate.not_immediate_available') }}</td>
             <td>@if($candidate->user->candidateSkill->count())
                     @foreach($candidate->user->candidateSkill->pluck('name') as $key => $skill)  {{$loop->first?'':', '}} {{$skill}}  @endforeach
