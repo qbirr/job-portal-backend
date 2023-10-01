@@ -72,11 +72,11 @@
         <span class="required"></span>
         {{ Form::select('state_id', [], null, ['id'=>'stateId','class' => 'form-select','placeholder' => __('messages.company.select_state'),'data-control'=>'select2','required']) }}
     </div>--}}
-    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
-        {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label']) }}
-        <span class="required"></span>
-        {{ Form::select('city_id', getCities(), null, ['id'=>'cityId','class' => 'form-select','placeholder' => __('messages.company.select_city'),'data-control'=>'select2','required']) }}
-    </div>
+{{--    <div class="col-xl-6 col-md-6 col-sm-12 mb-5">--}}
+{{--        {{ Form::label('city', __('messages.company.city').':', ['class' => 'form-label']) }}--}}
+{{--        <span class="required"></span>--}}
+{{--        {{ Form::select('city_id', getCities(), null, ['id'=>'cityId','class' => 'form-select','placeholder' => __('messages.company.select_city'),'data-control'=>'select2','required']) }}--}}
+{{--    </div>--}}
     <div class="col-xl-6 col-md-6 col-sm-12 mb-5">
         {{ Form::label('career_level_id', __('messages.job.career_level').':', ['class' => 'form-label']) }}
         {{ Form::select('career_level_id', $data['careerLevels'],null, ['id'=>'careerLevelsId','class' => 'form-select','data-control'=>'select2','placeholder' => __('messages.company.select_career_level')]) }}
