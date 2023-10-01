@@ -106,7 +106,7 @@
        href="{{ route('subscribers.index') }}">{{ __('messages.subscribers') }}</a>
 </li>
 
-<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/countries*','admin/states*','admin/cities*') ? 'd-none' : '' }}">
+{{--<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/countries*','admin/states*','admin/cities*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/countries*') ? 'active' : '' }}"
        href="{{ route('countries.index') }}">{{ __('messages.country.countries') }}</a>
 </li>
@@ -117,7 +117,7 @@
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/countries*','admin/states*','admin/cities*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/cities*') ? 'active' : '' }}"
        href="{{ route('cities.index') }}">{{ __('messages.city.cities') }}</a>
-</li>
+</li>--}}
 
 <li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/marital-status*') ? 'active' : '' }}"
