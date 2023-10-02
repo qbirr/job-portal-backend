@@ -103,7 +103,7 @@ class PostRepository extends BaseRepository
             'media', 'postAssignCategories', 'user' => function ($query) {
                 $query->without('media', 'country', 'state', 'city');
             },
-        ])->withCount('comments')->orderByDesc('created_at')->paginate(10);
+        ])->withCount('comments')->orderByDesc('created_at')->paginate(request('perPage', 10));
         $data['blogCategories'] = PostCategory::withCount('postAssignCategories')->tobase()->get();
         $data['popularBlogs'] = Post::with('media')->orderByDesc('created_at')->take(3)->get();
         if (count($data['blogs']) > 0) {
