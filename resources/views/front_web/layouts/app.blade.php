@@ -48,6 +48,8 @@
     <span class="header-padding"></span>
     @include('front_web.layouts.header')
 
+    @include('front_web.layouts.theme')
+
     @yield('content')
 
     <!-- Footer Start -->
@@ -58,6 +60,7 @@
     {{Form::hidden('createNewLetterUrl',route('news-letter.create'),['id'=>'createNewLetterUrl'])}}
     <script data-turbo-eval="false">
         let defaultCountryCodeValue = "{{ getSettingValue('default_country_code')}}"
+        initColorsSidePanel()
     </script>
     </body>
 </html>
