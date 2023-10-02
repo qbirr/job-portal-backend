@@ -26,7 +26,7 @@
                 </a>
             </li>
         @endif
-        
+
         <li class="px-sm-3 px-2">
             <div class="dropdown custom-dropdown d-flex align-items-center py-4">
                 <button class="btn dropdown-toggle hide-arrow ps-2 pe-0 py-0 position-relative" type="button" id="dropdownMenuButton1"
@@ -121,6 +121,17 @@
                                </span>
                                 {{ (Str::limit(__('messages.user_language.change_language'),20,'...')) }}
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-link d-flex align-items-center pb-0">
+                                Select Theme
+                            </div>
+                            <div class="nav-link d-flex align-items-center pt-0">
+                                <div class="theme-selector" onclick="selectTheme()"></div>
+                                <div class="theme-selector" onclick="selectTheme('cerulean')"></div>
+                                <div class="theme-selector" onclick="selectTheme('vapor')"></div>
+                                <div class="theme-selector" onclick="selectTheme('sketchy')"></div>
+                            </div>
                         </li>
                         <li>
                             <a class="dropdown-item text-gray-900 d-flex" href="javascript:void(0)">

@@ -79,6 +79,8 @@
 @include('user_profile.edit_profile_modal')
 @include('user_profile.change_password_modal')
 
+@livewire('theme-selector')
+
 <!--begin::Javascript-->
 {{Form::hidden('profile-phone-no', old('region_code').old('phone'), ['id' => 'profilePhoneNo'])}}
 
