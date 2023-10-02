@@ -25,6 +25,12 @@
         {{--        <link rel="stylesheet" href="{{ asset('assets/css/livewire-table.css') }}">--}}
         {{--        <link rel="stylesheet" href="{{ asset('assets/css/style.bundle.css')}}"/>--}}
         {{--        <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/main.css') }}">--}}
+        @if(request()->cookie('theme'))
+            <link id="theme" href="{{asset('front_web/scss/bootstrap-' . request()->cookie('theme') . '.css')}}" rel="stylesheet"
+                  type="text/css">
+        @else
+{{--            <link id="theme" href="{{asset('front_web/scss/bootstrap.css')}}" rel="stylesheet" type="text/css">--}}
+        @endif
 
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/plugins.css') }}">
