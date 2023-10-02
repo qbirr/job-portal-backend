@@ -23,7 +23,7 @@
             <link id="theme" href="{{asset('front_web/scss/bootstrap-' . request()->cookie('theme') . '.css')}}" rel="stylesheet"
                   type="text/css">
         @else
-            <link id="theme" href="{{asset('front_web/scss/bootstrap.css')}}" rel="stylesheet" type="text/css">
+{{--            <link id="theme" href="{{asset('front_web/scss/bootstrap.css')}}" rel="stylesheet" type="text/css">--}}
         @endif
     @endif
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom.css') }}">
