@@ -19747,6 +19747,50 @@ listenSubmit('#editTestimonialForm', function (event) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/theme.js":
+/*!**************************************!*\
+  !*** ./resources/assets/js/theme.js ***!
+  \**************************************/
+/***/ (() => {
+
+window.selectTheme = function (theme) {
+  var link = theme ? "http://127.0.0.1:8000/front_web/scss/bootstrap-".concat(theme, ".css") : 'http://127.0.0.1:8000/front_web/scss/bootstrap.css';
+  document.querySelector('#theme').setAttribute('href', link);
+  console.log(link);
+};
+
+window.initColorsSidePanel = function () {
+  $('.section-sidepanel-handle').on('click', function () {
+    var spWidth = $('.section-sidepanel').width() + 2;
+    var spMarginLeft = parseInt($('.section-sidepanel').css('margin-left'), 10);
+    var w = spMarginLeft >= 0 ? spWidth * -1 : 0;
+    var cw = w < 0 ? -w : spWidth - 22;
+    console.log(w);
+    $('.section-sidepanel').animate({
+      marginLeft: w
+    });
+    $('.section-sidepanel-handle').animate({}, function () {});
+  });
+  $('.section-sidepanel-content-item').on('click', function () {
+    var default_color = $('#default-color-theme').val();
+    var current_color = $('#current-color-theme').val();
+    var selected = $(this).data('ct');
+    selectTheme(selected);
+    $.get({
+      url: '/theme',
+      data: {
+        theme: selected
+      }
+    });
+    /*$('link[href="'+self.cssLink(current_color)+'"]').attr('href', self.cssLink(selected));
+    application.load('/set-color-theme/'+selected, '', function (result) {});
+    $('#current-color-theme').val(selected);
+    $('.section-dark-mode-switch').find('input[type=checkbox]').prop('checked', false);*/
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/assets/js/transactions/transactions.js":
 /*!**********************************************************!*\
   !*** ./resources/assets/js/transactions/transactions.js ***!
@@ -53854,7 +53898,8 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 /******/ 	__webpack_require__("./resources/assets/js/job_applications/job_slots.js");
 /******/ 	__webpack_require__("./resources/assets/js/job_expired/job_expired.js");
 /******/ 	__webpack_require__("./resources/assets/js/post_comments/post_comments.js");
-/******/ 	var __webpack_exports__ = __webpack_require__("./resources/assets/js/front_cms/front_cms_setting.js");
+/******/ 	__webpack_require__("./resources/assets/js/front_cms/front_cms_setting.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./resources/assets/js/theme.js");
 /******/ 	
 /******/ })()
 ;

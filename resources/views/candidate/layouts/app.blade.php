@@ -19,6 +19,13 @@
     @else
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/plugins.css') }}">
+
+        @if(request()->cookie('theme'))
+            <link id="theme" href="{{asset('front_web/scss/bootstrap-' . request()->cookie('theme') . '.css')}}" rel="stylesheet"
+                  type="text/css">
+        @else
+            <link id="theme" href="{{asset('front_web/scss/bootstrap.css')}}" rel="stylesheet" type="text/css">
+        @endif
     @endif
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom.css') }}">
     @livewireStyles
@@ -57,6 +64,7 @@
         @include('candidate_profile.change_password_modal')
     </div>
 </div>
+@livewire('theme-selector')
 <script data-turbo-eval="false">
     var hostUrl = 'assets/';
     let getLoggedInUserLang = '{{getCurrentLanguageCode()}}';

@@ -200,17 +200,17 @@
                                                     </a>
                                                 </li>
                                                 @endrole
-                                                <li class="nav-item">
+                                                {{--<li class="nav-item">
                                                     <div class="nav-link d-flex align-items-center pb-0">
                                                         Select Theme
                                                     </div>
                                                     <div class="nav-link d-flex align-items-center pt-0">
                                                         <div class="theme-selector" onclick="selectTheme()"></div>
-                                                        <div class="theme-selector" onclick="selectTheme('slate')"></div>
+                                                        <div class="theme-selector" onclick="selectTheme('cerulean')"></div>
                                                         <div class="theme-selector" onclick="selectTheme('vapor')"></div>
                                                         <div class="theme-selector" onclick="selectTheme('sketchy')"></div>
                                                     </div>
-                                                </li>
+                                                </li>--}}
                                                 <li class="nav-item">
                                                     <a href="{{ url('logout') }}" data-turbo="false"
                                                        class="nav-link d-flex align-items-center"

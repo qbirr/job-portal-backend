@@ -145,6 +145,7 @@ mix.js([
     'resources/assets/js/job_expired/job_expired.js',
     'resources/assets/js/post_comments/post_comments.js',
     'resources/assets/js/front_cms/front_cms_setting.js',
+    'resources/assets/js/theme.js',
 ], 'public/js/pages.js').version()
 
 // // third-party js
@@ -240,6 +241,7 @@ mix.js([
     'resources/assets/js/web/js/custom/web_custom.js',
     'resources/assets/js/custom/input_price_format.js',
     'resources/assets/js/custom/phone-number-country-code.js',
+    'resources/assets/js/theme.js',
 
 ], 'public/js/front_pages.js').version()
 

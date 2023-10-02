@@ -748,3 +748,5 @@ Route::middleware('web')->group(function () {
     Route::get('login/{provider}', [\App\Http\Controllers\Auth\Front\SocialAuthController::class, 'redirect']);
     Route::get('login/{provider}/callback', [\App\Http\Controllers\Auth\Front\SocialAuthController::class, 'callback']);
 });
+
+Route::get('theme', [Web\ThemeController::class, 'save']);

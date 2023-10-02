@@ -487,12 +487,12 @@ h4 {
 
 .section-sidepanel {
   position: fixed;
-  background: var(--bs-light);
+  background: var(--bs-gray-600);
   border-radius: 0 8px 8px 0;
   top: 25%;
   width: 140px;
   min-width: 100px;
-  z-index: 2;
+  z-index: 9999;
   line-height: 1.5em;
   color: var(--site-font-color);
   font-family: Helvetica, serif;
@@ -541,7 +541,7 @@ h4 {
 }
 
 .section-sidepanel-content-item:nth-child(3) {
-  background: #222;
+  background: #50b3eb;
   transition: all 0.3s ease-in-out;
   opacity: 0.8;
 }
@@ -603,7 +603,7 @@ h4 {
   align-items: center;
   top: calc(50% - 20px);
   left: calc(100% - 0px);
-  z-index: 3;
+  z-index: 10000;
   cursor: pointer;
   border-top: 1px solid var(--site-box-border-color);
   border-bottom: 1px solid var(--site-box-border-color);
