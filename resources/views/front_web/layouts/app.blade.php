@@ -12,12 +12,12 @@
     <link rel="shortcut icon" href="{{ getSettingValue('favicon') }}" type="image/x-icon">
     <link rel="icon" href="{{ getSettingValue('favicon') }}" type="image/x-icon">
     <link href="{{asset('assets/css/all.min.css')}}" rel="stylesheet" type="text/css">
-    @if(request()->cookie('theme'))
+    {{--@if(request()->cookie('theme'))
         <link id="theme" href="{{asset('front_web/scss/bootstrap-' . request()->cookie('theme') . '.css')}}" rel="stylesheet"
               type="text/css">
     @else
         <link id="theme" href="{{asset('front_web/scss/bootstrap.css')}}" rel="stylesheet" type="text/css">
-    @endif
+    @endif--}}
 
     <link rel="stylesheet" type="text/css" href="{{ asset('front_web/css/jquery-ui.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/iziToast.min.css') }}">
@@ -57,7 +57,7 @@
 
 @yield('content')
 
-@livewire('theme-selector')
+{{--@livewire('theme-selector')--}}
 <!-- Footer Start -->
 @if(Request::segment(1)!='candidate-register' && Request::segment(1)!= 'employer-register'&& Request::segment(1)!='users')
     @include('front_web.layouts.footer')
