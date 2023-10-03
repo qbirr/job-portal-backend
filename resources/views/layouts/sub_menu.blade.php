@@ -2,6 +2,8 @@
     <a class="nav-link p-0 {{ Request::is('admin/dashboard*') ? 'active' : '' }}"
        href="{{ route('admin.dashboard') }}">{{ __('messages.dashboard') }}</a>
 </li>
+
+<!--<editor-fold desc="company">-->
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/employers*', 'admin/reported-employers*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/employers*') ? 'active' : '' }}"
        href="{{ route('company.index') }}">{{ __('messages.employers') }}</a>
@@ -10,11 +12,16 @@
     <a class="nav-link p-0 {{ Request::is('admin/reported-employers*') ? 'active' : '' }}"
        href="{{ route('reported.companies') }}">{{ __('messages.company.reported_employers') }}</a>
 </li>
+<!--</editor-fold>-->
+
+<!--<editor-fold desc="admin">-->
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/admins*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/admins*') ? 'active' : '' }}"
        href="{{ route('admin.index') }}">{{ __('messages.candidate.admins') }}</a>
 </li>
+<!--</editor-fold>-->
 
+<!--<editor-fold desc="candidate">-->
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/candidates*','admin/degree-levels*','admin/reported-candidates*','admin/resumes*','admin/selected-candidates*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/candidates*') ? 'active' : '' }}"
        href="{{ route('candidates.index') }}">{{ __('messages.candidates') }}</a>
@@ -35,7 +42,9 @@
     <a class="nav-link p-0 {{ Request::is('admin/selected-candidates*') ? 'active' : '' }}"
        href="{{ route('selected.candidate') }}">{{ __('messages.selected_candidate') }}</a>
 </li>
+<!--</editor-fold>-->
 
+<!--<editor-fold desc="job">-->
 <li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/jobs*','admin/job-categories*','admin/job-types*','admin/job-tags*','admin/job-shifts*','admin/reported-jobs*','admin/job-notification*','admin/expired-jobs*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/jobs*') ? 'active' : '' }}"
        href="{{ route('admin.jobs.index') }}">{{ __('messages.jobs') }}</a>
@@ -55,6 +64,19 @@
 <li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/jobs*','admin/job-categories*','admin/job-types*','admin/job-tags*','admin/job-shifts*','admin/reported-jobs*','admin/job-notification*','admin/expired-jobs*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/job-shifts*') ? 'active' : '' }}"
        href="{{ route('jobShift.index') }}">{{ __('messages.job_shifts') }}</a>
+</li>
+
+<li class="nav-item position-relative d-xl-none mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/jobs*','admin/job-categories*','admin/job-types*','admin/job-tags*','admin/job-shifts*','admin/reported-jobs*','admin/job-notification*','admin/expired-jobs*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/job-shifts*') ? 'active' : '' }}"
+       href="{{ route('reported.jobs') }}">{{ __('messages.reported_jobs') }}</a>
+</li>
+<li class="nav-item position-relative d-xl-none mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/jobs*','admin/job-categories*','admin/job-types*','admin/job-tags*','admin/job-shifts*','admin/reported-jobs*','admin/job-notification*','admin/expired-jobs*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/job-shifts*') ? 'active' : '' }}"
+       href="{{ route('job-notification.index') }}">{{ __('messages.job_notification.job_notifications') }}</a>
+</li>
+<li class="nav-item position-relative d-xl-none mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/jobs*','admin/job-categories*','admin/job-types*','admin/job-tags*','admin/job-shifts*','admin/reported-jobs*','admin/job-notification*','admin/expired-jobs*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/job-shifts*') ? 'active' : '' }}"
+       href="{{ route('admin.jobs.expiredJobs') }}">{{ __('messages.expired_jobs') }}</a>
 </li>
 <div class="{{ !Request::is('admin/jobs*','admin/job-categories*','admin/job-types*','admin/job-tags*','admin/job-shifts*','admin/reported-jobs*','admin/job-notification*','admin/expired-jobs*') ? 'd-none' : '' }}">
     <li class="nav-item d-none d-xl-grid dropdown dropdown-hover">
@@ -78,7 +100,9 @@
         </ul>
     </li>
 </div>
+<!--</editor-fold>-->
 
+<!--<editor-fold desc="post">-->
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/post-categories*','admin/posts*','admin/post-comments*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/post-categories*') ? 'active' : '' }}"
        href="{{ route('post-categories.index') }}">{{ __('messages.post_category.post_categories') }}</a>
@@ -91,7 +115,9 @@
     <a class="nav-link p-0 {{ Request::is('admin/post-comments*') ? 'active' : '' }}"
        href="{{ route('post.comments') }}">{{ __('messages.post_comments') }}</a>
 </li>
+<!--</editor-fold>-->
 
+<!--<editor-fold desc="plan">-->
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/plans*','admin/transactions*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/plans*') ? 'active' : '' }}"
        href="{{ route('plans.index') }}">{{ __('messages.subscriptions_plans') }}</a>
@@ -100,11 +126,14 @@
     <a class="nav-link p-0 {{ Request::is('admin/transactions*') ? 'active' : '' }}"
        href="{{ route('admin.transactions.index') }}">{{ __('messages.transactions') }}</a>
 </li>
+<!--</editor-fold>-->
 
+<!--<editor-fold desc="subscriber">-->
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/subscribers*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/subscribers*') ? 'active' : '' }}"
        href="{{ route('subscribers.index') }}">{{ __('messages.subscribers') }}</a>
 </li>
+<!--</editor-fold>-->
 
 {{--<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/countries*','admin/states*','admin/cities*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/countries*') ? 'active' : '' }}"
@@ -119,6 +148,7 @@
        href="{{ route('cities.index') }}">{{ __('messages.city.cities') }}</a>
 </li>--}}
 
+<!--<editor-fold desc="general">-->
 <li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/marital-status*') ? 'active' : '' }}"
        href="{{ route('maritalStatus.index') }}">{{ __('messages.marital_statuses') }}</a>
@@ -135,10 +165,31 @@
     <a class="nav-link p-0 {{ Request::is('admin/industries*') ? 'active' : '' }}"
        href="{{ route('industry.index') }}">{{ __('messages.industries') }}</a>
 </li>
-{{--<li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">--}}
-{{--    <a class="nav-link p-0 {{ Request::is('admin/company-sizes*') ? 'active' : '' }}"--}}
-{{--       href="{{ route('companySize.index') }}">{{ __('messages.company_sizes') }}</a>--}}
-{{--</li>--}}
+
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/industries*') ? 'active' : '' }}"
+       href="{{ route('functionalArea.index') }}">{{ __('messages.functional_areas') }}</a>
+</li>
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/industries*') ? 'active' : '' }}"
+       href="{{ route('careerLevel.index') }}">{{ __('messages.career_levels') }}</a>
+</li>
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/industries*') ? 'active' : '' }}"
+       href="{{ route('salaryCurrency.index') }}">{{ __('messages.salary_currencies') }}</a>
+</li>
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/industries*') ? 'active' : '' }}"
+       href="{{ route('ownerShipType.index') }}">{{ __('messages.ownership_types') }}</a>
+</li>
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/industries*') ? 'active' : '' }}"
+       href="{{ route('languages.index') }}">{{ __('messages.languages') }}</a>
+</li>
+{{--<li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/company-sizes*') ? 'active' : '' }}"
+       href="{{ route('companySize.index') }}">{{ __('messages.company_sizes') }}</a>
+</li>--}}
 <div class="{{ !Request::is('admin/marital-status*','admin/skills*','admin/salary-periods*','admin/industries*','admin/company-sizes*','admin/functional-areas*','admin/career-levels*','admin/salary-currencies*','admin/ownership-types*','admin/languages*') ? 'd-none' : '' }}">
     <li class="nav-item d-none d-xl-grid dropdown dropdown-hover">
         <a class="nav-link d-flex align-items-center py-3 ps-2" aria-current="page"
@@ -169,7 +220,9 @@
         </ul>
     </li>
 </div>
+<!--</editor-fold>-->
 
+<!--<editor-fold desc="cms">-->
 <li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/noticeboards*','admin/faqs*','admin/inquires*','admin/notification-settings*','admin/privacy-policy*','admin/front-settings*','admin/translation-manager*','admin/email-template*','admin/settings*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/noticeboards*') ? 'active' : '' }}"
        href="{{ route('noticeboards.index') }}">{{ __('messages.noticeboards') }}</a>
@@ -185,6 +238,27 @@
 <li class="nav-item position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/noticeboards*','admin/faqs*','admin/inquires*','admin/notification-settings*','admin/privacy-policy*','admin/front-settings*','admin/translation-manager*','admin/email-template*','admin/settings*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/notification-settings*') ? 'active' : '' }}"
        href="{{ route('notification.settings.index') }}">{{ __('messages.setting.notification_settings') }}</a>
+</li>
+
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/noticeboards*','admin/faqs*','admin/inquires*','admin/notification-settings*','admin/privacy-policy*','admin/front-settings*','admin/translation-manager*','admin/email-template*','admin/settings*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/notification-settings*') ? 'active' : '' }}"
+       href="{{ route('privacy.policy.index') }}">{{ __('messages.setting.privacy_policy') }}</a>
+</li>
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/noticeboards*','admin/faqs*','admin/inquires*','admin/notification-settings*','admin/privacy-policy*','admin/front-settings*','admin/translation-manager*','admin/email-template*','admin/settings*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/notification-settings*') ? 'active' : '' }}"
+       href="{{ route('front.settings.index') }}">{{ __('messages.setting.front_settings') }}</a>
+</li>
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/noticeboards*','admin/faqs*','admin/inquires*','admin/notification-settings*','admin/privacy-policy*','admin/front-settings*','admin/translation-manager*','admin/email-template*','admin/settings*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/notification-settings*') ? 'active' : '' }}"
+       href="{{ route('translation-manager.index') }}">{{ __('messages.translation_manager') }}</a>
+</li>
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/noticeboards*','admin/faqs*','admin/inquires*','admin/notification-settings*','admin/privacy-policy*','admin/front-settings*','admin/translation-manager*','admin/email-template*','admin/settings*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/notification-settings*') ? 'active' : '' }}"
+       href="{{ route('email.template.index') }}">{{ __('messages.email_templates') }}</a>
+</li>
+<li class="nav-item d-xl-none position-relative mx-xl-3 mt-3 mb-xl-0 {{ !Request::is('admin/noticeboards*','admin/faqs*','admin/inquires*','admin/notification-settings*','admin/privacy-policy*','admin/front-settings*','admin/translation-manager*','admin/email-template*','admin/settings*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/notification-settings*') ? 'active' : '' }}"
+       href="{{ route('settings.index') }}">{{ __('messages.settings') }}</a>
 </li>
 <div class="{{ !Request::is('admin/noticeboards*','admin/faqs*','admin/inquires*','admin/notification-settings*','admin/privacy-policy*','admin/front-settings*','admin/translation-manager*','admin/email-template*','admin/settings*') ? 'd-none' : '' }}">
 <li class="nav-item d-none d-xl-grid dropdown dropdown-hover">
@@ -216,6 +290,9 @@
     </ul>
 </li>
 </div>
+<!--</editor-fold>-->
+
+<!--<editor-fold desc="cms slider">-->
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/testimonials*','admin/branding-sliders*','admin/header-sliders*','admin/image-sliders*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/testimonials*') ? 'active' : '' }}"
        href="{{ route('testimonials.index') }}">{{ __('messages.testimonials') }}</a>
@@ -232,7 +309,9 @@
     <a class="nav-link p-0 {{ Request::is('admin/image-sliders*') ? 'active' : '' }}"
        href="{{ route('image-sliders.index') }}">{{ __('messages.image_sliders') }}</a>
 </li>
+<!--</editor-fold>-->
 
+<!--<editor-fold desc="front cms">-->
 <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/cms-services*','admin/cms-about-us*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/cms-services*') ? 'active' : '' }}"
        href="{{ route('cms.services.index') }}">{{ __('messages.cms_services') }}</a>
@@ -241,3 +320,4 @@
     <a class="nav-link p-0 {{ Request::is('admin/cms-about-us*') ? 'active' : '' }}"
        href="{{ route('cms.about-us.service') }}">{{ __('messages.about_us_services') }}</a>
 </li>
+<!--</editor-fold>-->
