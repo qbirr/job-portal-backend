@@ -89,7 +89,7 @@
                                 {{ Str::limit(html_entity_decode($job->job_title),30,'...') }}
                             </h5>
                         </a>
-                       
+
                     @endif
                         @if(isset($job->jobShift->shift))
                         <span class="text text-primary fs-12 mb-0 me-3">
@@ -99,11 +99,11 @@
                     <div class="col-xl-12">
                         <div class="card-desc d-flex flex-wrap mt-2 ">
 
-                            <div class="desc d-flex me-4">
-                                <i class="fa-solid fa-location-dot text-gray me-3 fs-18"></i>
-                                <p class="fs-14 text-gray mb-2">
-                                    {{ (!empty($job->full_location)) ? $job->full_location : 'Location Info. not available.'}}</p>
-                            </div>
+{{--                            <div class="desc d-flex me-4">--}}
+{{--                                <i class="fa-solid fa-location-dot text-gray me-3 fs-18"></i>--}}
+{{--                                <p class="fs-14 text-gray mb-2">--}}
+{{--                                    {{ (!empty($job->full_location)) ? $job->full_location : 'Location Info. not available.'}}</p>--}}
+{{--                            </div>--}}
                             <div class="desc d-flex">
                                         <span class="text-gray">
                                             {{$job->currency->currency_icon}}&nbsp</span>
@@ -172,9 +172,9 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
-   
+
 </div>
 {{--<div class="col-lg-12 col-md-6 px-xl-3 mb-40">--}}
 {{--    <div class="card  py-30">--}}
