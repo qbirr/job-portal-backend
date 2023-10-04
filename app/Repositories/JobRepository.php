@@ -439,7 +439,7 @@ class JobRepository extends BaseRepository {
         /** @var Company $company */
         $company = Company::whereUserId(Auth::id())->first();
 
-        if ($company->user->email == 'employer@gmail.com' || !Setting::whereKey('enable_subscription_plan')) {
+        if ($company->user->email == 'employer@gmail.com' || !Setting::whereKey('enable_subscription_plan')->first()) {
             return true;
         }
 
