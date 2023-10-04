@@ -213,7 +213,7 @@ class Job extends Model {
         'salary_from' => 'required|min:0|max:999999999',
         'salary_to' => 'required|min:0|max:999999999',
         'job_expiry_date' => 'required',
-        'job_shift_id' => 'sometimes|int',
+        'job_shift_id' => 'sometimes|int|nullable',
         'job_shift' => 'required_if:job_shift_id,9',
         'submission_status_id' => 'sometimes|exists:submission_statuses,id',
         'submission_notes' => 'required_if:submission_status_id,3|string|nullable',

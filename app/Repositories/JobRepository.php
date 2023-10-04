@@ -25,6 +25,7 @@ use App\Models\ReportedJob;
 use App\Models\RequiredDegreeLevel;
 use App\Models\SalaryCurrency;
 use App\Models\SalaryPeriod;
+use App\Models\Setting;
 use App\Models\Skill;
 use App\Models\Tag;
 use App\Models\User;
@@ -438,7 +439,7 @@ class JobRepository extends BaseRepository {
         /** @var Company $company */
         $company = Company::whereUserId(Auth::id())->first();
 
-        if ($company->user->email == 'employer@gmail.com') {
+        if ($company->user->email == 'employer@gmail.com' || !Setting::whereKey('enable_subscription_plan')) {
             return true;
         }
 
