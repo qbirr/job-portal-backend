@@ -1278,7 +1278,7 @@
         'setting_update'                 => 'Setting updated successfully.',
         'job_create_limit'               => 'Job create limit exceeded of your account, Update your subscription plan.',
         'job_draft'                      => 'Job Draft saved successfully.',
-        'job_save'                       => 'Job saved successfully.',
+        'job_save'                       => 'Job saved successfully, please wait for admin verification.',
         'job_not_found'                  => 'Job Not Found.',
         'close_job'                      => 'Closed job can not be edited.',
         'job_update'                     => 'Job updated successfully.',
