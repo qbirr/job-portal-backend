@@ -169,7 +169,7 @@
                                                 <i class="fa-solid fa-globe text-primary fs-4"></i>
                                                 <div class="mx-3">
                                                     <p class="details-page-card-text mb-0">
-                                                        @lang('web.common.location')
+                                                        @lang('web.common.website')
                                                     </p>
                                                     <p class="text-secondary fs-14 mb-0">
                                                         <a href="{{ (isset($companyDetail->website))

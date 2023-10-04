@@ -53,6 +53,7 @@ return [
         'confirm_password' => 'Confirm Password',
         'close' => 'Close',
         'save_as_draft' => 'Save as Draft',
+        'website' => 'Website',
     ],
 
     //home menu keys
