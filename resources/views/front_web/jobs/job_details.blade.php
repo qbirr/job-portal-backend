@@ -469,7 +469,7 @@
                                                             <a href="{{route('front.company.details', $relatedJob->company->unique_id)}}">
                                                             <p class="mb-0 fs-14">{{$relatedJob->company->user->first_name}}</p>
                                                             </a>
-                                                            <div class="desc d-flex align-items-center">
+                                                            {{--<div class="desc d-flex align-items-center">
                                                                 <i class="fa-solid fa-location-dot text-gray me-2 fs-18"></i>
                                                                 @if(Str::length($relatedJob->full_location) < 45)
                                                                     <p class="fs-14 text-gray mb-0"> {{ $relatedJob->full_location }} </p>
@@ -480,7 +480,7 @@
                                                                         {{ Str::limit($relatedJob->full_location,45,'...') }}
                                                                     </p>
                                                                 @endif
-                                                            </div>
+                                                            </div>--}}
                                                         </div>
                                                         @if($relatedJob->activeFeatured)
                                                             <div class="col-1 icon position-relative pe-0 float-end d-flex align-items-center">

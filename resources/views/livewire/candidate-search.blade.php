@@ -77,13 +77,13 @@
 {{--                                                <p class="fs-14 text-gray mb-0">{{$candidate->industry->name}}</p>--}}
 {{--                                            </div>--}}
 {{--                                        @endif--}}
-                                        @if(!empty($candidate->full_location) || !empty($candidate->location2))
+                                        {{--@if(!empty($candidate->full_location) || !empty($candidate->location2))
                                             <div class="desc location-text d-flex">
                                                 <i class="fa-solid fa-location-dot  me-1 mt-1 fs-18"></i>
                                                 <span class="">
                                     {{ (isset($candidate->full_location)) ? html_entity_decode(Str::limit($candidate->full_location,10,'...')) : __('messages.common.n/a') }}{{ (isset($candidate->location2)) ? ','.html_entity_decode(Str::limit($candidate->location2,10,'...')) : '' }}</span>
                                             </div>
-                                        @endif
+                                        @endif--}}
                                         @if(!empty($candidate->expected_salary))
                                             <span><i class="fa-solid fa-money-bill-alt text-gray ms-3 me-2"></i></span>
                                             <p class="fs-14 text-gray mb-0">{{ $candidate->expected_salary }}</p>

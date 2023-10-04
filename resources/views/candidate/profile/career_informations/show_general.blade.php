@@ -3,9 +3,9 @@
     <a href="javascript:void(0)" class="editGeneralBtn"><i class="fas fa-user-edit fa-2x text-primary"></i></a>
 </div>
 <div class="mt-3">
-    @isset($user->candidate->full_location)
+    {{--@isset($user->candidate->full_location)
         <p class="mb-1 text-muted" id="candidateLocation">{{ $user->candidate->full_location}}</p>
-    @endisset
+    @endisset--}}
     <p class="mb-1 text-muted" id="cadidateEmail">{{ $user->email}}</p>
     <p id="candidatePhone" class="text-muted">{{ $user->phone}}</p>
 </div>

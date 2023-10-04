@@ -2,12 +2,12 @@
     <div class="col-md-12 mb-8">
         <h1 class="fs-2hx mb-6 text-primary">{{ $user->full_name }}</h1>
         <div class="mt-3 d-flex flex-column">
-            @isset($user->candidate->full_location)
+            {{--@isset($user->candidate->full_location)
                 <div class="mb-1 d-flex align-items-center">
                     <img class="me-3" src="{{ asset('assets/img/map-marker.png') }}">
                     <span class=" text-muted fs-3">{{ $user->candidate->full_location}}</span>
                 </div>
-            @endisset
+            @endisset--}}
             <div class="mb-1 d-flex align-items-center">
                 <img class="me-3" src="{{ asset('assets/img/envelope.png') }}">
                 <span class=" text-muted fs-3">{{ $user->email}}</span>

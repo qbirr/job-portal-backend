@@ -42,11 +42,11 @@
                                                         </h3>
                                                         <div class="job-listing-footer">
                                                             <ul>
-                                                                @if(!empty($favouriteJob->job->full_location))
+                                                                {{--@if(!empty($favouriteJob->job->full_location))
                                                                     <li>
                                                                         <i class="fas fa-map-marker-alt"></i>{{ $favouriteJob->job->full_location }}
                                                                     </li>
-                                                                @endif
+                                                                @endif--}}
                                                                 <li>
                                                                     <i class="far fa-clock"></i> {{ __('web.job_details.date_posted') }}
                                                                     : {{ ($favouriteJob->job->created_at)->diffForhumans()}}

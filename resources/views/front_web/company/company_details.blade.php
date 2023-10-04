@@ -268,11 +268,11 @@
                                                     <div class="col-xl-12">
                                                         <div class="card-desc d-flex flex-wrap mt-2 ">
 
-                                                            <div class="desc d-flex me-4">
+                                                            {{--<div class="desc d-flex me-4">
                                                                 <i class="fa-solid fa-location-dot text-gray me-3 fs-18"></i>
                                                                 <p class="fs-14 text-gray mb-2">
                                                                     {{ (!empty($job->full_location)) ? $job->full_location : 'Location Info. not available.'}}</p>
-                                                            </div>
+                                                            </div>--}}
                                                             <div class="desc d-flex">
                                         <span class="text-gray">
                                             {{$job->currency->currency_icon}}&nbsp</span>
