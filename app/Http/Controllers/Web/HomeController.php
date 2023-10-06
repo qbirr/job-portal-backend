@@ -34,22 +34,7 @@ class HomeController extends AppBaseController
      */
     public function index()
     {
-        $data['testimonials'] = $this->homeRepository->getTestimonials();
-        $data['dataCounts'] = $this->homeRepository->getDataCounts();
-        $data['latestJobs'] = $this->homeRepository->getLatestJobs()->take(4);
-        $data['categories'] = $this->homeRepository->getCategories();
-        $data['jobCategories'] = $this->homeRepository->getAllJobCategories()->where('is_featured' ,1)->take(8);
-        $data['featuredCompanies'] = $this->homeRepository->getFeaturedCompanies();
-        $data['allCompanies'] = $this->homeRepository->getAllCompanies();
-        $data['featuredJobs'] = $this->homeRepository->getFeaturedJobs();
-        $data['notices'] = $this->homeRepository->getNotices();
-        [$data['imageSliders'], $data['settings'], $data['slider'], $data['imageSliderActive'], $data['headerSliders']] = $this->homeRepository->getImageSlider();
-        $data['latestJobsEnable'] = $this->homeRepository->getLatestJobsEnable();
-        $data['plans'] = $this->homeRepository->getPlans();
-        $data['plansArray'] = array_chunk($data['plans']->toArray(), 3);
-        $data['branding'] = $this->homeRepository->getBranding();
-        $data['recentBlog'] = $this->homeRepository->getRecentBlog();
-        $data['cmsServices'] = CmsServices::pluck('value', 'key')->toArray();
+        $data = $this->getData();
         $data['color'] = Setting::COLOR;
         return view('front_web.home.home')->with($data);
     }
@@ -96,5 +81,28 @@ class HomeController extends AppBaseController
         $results = $this->homeRepository->jobSearch($searchTerm);
 
         return view('front_web.home.job_search_results', compact('results'))->render();
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array {
+        $data['testimonials'] = $this->homeRepository->getTestimonials();
+        $data['dataCounts'] = $this->homeRepository->getDataCounts();
+        $data['latestJobs'] = $this->homeRepository->getLatestJobs()->take(4);
+        $data['categories'] = $this->homeRepository->getCategories();
+        $data['jobCategories'] = $this->homeRepository->getAllJobCategories()->where('is_featured', 1)->take(8);
+        $data['featuredCompanies'] = $this->homeRepository->getFeaturedCompanies();
+        $data['allCompanies'] = $this->homeRepository->getAllCompanies();
+        $data['featuredJobs'] = $this->homeRepository->getFeaturedJobs();
+        $data['notices'] = $this->homeRepository->getNotices();
+        [$data['imageSliders'], $data['settings'], $data['slider'], $data['imageSliderActive'], $data['headerSliders']] = $this->homeRepository->getImageSlider();
+        $data['latestJobsEnable'] = $this->homeRepository->getLatestJobsEnable();
+        $data['plans'] = $this->homeRepository->getPlans();
+        $data['plansArray'] = array_chunk($data['plans']->toArray(), 3);
+        $data['branding'] = $this->homeRepository->getBranding();
+        $data['recentBlog'] = $this->homeRepository->getRecentBlog();
+        $data['cmsServices'] = CmsServices::pluck('value', 'key')->toArray();
+        return $data;
     }
 }

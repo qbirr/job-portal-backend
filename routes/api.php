@@ -162,3 +162,5 @@ Route::prefix('articles')->group(function () {
 Route::get('cities', [CityController::class, 'fetch']);
 Route::get('industries', [IndustryController::class, 'fetch']);
 Route::get('ownership-types', [OwnerShipTypeController::class, 'fetch']);
+
+Route::get('front-data', [\App\Http\Controllers\Web\HomeController::class, 'getData']);
