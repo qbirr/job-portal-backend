@@ -476,7 +476,8 @@ class JobRepository extends BaseRepository {
     public function searchJob(JobSearchRequest $request): LengthAwarePaginator|_IH_Job_C|array {
         /** @var Job $query */
         $query = Job::with([
-            'company', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory',
+            'company', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory', 'currency', 'jobsTag',
+            'salaryPeriod', 'submissionStatus', 'degreeLevel', 'careerLevel',
         ])
             ->whereStatus(Job::STATUS_OPEN)->where('status', '!=', Job::STATUS_DRAFT)
             ->whereIsSuspended(Job::NOT_SUSPENDED)

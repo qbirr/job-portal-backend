@@ -36,7 +36,10 @@ class JobController extends AppBaseController {
     public function detail(?Job $job) {
         if (empty($job) || $job->status == Job::STATUS_DRAFT || $job->submission_status_id != Job::SUBMISSION_STATUS_APPROVED)
             return response()->json(null, 404);
-        $job->load(['jobsTag']);
+        $job->load([
+            'company', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory', 'currency', 'jobsTag',
+            'salaryPeriod', 'submissionStatus', 'degreeLevel', 'careerLevel',
+            ]);
         $data['resumes'] = null;
 
         $data['isActive'] = $data['isApplied'] = $data['isJobAddedToFavourite'] = $data['isJobReportedAsAbuse'] = false;
