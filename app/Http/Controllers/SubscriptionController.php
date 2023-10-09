@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\Transaction;
@@ -27,12 +28,10 @@ use Stripe\Webhook;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use UnexpectedValueException;
 
-class SubscriptionController extends AppBaseController
-{
-    private $subscriptionRepository;
+class SubscriptionController extends AppBaseController {
+    private SubscriptionRepository $subscriptionRepository;
 
-    public function __construct(SubscriptionRepository $subscriptionRepository)
-    {
+    public function __construct(SubscriptionRepository $subscriptionRepository) {
         $this->subscriptionRepository = $subscriptionRepository;
     }
 
@@ -41,8 +40,7 @@ class SubscriptionController extends AppBaseController
      *
      * @throws Exception
      */
-    public function index()
-    {
+    public function index() {
         /** @var PlanRepository $planRepo */
         $planRepo = app(PlanRepository::class);
         $plans = $planRepo->getPlans();
@@ -51,13 +49,12 @@ class SubscriptionController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return mixed
      *
      * @throws Exception
      */
-    public function purchaseSubscription(Request $request)
-    {
+    public function purchaseSubscription(Request $request) {
         $planId = $request->get('plan_id');
         if (empty($planId)) {
             throw new Exception('plan_id required', Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -66,7 +63,7 @@ class SubscriptionController extends AppBaseController
         /** @var Plan $plan */
         $plan = Plan::with('salaryCurrency')->findOrFail($planId);
 
-        if (! $plan->stripe_plan_id) {
+        if (!$plan->stripe_plan_id) {
             createStripePlan($plan);
         }
 
@@ -86,7 +83,7 @@ class SubscriptionController extends AppBaseController
                     ['plan' => $plan->stripe_plan_id],
                 ],
             ],
-            'success_url' => url('employer/payment-success').'?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => url('employer/payment-success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => url('employer/failed-payment?error=payment_cancelled'),
         ]);
         $result = [
@@ -97,13 +94,12 @@ class SubscriptionController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return RedirectResponse|Redirector
      *
      * @throws Exception
      */
-    public function paymentSuccess(Request $request)
-    {
+    public function paymentSuccess(Request $request) {
         $sessionId = $request->get('session_id');
         if (empty($sessionId)) {
             throw new UnprocessableEntityHttpException('session_id required');
@@ -120,17 +116,15 @@ class SubscriptionController extends AppBaseController
     /**
      * @return Factory|View
      */
-    public function handleFailedPayment()
-    {
+    public function handleFailedPayment() {
         return view('transactions.failed_payments');
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function cancelSubscription(Request $request)
-    {
+    public function cancelSubscription(Request $request) {
         $input = $request->all();
 
         /** @var User $user */
@@ -140,7 +134,7 @@ class SubscriptionController extends AppBaseController
         /** @var Subscription $subscription */
         $subscription = $user->subscriptions()->active()->first();
 
-        if (! $subscription) {
+        if (!$subscription) {
             return $this->sendError(__('messages.flash.your_are_not_author'));
         }
 
@@ -158,8 +152,7 @@ class SubscriptionController extends AppBaseController
      *
      * @throws Exception
      */
-    public function purchaseTrialSubscription()
-    {
+    public function purchaseTrialSubscription() {
         /** @var User $user */
         $user = Auth::user();
 
@@ -172,11 +165,10 @@ class SubscriptionController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return bool
      */
-    public function updateSubscription(Request $request)
-    {
+    public function updateSubscription(Request $request) {
         $stripeWebHookSecret = config('services.stripe.webhook_secret_key');
         $data = $request->all();
 
@@ -204,20 +196,24 @@ class SubscriptionController extends AppBaseController
     }
 
     /**
-     * @param  Plan  $plan
+     * @param Plan $plan
      * @return Application|Factory|View
      */
-    public function showPaymentSelect(Plan $plan)
-    {
-        return view('pricing.payment_methods', compact('plan'));
+    public function showPaymentSelect(Plan $plan) {
+        $banks = Bank::whereIsActive(1)->get();
+        return view('pricing.payment_methods', compact(['plan', 'banks']));
+    }
+
+    public function showTransferSelect(Plan $plan) {
+        $banks = Bank::whereIsActive(1)->get();
+        return view('pricing.payment_manual', compact(['plan', 'banks']));
     }
 
     /**
-     * @param  Plan  $plan
+     * @param Plan $plan
      * @return JsonResponse|RedirectResponse
      */
-    public function manuallyPayment(Plan $plan)
-    {
+    public function manuallyPayment(Plan $plan) {
         $user = Auth::user();
 
         $pendingApproval = Transaction::where('user_id', $user->id)->where('is_approved', Transaction::PENDING)->first();
@@ -255,11 +251,10 @@ class SubscriptionController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return mixed
      */
-    public function changeTransactionStatus(Request $request)
-    {
+    public function changeTransactionStatus(Request $request) {
         $input = $request->all();
         $approve_by = Auth::user()->id;
         $transaction = Transaction::where('id', $input['id'])->first();

@@ -52,12 +52,12 @@
         <span class="d-none">{{ __('messages.post_comments') }}</span>
     </a>
 </li>
-<li class="nav-item {{ Request::is('admin/plans*','admin/transactions*') ? 'active' : '' }}">
+<li class="nav-item {{ Request::is('admin/plans*','admin/transactions*','admin/banks*') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center py-3" aria-current="page" href="{{ route('plans.index') }}">
         <span class="aside-menu-icon pe-3"><i class="fab fa-bandcamp"></i></span>
         <span class="aside-menu-title">{{ __('messages.plan.subscriptions') }}</span>
-        <span class="d-none">{{ __('messages.post_comments') }}</span>
         <span class="d-none">{{ __('messages.subscriptions_plans') }}</span>
+        <span class="d-none">{{ __('messages.banks') }}</span>
     </a>
 </li>
 <li class="nav-item {{ Request::is('admin/subscribers*') ? 'active' : '' }}">

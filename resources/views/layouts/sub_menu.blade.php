@@ -118,13 +118,17 @@
 <!--</editor-fold>-->
 
 <!--<editor-fold desc="plan">-->
-<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/plans*','admin/transactions*') ? 'd-none' : '' }}">
+<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/plans*','admin/transactions*','admin/banks*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/plans*') ? 'active' : '' }}"
        href="{{ route('plans.index') }}">{{ __('messages.subscriptions_plans') }}</a>
 </li>
-<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/plans*','admin/transactions*') ? 'd-none' : '' }}">
+<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/plans*','admin/transactions*','admin/banks*') ? 'd-none' : '' }}">
     <a class="nav-link p-0 {{ Request::is('admin/transactions*') ? 'active' : '' }}"
        href="{{ route('admin.transactions.index') }}">{{ __('messages.transactions') }}</a>
+</li>
+<li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/plans*','admin/transactions*','admin/banks*') ? 'd-none' : '' }}">
+    <a class="nav-link p-0 {{ Request::is('admin/banks*') ? 'active' : '' }}"
+       href="{{ route('banks') }}">{{ __('messages.banks') }}</a>
 </li>
 <!--</editor-fold>-->
 

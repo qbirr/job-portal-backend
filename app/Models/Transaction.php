@@ -2,8 +2,13 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Transaction
@@ -13,40 +18,44 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $subscription_id
  * @property string $invoice_id
  * @property float|null $amount
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Subscription $subscription
- * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereInvoiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereOwnerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereOwnerType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Transaction whereUserId($value)
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Subscription $subscription
+ * @property-read User $user
+ * @method static Builder|Transaction newModelQuery()
+ * @method static Builder|Transaction newQuery()
+ * @method static Builder|Transaction query()
+ * @method static Builder|Transaction whereAmount($value)
+ * @method static Builder|Transaction whereCreatedAt($value)
+ * @method static Builder|Transaction whereId($value)
+ * @method static Builder|Transaction whereInvoiceId($value)
+ * @method static Builder|Transaction whereOwnerId($value)
+ * @method static Builder|Transaction whereOwnerType($value)
+ * @method static Builder|Transaction whereUpdatedAt($value)
+ * @method static Builder|Transaction whereUserId($value)
  * @property int $owner_id
  * @property string $owner_type
  * @property-read mixed $type_name
- * @property-read Model|\Eloquent $type
+ * @property-read Model|Eloquent $type
  * @property int $status
  * @property int $is_approved
  * @property int|null $approved_id
  * @property int|null $plan_currency_id
- * @property-read \App\Models\User|null $admin
- * @property-read \App\Models\Subscription|null $owner
- * @property-read \App\Models\SalaryCurrency|null $salaryCurrency
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereApprovedId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereIsApproved($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePlanCurrencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereStatus($value)
- * @mixin \Eloquent
+ * @property-read User|null $admin
+ * @property-read Subscription|null $owner
+ * @property-read SalaryCurrency|null $salaryCurrency
+ * @method static Builder|Transaction whereApprovedId($value)
+ * @method static Builder|Transaction whereIsApproved($value)
+ * @method static Builder|Transaction wherePlanCurrencyId($value)
+ * @method static Builder|Transaction whereStatus($value)
+ * @property int|null $bank_id
+ * @property string|null $image_uri
+ * @method static Builder|Transaction whereBankId($value)
+ * @method static Builder|Transaction whereImageUri($value)
+ * @property-read Bank|null $bank
+ * @mixin Eloquent
  */
-class Transaction extends Model
-{
+class Transaction extends Model {
     /**
      * @var string
      */
@@ -61,7 +70,9 @@ class Transaction extends Model
         'owner_type',
         'amount',
         'invoice_id',
+        'bank_id',
         'status',
+        'image_uri',
         'is_approved',
         'approved_id',
         'plan_currency_id',
@@ -102,28 +113,27 @@ class Transaction extends Model
     /**
      * @return BelongsTo
      */
-    public function user()
-    {
+    public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function owner()
-    {
+    public function owner(): BelongsTo {
         return $this->belongsTo(Subscription::class, 'owner_id');
     }
 
-    public function type()
-    {
+    public function type(): MorphTo {
         return $this->morphTo('owner');
     }
 
-    public function admin(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
+    public function admin(): HasOne {
         return $this->hasOne(User::class, 'id', 'approved_id');
     }
 
-    public function getTypeNameAttribute()
-    {
+    public function bank(): BelongsTo {
+        return $this->belongsTo(Bank::class);
+    }
+
+    public function getTypeNameAttribute(): string {
         switch ($this->owner_type) {
             case Company::class:
                 return 'Featured Company';
@@ -139,8 +149,7 @@ class Transaction extends Model
         }
     }
 
-    public function salaryCurrency(): BelongsTo
-    {
+    public function salaryCurrency(): BelongsTo {
         return $this->belongsTo(SalaryCurrency::class, 'plan_currency_id', 'id');
     }
 }

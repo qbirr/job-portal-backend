@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\Front\LoginController;
+use App\Http\Controllers\Auth\Front\SocialAuthController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\BrandingSliderController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\Candidates;
@@ -79,16 +82,16 @@ Route::middleware('setLanguage')->group(function () {
     Route::get('admin/login', [\App\Http\Controllers\Auth\LoginController::class, 'showAdminLoginForm'])->name(
         'admin.login'
     );
-    Route::post('users/login', [\App\Http\Controllers\Auth\Front\LoginController::class, 'login'])->name(
+    Route::post('users/login', [LoginController::class, 'login'])->name(
         'front.login'
     )->middleware('verified.user');
     Route::get(
         'users/employee-login',
-        [\App\Http\Controllers\Auth\Front\LoginController::class, 'employeeLogin']
+        [LoginController::class, 'employeeLogin']
     )->name('front.employee.login');
     Route::get(
         'users/candidate-login',
-        [\App\Http\Controllers\Auth\Front\LoginController::class, 'candidateLogin']
+        [LoginController::class, 'candidateLogin']
     )->name('front.candidate.login');
 }
 );
@@ -457,6 +460,13 @@ Route::middleware('auth', 'role:Admin', 'xss', 'verified.user')->prefix('admin')
     Route::get('transactions', [TransactionController::class, 'index'])->name('admin.transactions.index');
     Route::get('invoices/{invoiceId}', [TransactionController::class, 'getTransactionInvoice'])->name('transaction-invoice');
 
+    Route::get('banks', [BankController::class, 'index'])->name('banks');
+    Route::post('banks', [BankController::class, 'store'])->name('banks.store');
+    Route::get('banks/{bank}/edit', [BankController::class, 'edit'])->name('banks.edit');
+    Route::put('banks/{bank}', [BankController::class, 'update'])->name('banks.update');
+    Route::delete('banks/{bank}', [BankController::class, 'destroy'])->name('banks.delete');
+    Route::post('banks/{bank}/changeStatus', [BankController::class, 'changeStatus'])->name('banks.changeStatus');
+
     //Email template route
     Route::get('email-template', [EmailTemplateController::class, 'index'])->name('email.template.index');
     Route::get('email-template/{emailTemplate}/edit',
@@ -608,7 +618,8 @@ Route::middleware('auth', 'role:Employer', 'xss', 'verified.user', 'company-appr
     Route::post('purchase-subscription', [SubscriptionController::class, 'purchaseSubscription'])->name('purchase-subscription');
     Route::get('/paypal-status', [PaypalController::class, 'getPaymentStatus'])->name('status');
     Route::get('payment-method/{plan}', [SubscriptionController::class, 'showPaymentSelect'])->name('payment-method-screen');
-    Route::get('manually-payment/{plan}', [SubscriptionController::class, 'manuallyPayment'])->name('manually-payment');
+//    Route::get('manually-payment/{plan}', [SubscriptionController::class, 'manuallyPayment'])->name('manually-payment');
+    Route::get('manually-payment/{plan}', [SubscriptionController::class, 'showTransferSelect'])->name('manually-payment');
     Route::get('paypal-payment/{plan}', [PaypalController::class, 'oneTimePayment'])->name('paypal-payment');
     Route::post('purchase-trial-subscription',
         [SubscriptionController::class, 'purchaseTrialSubscription'])->name('purchase-trial-subscription');
@@ -745,8 +756,8 @@ Route::middleware('auth', 'role:Candidate', 'xss', 'verified.user', 'setLanguage
         ->name('show.apply-job-form');
 });
 Route::middleware('web')->group(function () {
-    Route::get('login/{provider}', [\App\Http\Controllers\Auth\Front\SocialAuthController::class, 'redirect']);
-    Route::get('login/{provider}/callback', [\App\Http\Controllers\Auth\Front\SocialAuthController::class, 'callback']);
+    Route::get('login/{provider}', [SocialAuthController::class, 'redirect']);
+    Route::get('login/{provider}/callback', [SocialAuthController::class, 'callback']);
 });
 
 Route::get('theme', [Web\ThemeController::class, 'save']);

@@ -117,6 +117,7 @@ mix.js([
     'resources/assets/js/candidate/reported_candidates.js',
     'resources/assets/js/candidate/front/candidate-details.js',
     'resources/assets/js/plans/plans.js',
+    'resources/assets/js/banks/banks.js',
     'resources/assets/js/subscription/subscription.js',
     'resources/assets/js/transactions/transactions.js',
     'resources/assets/js/jobs/jobs_stripe_payment.js',
