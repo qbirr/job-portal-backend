@@ -256,8 +256,10 @@ class CompanyRepository extends BaseRepository {
      * @return array
      */
     public function getCompanyDetail($companyId): array {
-        $data['companyDetail'] = Company::with('user')->findOrFail($companyId);
-        $data['jobDetails'] = Job::with('jobShift', 'company', 'jobCategory')
+        $data['companyDetail'] = Company::with([
+            'user', 'user.media', 'jobs', 'activeFeatured', 'industry', 'submissionStatus', 'ownerShipType',
+            ])->findOrFail($companyId);
+        $data['jobDetails'] = Job::with(['jobShift', 'company', 'jobCategory'])
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
             ->where('is_suspended', '===', Job::NOT_SUSPENDED)
             ->where([
@@ -405,7 +407,9 @@ class CompanyRepository extends BaseRepository {
     }
 
     public function search(CompanySearchRequest $request): _IH_Company_C|LengthAwarePaginator|array {
-        $query = Company::with(['user.media', 'jobs', 'activeFeatured', 'industry', 'user.city'])
+        $query = Company::with([
+            'user.media', 'jobs', 'activeFeatured', 'industry', 'submissionStatus', 'ownerShipType',
+        ])
             ->whereSubmissionStatusId(Job::SUBMISSION_STATUS_APPROVED);
         $query->whereHas('user', function (Builder $q) use ($request) {
             $q->where('first_name', 'like', '%' . strtolower($request->name) . '%')->where('is_active', '=',
