@@ -22,6 +22,8 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Laracasts\Flash\Flash;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Stripe\Checkout\Session;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\Webhook;
@@ -44,8 +46,8 @@ class SubscriptionController extends AppBaseController {
         /** @var PlanRepository $planRepo */
         $planRepo = app(PlanRepository::class);
         $plans = $planRepo->getPlans();
-
-        return view('pricing.index')->with($plans);
+        $pendingManualTransaction = Transaction::whereUserId(\auth()->id())->whereIsApproved(0)->whereNotNull('bank_id')->first();
+        return view('pricing.index')->with($plans)->with(compact('pendingManualTransaction'));
     }
 
     /**
@@ -233,6 +235,51 @@ class SubscriptionController extends AppBaseController {
             ]);
 
             $transaction = [
+                'owner_id' => $tsSubscription->id,
+                'owner_type' => Subscription::class,
+                'user_id' => $user->id,
+                'amount' => $plan->amount,
+                'plan_currency_id' => $plan->salary_currency_id,
+                'status' => Transaction::MANUALLY,
+                'is_approved' => Transaction::PENDING,
+            ];
+
+            Transaction::create($transaction);
+
+            Flash::success(__('messages.flash.please_wait_for_com'));
+        }
+
+        return redirect(route('manage-subscription.index'));
+    }
+
+
+    /**
+     * @param Plan $plan
+     * @return Application|Redirector|RedirectResponse
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function manualPayment(Plan $plan) {
+        $user = auth()->user();
+
+        $pendingApproval = Transaction::where('user_id', $user->id)->where('is_approved', Transaction::PENDING)->first();
+
+        if ($pendingApproval) {
+            Flash::error(__('messages.flash.please_wait_for'));
+        } else {
+
+            /** @var Subscription $tsSubscription */
+            $tsSubscription = Subscription::create([
+                'name' => $plan->name,
+                'stripe_id' => null,
+                'stripe_status' => Subscription::PENDING,
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'type' => Subscription::MANUALLY,
+            ]);
+
+            $transaction = [
+                'bank_id' => \request()->get('bank_id'),
                 'owner_id' => $tsSubscription->id,
                 'owner_type' => Subscription::class,
                 'user_id' => $user->id,

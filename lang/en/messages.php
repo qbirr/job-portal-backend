@@ -960,6 +960,7 @@
             'plan' => 'Plan',
             'plan_amount_cannot_be_changes' => 'Note:- Plan Amount Cannot Be Change.',
             'processing' => 'Processing',
+            'upload_pop' => 'Upload proof of payment',
         ),
     'bank' => array(
         'add' => 'Add',
@@ -1298,6 +1299,7 @@
         'fav_job_remove' => 'Favourite Job has been removed.',
         'resume_update' => 'Resume updated successfully.',
         'resume_delete' => 'Resume delete successfully.',
+        'pop_uploaded' => 'Proof of payments upload successfully.',
         'password_update' => 'Password updated successfully.',
         'media_delete' => 'Media deleted successfully.',
         'retrieved' => 'Retrieved successfully.',

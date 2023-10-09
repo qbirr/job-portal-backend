@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * App\Models\Transaction
@@ -53,9 +57,15 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Transaction whereBankId($value)
  * @method static Builder|Transaction whereImageUri($value)
  * @property-read Bank|null $bank
+ * @property-read MediaCollection<int, Media> $media
+ * @property-read int|null $media_count
  * @mixin Eloquent
  */
-class Transaction extends Model {
+class Transaction extends Model implements HasMedia {
+    use InteractsWithMedia;
+
+    public const POP_PATH = 'proof_of_payments';
+
     /**
      * @var string
      */

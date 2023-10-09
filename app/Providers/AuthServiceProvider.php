@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Transaction;
+use App\Policies\TransactionPolicy;
 use App\Providers\SocialAuthProviders\FacebookAuthProvider;
 use App\Providers\SocialAuthProviders\GoogleAuthProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
+        Transaction::class => TransactionPolicy::class,
     ];
 
     /**

@@ -12,7 +12,8 @@
                         <h3 class="text-gray-900 fs-2">{{ html_entity_decode($plan->name) }}</h3>
                         <div class="d-flex justify-content-center mt-5">
                             <h4 class="text-center mb-6 mt-2">
-                                <span class="fa-3x fw-bolder">{{ empty($plan->salaryCurrency->currency_icon)?'$':$plan->salaryCurrency->currency_icon }}{{ $plan->amount }}</span>
+                                <span
+                                    class="fa-3x fw-bolder">{{ empty($plan->salaryCurrency->currency_icon)?'$':$plan->salaryCurrency->currency_icon }}{{ $plan->amount }}</span>
                                 <span class="h6 text-gray-800 ml-2">{{ __('messages.plan.per_month') }}</span>
                             </h4>
                         </div>
@@ -73,9 +74,23 @@
                                    class="btn btn-info pricing-plan-btn mt-auto align-self-center"
                                    style="pointer-events: none;">{{ __('messages.plan.is_trial_plan') }} </a>
                             @elseif(!empty(processingPlan($plan->id)) )
-                                <a
-                                        data-id="{{ $plan->id }}"
-                                        class="btn btn-secondary pricing-plan-btn mt-auto align-self-center cursor-default"> {{ __('messages.plan.processing') }}</a>
+                                <a data-id="{{ $plan->id }}"
+                                   class="btn btn-secondary pricing-plan-btn mt-auto align-self-center cursor-default">
+                                    {{ __('messages.plan.processing') }}
+                                </a>
+                                @if(isset($pendingManualTransaction) && $pendingManualTransaction->owner?->plan_id == $plan->id)
+                                    <div class="mt-5">
+                                        <a href="{{route('transaction.download-pop', $pendingManualTransaction->id)}}"
+                                           data-turbo="false" class="download-link btn px-2 text-primary fs-3 ps-0">
+                                            <i class="fas fa-2x fa-download download-margin"></i>
+                                        </a>
+
+                                        <button type="button" class="btn btn-primary uploadPopModal"
+                                                data-bs-toggle="modal" data-bs-target="#uploadPopModal">
+                                            {{ __('messages.plan.upload_pop') }}
+                                        </button>
+                                    </div>
+                                @endif
                             @else
                                 @if($activePlanId !== $plan->id)
                                     <a href="{{ route('payment-method-screen', $plan->id) }}"
@@ -89,6 +104,9 @@
             </div>
         @endforeach
         @include('pricing.cancel_subscription_modal')
+        @if(isset($pendingManualTransaction))
+            @include('pricing.upload_pop_modal')
+        @endif
     </div>
     {{Form::hidden('subscribe-text',__('messages.plan.purchase'), ['id' => 'subscribeText'])}}
 @endsection

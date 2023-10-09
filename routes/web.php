@@ -614,12 +614,15 @@ Route::middleware('auth', 'role:Employer', 'xss', 'verified.user', 'company-appr
     Route::post('/report-to-candidate', [CandidateController::class, 'reportCandidate'])->name('report.to.candidate');
 
     Route::get('manage-subscription', [SubscriptionController::class, 'index'])->name('manage-subscription.index');
+    Route::post('transactions/{transaction}/upload', [TransactionController::class, 'uploadPop'])->name('transaction.upload-pop');
+    Route::get('transactions/{transaction}/download', [TransactionController::class, 'download'])->name('transaction.download-pop');
     Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
     Route::post('purchase-subscription', [SubscriptionController::class, 'purchaseSubscription'])->name('purchase-subscription');
     Route::get('/paypal-status', [PaypalController::class, 'getPaymentStatus'])->name('status');
     Route::get('payment-method/{plan}', [SubscriptionController::class, 'showPaymentSelect'])->name('payment-method-screen');
 //    Route::get('manually-payment/{plan}', [SubscriptionController::class, 'manuallyPayment'])->name('manually-payment');
     Route::get('manually-payment/{plan}', [SubscriptionController::class, 'showTransferSelect'])->name('manually-payment');
+    Route::post('manually-payment/{plan}', [SubscriptionController::class, 'manualPayment'])->name('manually-payment.create');
     Route::get('paypal-payment/{plan}', [PaypalController::class, 'oneTimePayment'])->name('paypal-payment');
     Route::post('purchase-trial-subscription',
         [SubscriptionController::class, 'purchaseTrialSubscription'])->name('purchase-trial-subscription');

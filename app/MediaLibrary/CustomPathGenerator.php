@@ -11,6 +11,7 @@ use App\Models\JobCategory;
 use App\Models\Post;
 use App\Models\Setting;
 use App\Models\Testimonial;
+use App\Models\Transaction;
 use App\Models\User;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGenerator;
@@ -45,6 +46,8 @@ class CustomPathGenerator implements PathGenerator
                 return str_replace('{PARENT_DIR}', HeaderSlider::PATH, $path);
             case BrandingSliders::PATH:
                 return str_replace('{PARENT_DIR}', BrandingSliders::PATH, $path);
+            case Transaction::POP_PATH:
+                return str_replace('{PARENT_DIR}', Transaction::POP_PATH, $path);
             case FrontSetting::PATH:
                 return str_replace('{PARENT_DIR}', FrontSetting::PATH, $path);
                 case JobCategory::PATH:
