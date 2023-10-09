@@ -546,6 +546,7 @@ Route::middleware('auth', 'role:Admin|Employer|Candidate', 'xss', 'verified.user
         [FeaturedCompanySubscriptionController::class, 'paymentSuccess'])->name('company-payment-success');
     Route::get('company-failed-payment',
         [FeaturedCompanySubscriptionController::class, 'handleFailedPayment'])->name('company-failed-payment');
+    Route::get('transactions/{transaction}/download', [TransactionController::class, 'download'])->name('transaction.download-pop');
 });
 
 Route::middleware('auth', 'role:Employer', 'xss', 'verified.user', 'company-approved')->prefix('employer')->group(function () {
@@ -615,7 +616,6 @@ Route::middleware('auth', 'role:Employer', 'xss', 'verified.user', 'company-appr
 
     Route::get('manage-subscription', [SubscriptionController::class, 'index'])->name('manage-subscription.index');
     Route::post('transactions/{transaction}/upload', [TransactionController::class, 'uploadPop'])->name('transaction.upload-pop');
-    Route::get('transactions/{transaction}/download', [TransactionController::class, 'download'])->name('transaction.download-pop');
     Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
     Route::post('purchase-subscription', [SubscriptionController::class, 'purchaseSubscription'])->name('purchase-subscription');
     Route::get('/paypal-status', [PaypalController::class, 'getPaymentStatus'])->name('status');

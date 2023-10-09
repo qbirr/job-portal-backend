@@ -80,14 +80,16 @@ class EmployerTransactionTable extends LivewireTableComponent
         if (Auth::user()->hasRole('Admin')) {
             $query = Transaction::query();
             if ($query->where('owner_type', Subscription::class)->exists()) {
-                $query->with(['type.planCurrency.salaryCurrency', 'user'])->select('transactions.*');
+                $query->with(['type.planCurrency.salaryCurrency', 'user', 'media'])->select('transactions.*');
             } else {
-                $query->with(['type', 'user'])->select('transactions.*');
+                $query->with(['type', 'user', 'media'])->select('transactions.*');
             }
         }
 
         if (Auth::user()->hasRole('Employer')) {
-            $query = Transaction::where('user_id', getLoggedInUserId())->select('transactions.*');
+            $query = Transaction::where('user_id', getLoggedInUserId())
+                ->with(['media'])
+                ->select('transactions.*');
 
             foreach ($query as $row) {
                 if ($row->owner_type == Subscription::class) {

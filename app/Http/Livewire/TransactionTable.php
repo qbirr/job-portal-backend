@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Subscription;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
@@ -88,6 +89,8 @@ class TransactionTable extends LivewireTableComponent
             ->view('transactions.table-components.status'),
             Column::make(__('messages.transaction.invoice'), 'invoice_id')
                 ->view('transactions.table-components.action_button'),
+            Column::make(__('messages.transaction.pop'), 'id')
+                ->view('transactions.table-components.media_button'),
             Column::make(__('messages.common.approved_by'), 'approved_id')
                 ->searchable()
                 ->view('transactions.table-components.transaction-approved-by'),
@@ -101,15 +104,12 @@ class TransactionTable extends LivewireTableComponent
     {
         if (Auth::user()->hasRole('Admin')) {
             $query = Transaction::query();
-            if ($query->where('transactions.owner_type', Subscription::class)->exists()) {
-                $query->with('type', 'user', 'admin')->select('transactions.*');
-            } else {
-                $query->with('type', 'user', 'admin')->select('transactions.*');
-            }
+            $query->with(['type', 'user', 'admin', 'latestMedia'])->select('transactions.*');
         }
 
         if (Auth::user()->hasRole('Employer')) {
-            $query = Transaction::where('user_id', getLoggedInUserId())->get();
+            $query = Transaction::where('user_id', getLoggedInUserId())
+                ->with(['latestMedia'])->get();
 
             foreach ($query as $row) {
                 if ($row->owner_type == Subscription::class) {

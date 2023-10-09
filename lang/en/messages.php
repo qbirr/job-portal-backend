@@ -977,6 +977,7 @@
             'subscription_id' => 'Subscription Id',
             'transaction_date' => 'Transaction Date',
             'invoice' => 'Invoice',
+            'pop' => 'Pop',
             'type' => 'Type',
             'user_name' => 'Employer Name',
             'payment_approved' => 'Payment Status',

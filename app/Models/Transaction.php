@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
@@ -59,6 +60,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read Bank|null $bank
  * @property-read MediaCollection<int, Media> $media
  * @property-read int|null $media_count
+ * @property-read Media|null $latestMedia
  * @mixin Eloquent
  */
 class Transaction extends Model implements HasMedia {
@@ -161,5 +163,9 @@ class Transaction extends Model implements HasMedia {
 
     public function salaryCurrency(): BelongsTo {
         return $this->belongsTo(SalaryCurrency::class, 'plan_currency_id', 'id');
+    }
+
+    public function latestMedia(): MorphOne {
+        return $this->morphOne(config('media-library.media_model'), 'model')->latestOfMany();
     }
 }
