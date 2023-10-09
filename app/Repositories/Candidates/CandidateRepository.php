@@ -379,7 +379,9 @@ class CandidateRepository extends BaseRepository {
      * @return array
      */
     public function getCandidateDetail($candidate): array {
-        $candidateDetails = Candidate::with('user', 'functionalArea')->findOrFail($candidate);
+        $candidateDetails = Candidate::with([
+            'user', 'jobApplications', 'industry', 'maritalStatus', 'careerLevel', 'industry', 'functionalArea',
+        ])->findOrFail($candidate);
         // update profile views count
         if ($candidateDetails->user->id != getLoggedInUserId()) {
             if (!session()->has('user')) {
@@ -484,7 +486,9 @@ class CandidateRepository extends BaseRepository {
 
     public function search(CandidateSearchRequest $request): array|LengthAwarePaginator|_IH_Candidate_C {
         /** @var Candidate $query */
-        $query = Candidate::with(['user', 'jobApplications', 'industry'])->whereHas('user', function ($q) {
+        $query = Candidate::with([
+            'user', 'jobApplications', 'industry', 'maritalStatus', 'careerLevel', 'industry', 'functionalArea',
+        ])->whereHas('user', function ($q) {
             $q->where('is_active', '=', 1);
         });
 
