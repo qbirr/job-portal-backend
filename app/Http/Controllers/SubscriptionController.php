@@ -46,7 +46,8 @@ class SubscriptionController extends AppBaseController {
         /** @var PlanRepository $planRepo */
         $planRepo = app(PlanRepository::class);
         $plans = $planRepo->getPlans();
-        $pendingManualTransaction = Transaction::whereUserId(\auth()->id())->whereIsApproved(0)->whereNotNull('bank_id')->first();
+        $pendingManualTransaction = Transaction::whereUserId(auth()->id())->whereIsApproved(0)->whereNotNull('bank_id')->first();
+        logger($pendingManualTransaction->latestMedia);
         return view('pricing.index')->with($plans)->with(compact('pendingManualTransaction'));
     }
 

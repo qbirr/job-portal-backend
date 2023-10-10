@@ -7,7 +7,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
-            <form id="uploadPopForm" action="{{ route('transaction.upload-pop', $pendingManualTransaction) }}" method="post">
+            <form id="uploadPopForm" action="{{ route('transaction.upload-pop', $pendingManualTransaction) }}"
+                  method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="alert alert-danger hide d-none" id="validationErrorsBox">
@@ -17,8 +18,8 @@
                         <div>
                             {{ Form::label('customFile',__('messages.common.choose_file').(':'), ['class' => 'form-label']) }}
                             <span class="required"></span>
-                            <input type="file" class="form-control custom-file-input" id="customFile" name="file"
-                                   required accept=".png, .jpg, .jpeg">
+                            <input type="file" class="form-control" id="file" name="file"
+                                   required accept="application/pdf, .jpg, .jpeg, .png">
                         </div>
                     </div>
                 </div>
@@ -39,6 +40,22 @@
             $('#uploadPopModal').appendTo('body').modal('show');
         });
 
+        function isValid(inputSelector, validationMessageSelector) {
+            let ext = $(inputSelector).val().split('.').pop().toLowerCase();
+            if ($.inArray(ext, ['jpg', 'jpeg', 'pdf', 'png']) === -1) {
+                $(inputSelector).val('');
+                $(validationMessageSelector).removeClass('d-none');
+                $(validationMessageSelector).html(
+                    Lang.get('messages.flash.file_type')).show();
+                $(validationMessageSelector).delay(5000).slideUp(300);
+
+                return false;
+            }
+            $(validationMessageSelector).hide();
+
+            return ext;
+        }
+
         listenSubmit('#uploadPopForm', function (e) {
             e.preventDefault();
             processingBtn('#uploadPopForm', '#uploadPopSaveBtn', 'loading');
@@ -58,6 +75,7 @@
                         setTimeout(function () {
                             processingBtn('#uploadPopForm', '#uploadPopSaveBtn', 'reset');
                         }, 1000);
+                        $('#uploadPopModal').modal('hide');
                     }
                 },
                 error: function (result) {
@@ -74,8 +92,8 @@
             });
         });
 
-        listenChange('#customFile', function () {
-            let extension = isValidDocument($(this), '#validationErrorsBox');
+        listenChange('#file', function () {
+            let extension = isValid($(this), '#validationErrorsBox');
             if (!isEmpty(extension) && extension != false) {
                 $('#validationErrorsBox').html('').hide();
             }

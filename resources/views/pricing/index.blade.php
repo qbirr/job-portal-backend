@@ -78,12 +78,12 @@
                                    class="btn btn-secondary pricing-plan-btn mt-auto align-self-center cursor-default">
                                     {{ __('messages.plan.processing') }}
                                 </a>
-                                @if(isset($pendingManualTransaction) && $pendingManualTransaction->owner?->plan_id == $plan->id)
+                                @if(isset($pendingManualTransaction) && $pendingManualTransaction->owner?->plan_id == $plan->id && !$pendingManualTransaction->latestMedia)
                                     <div class="mt-5">
-                                        <a href="{{route('transaction.download-pop', $pendingManualTransaction->id)}}"
+                                        {{--<a href="{{route('transaction.download-pop', $pendingManualTransaction->id)}}"
                                            data-turbo="false" class="download-link btn px-2 text-primary fs-3 ps-0">
                                             <i class="fas fa-2x fa-download download-margin"></i>
-                                        </a>
+                                        </a>--}}
 
                                         <button type="button" class="btn btn-primary uploadPopModal"
                                                 data-bs-toggle="modal" data-bs-target="#uploadPopModal">
