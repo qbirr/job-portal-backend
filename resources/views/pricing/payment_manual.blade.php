@@ -87,7 +87,7 @@
             $('#acc_no').text(bank.acc_no)
             $('#acc_name').text(bank.acc_name)
             $('#swift_code').text(bank.swift_code)
-            $('#notes').text(bank.notes)
+            $('#notes').html(bank.notes)
         }
 
         $(_ => {

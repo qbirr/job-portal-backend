@@ -1,3 +1,52 @@
+document.addEventListener('turbo:load', loadBankData)
+
+function loadBankData() {
+    window.addBankDetailQuill = new Quill(
+        '#addBankNotesQuillData', {
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['clean'],
+                ],
+                keyboard: {
+                    bindings: {
+                        tab: 'disabled',
+                    }
+                }
+            },
+            placeholder: 'Short descriptions...',
+            theme: 'snow', // or 'bubble'
+        })
+
+    addBankDetailQuill.on('text-change',
+        function (delta, oldDelta, source) {
+            if (addBankDetailQuill.getText().trim().length === 0) {
+                addBankDetailQuill.setContents([{insert: ''}]);
+            }
+        })
+
+    window.editBankNotesQuill = new Quill('#editBankNotesQuillData', {
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike'],
+                ['clean'],
+            ],
+            keyboard: {
+                bindings: {
+                    tab: 'disabled',
+                }
+            }
+        },
+        placeholder: 'Description',
+        theme: 'snow', // or 'bubble'
+    })
+    editBankNotesQuill.on('text-change', function (delta, oldDelta, source) {
+        if (editBankNotesQuill.getText().trim().length === 0) {
+            editBankNotesQuill.setContents([{ insert: '' }]);
+        }
+    })
+}
+
 listenClick('.addBankModal', function () {
     $('#addBankModal').appendTo('body').modal('show');
 })
@@ -5,7 +54,12 @@ listenClick('.addBankModal', function () {
 listenSubmit('#addBankForm', function (e) {
     e.preventDefault();
     processingBtn('#addBankForm', '#bankSaveBtn', 'loading');
-    e.preventDefault();
+
+    let element = document.createElement('textarea');
+    let addBankNotesEditorContent = addBankDetailQuill.root.innerHTML;
+    element.innerHTML = addBankNotesEditorContent;
+    let dataDesc = JSON.stringify(addBankNotesEditorContent);
+    $('#notes').val(dataDesc.replace(/"/g, ''));
     $.ajax({
         url: route('banks.store'),
         type: 'POST',
@@ -31,7 +85,7 @@ listenClick('.bank-edit-btn', function (event) {
     bankEditRenderData(bankId);
 });
 
-function bankEditRenderData (bankId) {
+function bankEditRenderData(bankId) {
     $.ajax({
         url: route('banks.edit', bankId),
         type: 'GET',
@@ -59,6 +113,12 @@ listenSubmit('#editBankForm', function (event) {
     event.preventDefault();
     processingBtn('#editBankForm', '#editBankSaveBtn', 'loading');
     let editBankId = $('#bankId ').val();
+
+    let element = document.createElement('textarea');
+    let editBankNotesEditorContent = editBankNotesQuill.root.innerHTML;
+    element.innerHTML = editBankNotesEditorContent;
+    let dataDesc = JSON.stringify(editBankNotesEditorContent);
+    $('#editNotes').val(dataDesc.replace(/"/g, ''));
     $.ajax({
         url: route('banks.update', editBankId),
         type: 'put',
@@ -84,14 +144,14 @@ listenHiddenBsModal('#addBankModal', function () {
     resetModalForm('#addBankForm', '#validationErrorsBox');
 })
 
-listenHiddenBsModal('#editBankModal', function (){
+listenHiddenBsModal('#editBankModal', function () {
     resetModalForm('#editBankForm', '#editValidationErrorsBox');
 })
 
-listenShowBsModal('#addBankModal', function (){
+listenShowBsModal('#addBankModal', function () {
     $('#name').focus();
 })
-listenShowBsModal('#editBankModal', function (){
+listenShowBsModal('#editBankModal', function () {
     $('#editName').focus();
 })
 
@@ -111,4 +171,4 @@ listenChange('.isBankActive', function (event) {
             displayErrorMessage(result.responseJSON.message);
         },
     });
-});
+})

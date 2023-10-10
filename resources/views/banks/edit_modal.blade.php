@@ -37,7 +37,7 @@
                 <div class="mb-5">
                     {{ Form::label('notes', __('messages.bank.notes').(':'),['class' => 'form-label']) }}
                     <span class="required"></span>
-                    <div id="addBankNotesQuillData"></div>
+                    <div id="editBankNotesQuillData"></div>
                     {{ Form::hidden('notes', null, ['id' => 'editNotes']) }}
                 </div>
                 <div class=" mb-5">

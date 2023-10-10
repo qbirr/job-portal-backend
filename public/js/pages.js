@@ -5352,13 +5352,62 @@ listenClick('.admins-delete-btn', function (event) {
   \********************************************/
 /***/ (() => {
 
+document.addEventListener('turbo:load', loadBankData);
+
+function loadBankData() {
+  window.addBankDetailQuill = new Quill('#addBankNotesQuillData', {
+    modules: {
+      toolbar: [['bold', 'italic', 'underline', 'strike'], ['clean']],
+      keyboard: {
+        bindings: {
+          tab: 'disabled'
+        }
+      }
+    },
+    placeholder: 'Short descriptions...',
+    theme: 'snow' // or 'bubble'
+
+  });
+  addBankDetailQuill.on('text-change', function (delta, oldDelta, source) {
+    if (addBankDetailQuill.getText().trim().length === 0) {
+      addBankDetailQuill.setContents([{
+        insert: ''
+      }]);
+    }
+  });
+  window.editBankNotesQuill = new Quill('#editBankNotesQuillData', {
+    modules: {
+      toolbar: [['bold', 'italic', 'underline', 'strike'], ['clean']],
+      keyboard: {
+        bindings: {
+          tab: 'disabled'
+        }
+      }
+    },
+    placeholder: 'Description',
+    theme: 'snow' // or 'bubble'
+
+  });
+  editBankNotesQuill.on('text-change', function (delta, oldDelta, source) {
+    if (editBankNotesQuill.getText().trim().length === 0) {
+      editBankNotesQuill.setContents([{
+        insert: ''
+      }]);
+    }
+  });
+}
+
 listenClick('.addBankModal', function () {
   $('#addBankModal').appendTo('body').modal('show');
 });
 listenSubmit('#addBankForm', function (e) {
   e.preventDefault();
   processingBtn('#addBankForm', '#bankSaveBtn', 'loading');
-  e.preventDefault();
+  var element = document.createElement('textarea');
+  var addBankNotesEditorContent = addBankDetailQuill.root.innerHTML;
+  element.innerHTML = addBankNotesEditorContent;
+  var dataDesc = JSON.stringify(addBankNotesEditorContent);
+  $('#notes').val(dataDesc.replace(/"/g, ''));
   $.ajax({
     url: route('banks.store'),
     type: 'POST',
@@ -5411,6 +5460,11 @@ listenSubmit('#editBankForm', function (event) {
   event.preventDefault();
   processingBtn('#editBankForm', '#editBankSaveBtn', 'loading');
   var editBankId = $('#bankId ').val();
+  var element = document.createElement('textarea');
+  var editBankNotesEditorContent = editBankNotesQuill.root.innerHTML;
+  element.innerHTML = editBankNotesEditorContent;
+  var dataDesc = JSON.stringify(editBankNotesEditorContent);
+  $('#editNotes').val(dataDesc.replace(/"/g, ''));
   $.ajax({
     url: route('banks.update', editBankId),
     type: 'put',

@@ -77,8 +77,7 @@ class BankTable extends LivewireTableComponent {
                 ->sortable()
                 ->searchable(),
             Column::make(__('messages.bank.notes'), 'notes')
-                ->sortable()
-                ->searchable(),
+                ->view('banks.table-components.notes'),
             Column::make(__('messages.common.status'), 'is_active')
                 ->view('banks.table-components.status'),
             Column::make(__('messages.common.action'), 'id')
