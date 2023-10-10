@@ -18,7 +18,7 @@
                             {{ Form::label('customFile',__('messages.common.choose_file').(':'), ['class' => 'form-label']) }}
                             <span class="required"></span>
                             <input type="file" class="form-control custom-file-input" id="customFile" name="file"
-                                   required accept="application/pdf, image/*">
+                                   required accept=".png, .jpg, .jpeg">
                         </div>
                     </div>
                 </div>

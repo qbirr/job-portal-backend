@@ -11,6 +11,7 @@
     </div>
     @include('banks.add_modal')
     @include('banks.edit_modal')
+    {{Form::hidden('bank-notes',__('messages.bank.notes'),['id' => 'bankNotes'])}}
 @endsection
 @push('scripts')
 @endpush

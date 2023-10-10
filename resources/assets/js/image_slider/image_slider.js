@@ -1,6 +1,6 @@
 document.addEventListener('turbo:load', loadImageSliderData);
 
-function loadImageSliderData () {
+function loadImageSliderData() {
     if (!$('#imageSizeMessage').length) {
         return;
     }
@@ -31,9 +31,9 @@ function loadImageSliderData () {
     addImageSliderDescriptionQuill.on('text-change',
         function (delta, oldDelta, source) {
             if (addImageSliderDescriptionQuill.getText().trim().length === 0) {
-            addImageSliderDescriptionQuill.setContents([{ insert: '' }]);
-        }
-    });
+                addImageSliderDescriptionQuill.setContents([{insert: ''}]);
+            }
+        });
 
     window.editImageSliderDescriptionQuill = new Quill('#editImageSliderDescriptionQuillData', {
         modules: {
@@ -52,10 +52,9 @@ function loadImageSliderData () {
     });
     editImageSliderDescriptionQuill.on('text-change', function (delta, oldDelta, source) {
         if (editImageSliderDescriptionQuill.getText().trim().length === 0) {
-            editImageSliderDescriptionQuill.setContents([{ insert: '' }]);
+            editImageSliderDescriptionQuill.setContents([{insert: ''}]);
         }
     });
-
 
 
 // $(document).on('click', '.delete-btn', function (event) {
@@ -86,20 +85,20 @@ function loadImageSliderData () {
 //         timer: 2000,
 //     });
 // });
-    
-listenHiddenBsModal('#addImageSlidersModal', function () {
+
+    listenHiddenBsModal('#addImageSlidersModal', function () {
         resetModalForm('#addImageSliderForm', '#validationErrorsBox');
         // $('#description').summernote('code', '');
         // $('#previewImage').attr('src', defaultDocumentImageUrl);
-        $('#previewImage').css('background-image','url("' + defaultDocumentImageUrl + '")');
+        $('#previewImage').css('background-image', 'url("' + defaultDocumentImageUrl + '")');
 
     });
 
-listenHiddenBsModal('#editImageSlidersModal', function () {
-    resetModalForm('#editImageSliderForm', '#editValidationErrorsBox');
-    // $('#editDescription').summernote('code', '');
-    $('#editPreviewImage').attr('src', defaultDocumentImageUrl);
-});
+    listenHiddenBsModal('#editImageSlidersModal', function () {
+        resetModalForm('#editImageSliderForm', '#editValidationErrorsBox');
+        // $('#editDescription').summernote('code', '');
+        $('#editPreviewImage').attr('src', defaultDocumentImageUrl);
+    });
 // $('#description, #editDescription').summernote({
 //     minHeight: 200,
 //     height: 200,
@@ -109,7 +108,7 @@ listenHiddenBsModal('#editImageSlidersModal', function () {
 //         ['para', ['paragraph']]],
 // });
 
-    function displaySliderImage (input, selector, validationMessageSelector) {
+    function displaySliderImage(input, selector, validationMessageSelector) {
         let displayPreview = true;
         if (input.files && input.files[0]) {
             let reader = new FileReader();
@@ -120,9 +119,7 @@ listenHiddenBsModal('#editImageSlidersModal', function () {
                     if ((image.height < 500 || image.width < 1140)) {
                         $('#imageSlider').val('');
                         $(validationMessageSelector).removeClass('d-none');
-                        $(validationMessageSelector).
-                            html(imageSizeMessage).
-                            show();
+                        $(validationMessageSelector).html(imageSizeMessage).show();
                         $(validationMessageSelector).delay(5000).slideUp(300);
                         return false;
                     }
@@ -138,14 +135,12 @@ listenHiddenBsModal('#editImageSlidersModal', function () {
         }
     };
 
-    function isValidSliderImage (inputSelector, validationMessageSelector) {
+    function isValidSliderImage(inputSelector, validationMessageSelector) {
         let ext = $(inputSelector).val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
             $(inputSelector).val('');
             $(validationMessageSelector).removeClass('d-none');
-            $(validationMessageSelector).
-                html(imageExtensionMessage).
-                show();
+            $(validationMessageSelector).html(imageExtensionMessage).show();
             $(validationMessageSelector).delay(5000).slideUp(300);
             return false;
         }
@@ -162,49 +157,48 @@ listenHiddenBsModal('#editImageSlidersModal', function () {
         }
     });
 
-listenChange('#editImageSlider', function () {
-    $('#editImageSlidersModal #editValidationErrorsBox').addClass('d-none');
-    if (isValidFile($(this), '#editImageSlidersModal #editValidationErrorsBox')) {
-        displaySliderImage(this, '#editPreviewImage',
-            '#editImageSlidersModal #editValidationErrorsBox');
-    }
-});
-
-listenClick('.show-btn', function (event) {
-    let imageSliderId = $(event.currentTarget).data('id');
-    $.ajax({
-        url: route('image-sliders.show', imageSliderId),
-        type: 'GET',
-        success: function (result) {
-            if (result.success) {
-                $('#showStatus').html('');
-                $('#showDescription').html('');
-                $('#documentUrl').html('');
-
-                if (isEmpty(result.data.image_slider_url)) {
-                    $('#documentUrl').hide();
-                    $('#noDocument').show();
-                } else {
-                    $('#noDocument').hide();
-                    $('#documentUrl').show();
-                    $('#documentUrl').
-                        attr('src', result.data.image_slider_url);
-                }
-                let status = result.data.is_active ? 'messages.common.active' : 'messages.common.de_active';
-                $('#showStatus').append( Lang.get(status)  );
-                let element = document.createElement('textarea');
-                element.innerHTML = (!isEmpty(result.data.description)
-                    ? result.data.description
-                    : 'N/A');
-                $('#showDescription').append(element.value);
-                $('#showModal').appendTo('body').modal('show');
-            }
-        },
-        error: function (result) {
-            displayErrorMessage(result.responseJSON.message);
-        },
+    listenChange('#editImageSlider', function () {
+        $('#editImageSlidersModal #editValidationErrorsBox').addClass('d-none');
+        if (isValidFile($(this), '#editImageSlidersModal #editValidationErrorsBox')) {
+            displaySliderImage(this, '#editPreviewImage',
+                '#editImageSlidersModal #editValidationErrorsBox');
+        }
     });
-});
+
+    listenClick('.show-btn', function (event) {
+        let imageSliderId = $(event.currentTarget).data('id');
+        $.ajax({
+            url: route('image-sliders.show', imageSliderId),
+            type: 'GET',
+            success: function (result) {
+                if (result.success) {
+                    $('#showStatus').html('');
+                    $('#showDescription').html('');
+                    $('#documentUrl').html('');
+
+                    if (isEmpty(result.data.image_slider_url)) {
+                        $('#documentUrl').hide();
+                        $('#noDocument').show();
+                    } else {
+                        $('#noDocument').hide();
+                        $('#documentUrl').show();
+                        $('#documentUrl').attr('src', result.data.image_slider_url);
+                    }
+                    let status = result.data.is_active ? 'messages.common.active' : 'messages.common.de_active';
+                    $('#showStatus').append(Lang.get(status));
+                    let element = document.createElement('textarea');
+                    element.innerHTML = (!isEmpty(result.data.description)
+                        ? result.data.description
+                        : 'N/A');
+                    $('#showDescription').append(element.value);
+                    $('#showModal').appendTo('body').modal('show');
+                }
+            },
+            error: function (result) {
+                displayErrorMessage(result.responseJSON.message);
+            },
+        });
+    });
 
 // $(document).ready(function () {
 //     $('#image_filter_status').on('change', function (e) {
@@ -212,7 +206,7 @@ listenClick('.show-btn', function (event) {
 //         window.livewire.emit('changeFilter', 'status', data);
 //     });
 // });
-    
+
     listenClick('#resetFilter', function () {
         $('#image_filter_status').val('').trigger('change');
     });

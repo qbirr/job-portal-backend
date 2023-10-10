@@ -1,6 +1,9 @@
 document.addEventListener('turbo:load', loadBankData)
 
 function loadBankData() {
+    if (!$('#bankNotes').length) {
+        return;
+    }
     window.addBankDetailQuill = new Quill(
         '#addBankNotesQuillData', {
             modules: {
