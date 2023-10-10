@@ -78,7 +78,7 @@
                                    class="btn btn-secondary pricing-plan-btn mt-auto align-self-center cursor-default">
                                     {{ __('messages.plan.processing') }}
                                 </a>
-                                @if(isset($pendingManualTransaction) && $pendingManualTransaction->owner?->plan_id == $plan->id && !$pendingManualTransaction->latestMedia)
+                                @if(isset($pendingManualTransaction) && $pendingManualTransaction->owner?->plan_id == $plan->id && !($pendingManualTransaction?->latestMedia))
                                     <div class="mt-5">
                                         {{--<a href="{{route('transaction.download-pop', $pendingManualTransaction->id)}}"
                                            data-turbo="false" class="download-link btn px-2 text-primary fs-3 ps-0">
