@@ -476,7 +476,7 @@ class JobRepository extends BaseRepository {
     public function searchJob(JobSearchRequest $request): LengthAwarePaginator|_IH_Job_C|array {
         /** @var Job $query */
         $query = Job::with([
-            'company', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory', 'currency', 'jobsTag',
+            'company', 'company.user:id,first_name,last_name', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory', 'currency', 'jobsTag',
             'salaryPeriod', 'submissionStatus', 'degreeLevel', 'careerLevel',
         ])
             ->whereStatus(Job::STATUS_OPEN)->where('status', '!=', Job::STATUS_DRAFT)
@@ -639,13 +639,13 @@ class JobRepository extends BaseRepository {
             ->whereStatus(Job::STATUS_OPEN)
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
             ->where('is_suspended', '=', Job::NOT_SUSPENDED)
-            ->with(['company', 'jobCategory', 'jobsSkill', 'activeFeatured'])
+            ->with(['company', 'company.user:id,first_name,last_name', 'jobCategory', 'jobsSkill', 'activeFeatured'])
             ->orderBy('created_at', 'desc')
             ->get();
         $latestJobs = Job::whereStatus(Job::STATUS_OPEN)
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
             ->where('is_suspended', '=', Job::NOT_SUSPENDED)
-            ->with(['company', 'jobCategory', 'jobsSkill'])
+            ->with(['company', 'company.user:id,first_name,last_name', 'jobCategory', 'jobsSkill'])
             ->orderBy('created_at', 'desc')
             ->limit(6)
             ->get();

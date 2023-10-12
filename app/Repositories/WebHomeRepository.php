@@ -62,7 +62,7 @@ class WebHomeRepository {
     }
 
     public function getLatestJobs(): Collection|array {
-        return Job::with(['company', 'jobCategory', 'jobsSkill'])
+        return Job::with(['company', 'company.user:id,first_name,last_name', 'jobCategory', 'jobsSkill'])
             ->whereStatus(Job::STATUS_OPEN)
             ->whereIsSuspended(Job::NOT_SUSPENDED)
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
