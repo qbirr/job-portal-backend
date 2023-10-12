@@ -38,7 +38,7 @@ class JobController extends AppBaseController {
             return response()->json(null, 404);
         $job->load([
             'company', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory', 'currency', 'jobsTag',
-            'salaryPeriod', 'submissionStatus', 'degreeLevel', 'careerLevel',
+            'salaryPeriod', 'submissionStatus', 'degreeLevel', 'careerLevel', 'functionalArea',
             'company.industry', 'company.ownerShipType', 'company.user:id,first_name,last_name'
             ]);
         $data['resumes'] = null;

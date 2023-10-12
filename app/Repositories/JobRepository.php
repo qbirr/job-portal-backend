@@ -477,7 +477,7 @@ class JobRepository extends BaseRepository {
         /** @var Job $query */
         $query = Job::with([
             'company', 'company.user:id,first_name,last_name', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory', 'currency', 'jobsTag',
-            'salaryPeriod', 'submissionStatus', 'degreeLevel', 'careerLevel',
+            'salaryPeriod', 'submissionStatus', 'degreeLevel', 'careerLevel', 'functionalArea',
         ])
             ->whereStatus(Job::STATUS_OPEN)->where('status', '!=', Job::STATUS_DRAFT)
             ->whereIsSuspended(Job::NOT_SUSPENDED)
@@ -639,13 +639,13 @@ class JobRepository extends BaseRepository {
             ->whereStatus(Job::STATUS_OPEN)
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
             ->where('is_suspended', '=', Job::NOT_SUSPENDED)
-            ->with(['company', 'company.user:id,first_name,last_name', 'jobCategory', 'jobsSkill', 'activeFeatured'])
+            ->with(['company', 'company.user:id,first_name,last_name', 'jobCategory', 'jobsSkill', 'functionalArea', 'activeFeatured'])
             ->orderBy('created_at', 'desc')
             ->get();
         $latestJobs = Job::whereStatus(Job::STATUS_OPEN)
             ->whereDate('job_expiry_date', '>=', Carbon::now()->toDateString())
             ->where('is_suspended', '=', Job::NOT_SUSPENDED)
-            ->with(['company', 'company.user:id,first_name,last_name', 'jobCategory', 'jobsSkill'])
+            ->with(['company', 'company.user:id,first_name,last_name', 'jobCategory', 'jobsSkill', 'functionalArea'])
             ->orderBy('created_at', 'desc')
             ->limit(6)
             ->get();
