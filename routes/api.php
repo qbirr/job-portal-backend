@@ -24,7 +24,7 @@ use App\Http\Controllers\SalaryCurrencyController;
 use App\Http\Controllers\SalaryPeriodController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\web\CategoriesController;
+use App\Http\Controllers\Web\CategoriesController;
 use App\Http\Controllers\Web\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
