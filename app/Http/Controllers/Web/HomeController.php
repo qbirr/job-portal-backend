@@ -98,6 +98,7 @@ class HomeController extends AppBaseController
         $data['notices'] = $this->homeRepository->getNotices();
         [$data['imageSliders'], $data['settings'], $data['slider'], $data['imageSliderActive'], $data['headerSliders']] = $this->homeRepository->getImageSlider();
         $data['latestJobsEnable'] = $this->homeRepository->getLatestJobsEnable();
+        $data['plansEnable'] = getSettingValue('enable_subscription_plan') && count($plans) > 0;
         $data['plans'] = $this->homeRepository->getPlans();
         $data['plansArray'] = array_chunk($data['plans']->toArray(), 3);
         $data['branding'] = $this->homeRepository->getBranding();
