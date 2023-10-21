@@ -214,7 +214,7 @@ class WebHomeRepository {
      * @return Builder[]|Collection
      */
     public function getRecentBlog(): Collection|array {
-        return $blog = Post::with(
+        return Post::with(
             [
                 'postAssignCategories',
                 'media',
