@@ -83,7 +83,10 @@ class HomeController extends AppBaseController
         return view('front_web.home.job_search_results', compact('results'))->render();
     }
 
-    public function getData() {
+    /**
+     * @return array
+     */
+    public function getData(): array {
 //        dd($this->homeRepository->getRecentBlog());
         $data['testimonials'] = $this->homeRepository->getTestimonials();
         $data['dataCounts'] = $this->homeRepository->getDataCounts();
@@ -102,6 +105,10 @@ class HomeController extends AppBaseController
         $data['branding'] = $this->homeRepository->getBranding();
         $data['recentBlog'] = $this->homeRepository->getRecentBlog();
         $data['cmsServices'] = CmsServices::pluck('value', 'key')->toArray();
-        return response()->json($data, 200, [], JSON_NUMERIC_CHECK);
+        return $data;
+    }
+
+    public function frontJson() {
+        return response()->json($this->getData(), 200, [], JSON_NUMERIC_CHECK);
     }
 }

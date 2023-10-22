@@ -12,8 +12,13 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property int $job_type_id
  * @property int $no_preference
  * @property int $skill_id
- * @property mixed $company_id
- * @property mixed $experience
+ * @property int $company_id
+ * @property int $experience
+ * @property int $job_category_id
+ * @property mixed $salary_from
+ * @property mixed $salary_to
+ * @property mixed $career_level_id
+ * @property mixed $functional_area_id
  */
 class JobSearchRequest extends FormRequest {
     public function rules(): array {

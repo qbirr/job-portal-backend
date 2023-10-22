@@ -39,7 +39,7 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::prefix('jobs')->group(function () {
     Route::get('latest', [JobController::class, 'latestJobs']);
     Route::get('search-autocomplete', [JobController::class, 'searchJobAutocomplete']);
-    Route::post('search', [JobController::class, 'searchJob']);
+    Route::post('search', [JobController::class, 'apiSearchJob']);
     Route::get('details/{job}', [JobController::class, 'detail']);
     Route::get('categories', [CategoriesController::class, 'fetch']);
     Route::get('types', [JobTypeController::class, 'fetch']);
@@ -163,4 +163,4 @@ Route::get('cities', [CityController::class, 'fetch']);
 Route::get('industries', [IndustryController::class, 'fetch']);
 Route::get('ownership-types', [OwnerShipTypeController::class, 'fetch']);
 
-Route::get('front-data', [\App\Http\Controllers\Web\HomeController::class, 'getData']);
+Route::get('front-data', [\App\Http\Controllers\Web\HomeController::class, 'frontJson']);

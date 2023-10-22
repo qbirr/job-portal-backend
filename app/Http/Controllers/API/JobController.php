@@ -29,8 +29,8 @@ class JobController extends AppBaseController {
         return $this->homeRepository->jobSearch($searchTerm);
     }
 
-    public function searchJob(JobSearchRequest $request) {
-        return $this->jobRepository->searchJob($request);
+    public function apiSearchJob(JobSearchRequest $request) {
+        return response()->json($this->jobRepository->apiSearchJob($request), 200, [], JSON_NUMERIC_CHECK);
     }
 
     public function detail(?Job $job) {
