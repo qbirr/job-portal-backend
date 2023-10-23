@@ -601,7 +601,7 @@ class JobRepository extends BaseRepository {
             ->whereDate('job_expiry_date', '>=', Carbon::tomorrow()->toDateString());
 
         $query->when(!empty($request->job_type_id), function (Builder $q) use ($request) {
-            $q->whereIn('job_type_id', $request->job_type_id);
+            $q->where('job_type_id', $request->job_type_id);
         });
 
         $query->when(!empty($request->job_category_id), function (Builder $q) use ($request) {
