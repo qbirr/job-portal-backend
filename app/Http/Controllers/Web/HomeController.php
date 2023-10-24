@@ -7,6 +7,7 @@ use App\Http\Requests\ContactFormRequest;
 use App\Models\CmsServices;
 use App\Models\Setting;
 use App\Models\User;
+use App\Repositories\JobRepository;
 use App\Repositories\WebHomeRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -17,14 +18,12 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 
-class HomeController extends AppBaseController
-{
-    /** @var WebHomeRepository */
-    private $homeRepository;
+class HomeController extends AppBaseController {
 
-    public function __construct(WebHomeRepository $homeRepository)
-    {
-        $this->homeRepository = $homeRepository;
+    public function __construct(
+        private readonly WebHomeRepository $homeRepository,
+        private readonly JobRepository $jobRepository,
+    ) {
     }
 
     /**
@@ -32,19 +31,17 @@ class HomeController extends AppBaseController
      *
      * @return Factory|View
      */
-    public function index()
-    {
+    public function index() {
         $data = $this->getData();
         $data['color'] = Setting::COLOR;
         return view('front_web.home.home')->with($data);
     }
 
     /**
-     * @param  ContactFormRequest  $request
+     * @param ContactFormRequest $request
      * @return Application|RedirectResponse|Redirector
      */
-    public function sendContactEmail(ContactFormRequest $request)
-    {
+    public function sendContactEmail(ContactFormRequest $request) {
         $inquiry = $this->homeRepository->storeInquires($request->all());
         Flash::success('Thank you for contacting us.');
 
@@ -52,14 +49,13 @@ class HomeController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function changeLanguage(Request $request)
-    {
+    public function changeLanguage(Request $request) {
         $language = $request->input('languageName');
 
-        Session::put('languageName',$language);
+        Session::put('languageName', $language);
 
         /** @var User $user */
         $user = getLoggedInUser();
@@ -69,13 +65,12 @@ class HomeController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
+     * @param Request $request
      * @return array|string
      *
      * @throws Throwable
      */
-    public function getJobsSearch(Request $request)
-    {
+    public function getJobsSearch(Request $request) {
         $searchTerm = strtolower($request->get('searchTerm'));
 
         $results = $this->homeRepository->jobSearch($searchTerm);
@@ -90,7 +85,8 @@ class HomeController extends AppBaseController
 //        dd($this->homeRepository->getRecentBlog());
         $data['testimonials'] = $this->homeRepository->getTestimonials();
         $data['dataCounts'] = $this->homeRepository->getDataCounts();
-        $data['latestJobs'] = $this->homeRepository->getLatestJobs()->take(4);
+//        $data['latestJobs'] = $this->homeRepository->getLatestJobs()->take(4);
+        $data['latestJobs'] = $this->jobRepository->latestJob()->take(4);
         $data['categories'] = $this->homeRepository->getCategories();
         $data['jobCategories'] = $this->homeRepository->getAllJobCategories()->where('is_featured', 1)->take(8);
         $data['featuredCompanies'] = $this->homeRepository->getFeaturedCompanies();
