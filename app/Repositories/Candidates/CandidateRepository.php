@@ -257,6 +257,14 @@ class CandidateRepository extends BaseRepository {
         }
     }
 
+    public function listResume(Candidate $candidate): array|Collection {
+        return Media::where('collection_name', Candidate::RESUME_PATH)
+            ->where('model_type', Candidate::class)
+            ->where('model_id', $candidate->id)
+            ->orderBy('order_column')
+            ->get();
+    }
+
     /**
      * @param array $input
      * @return bool

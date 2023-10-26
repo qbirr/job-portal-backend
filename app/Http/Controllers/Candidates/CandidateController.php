@@ -197,6 +197,10 @@ class CandidateController extends AppBaseController
         return view('candidate.profile.cv_template')->with($data)->render();
     }
 
+    public function listResume() {
+        return $this->candidateRepository->listResume(auth()->user()->candidate)->toArray();
+    }
+
     /**
      * @param  Request  $request
      * @return mixed

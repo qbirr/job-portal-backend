@@ -1298,6 +1298,7 @@
         'job_alert' => 'Job Alert updated successfully.',
         'job_notification' => 'Job Notification send successfully.',
         'fav_job_remove' => 'Favourite Job has been removed.',
+        'resume_fetch' => 'Resume fetched successfully.',
         'resume_update' => 'Resume updated successfully.',
         'resume_delete' => 'Resume delete successfully.',
         'pop_uploaded' => 'Proof of payments upload successfully.',
