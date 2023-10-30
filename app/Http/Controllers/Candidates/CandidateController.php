@@ -288,7 +288,14 @@ class CandidateController extends AppBaseController
      */
     public function editCandidateProfile()
     {
-        $user = User::with('candidate')->where('id', '=', Auth::id())->first();
+        $user = User::with([
+            'candidate',
+            'candidate.careerLevel',
+            'candidate.industry',
+            'candidate.functionalArea',
+            'candidate.skills',
+        ])
+            ->where('id', '=', Auth::id())->first();
 
         return $this->sendResponse($user, __('messages.flash.candidate_retrieved'));
     }

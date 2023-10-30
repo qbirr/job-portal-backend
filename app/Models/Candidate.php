@@ -83,6 +83,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property int|null $last_change
  * @property-read User|null $admin
  * @method static Builder|Candidate whereLastChange($value)
+ * @property-read Collection<int, \App\Models\Skill> $skills
+ * @property-read int|null $skills_count
  * @mixin Eloquent
  */
 class Candidate extends Model implements HasMedia {
@@ -263,6 +265,10 @@ class Candidate extends Model implements HasMedia {
      */
     public function functionalArea(): BelongsTo {
         return $this->belongsTo(FunctionalArea::class, 'functional_area_id');
+    }
+
+    public function skills(): BelongsToMany {
+        return $this->belongsToMany(Skill::class, 'candidate_skills');
     }
 
     /**
