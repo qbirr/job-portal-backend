@@ -293,7 +293,7 @@ class CandidateController extends AppBaseController
             'candidate.careerLevel',
             'candidate.industry',
             'candidate.functionalArea',
-            'candidate.skills',
+            'candidateSkill',
         ])
             ->where('id', '=', Auth::id())->first();
 
