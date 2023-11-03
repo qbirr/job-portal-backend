@@ -26,17 +26,16 @@ use Hash;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
 use LaravelIdea\Helper\App\Models\_IH_Candidate_C;
 use LaravelIdea\Helper\App\Models\_IH_JobApplication_C;
-use LaravelIdea\Helper\App\Models\_IH_JobApplication_QB;
 use PragmaRX\Countries\Package\Countries;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
 use Str;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Throwable;
@@ -274,14 +273,14 @@ class CandidateRepository extends BaseRepository {
             $user = Auth::user();
             /** @var Candidate $candidate */
             $candidate = Candidate::findOrFail($user->candidate->id);
-            $input['is_default'] = isset($input['is_default']) ? true : false;
+            $input['is_default'] = isset($input['is_default']) && $input['is_default'] != 0;
             if ($input['is_default']) {
                 $media = Media::where('model_type', '=', Candidate::class)->where('model_id', '=', $candidate->id)->where('custom_properties->is_default', '=', true)->first();
                 if (isset($media)) {
                     throw new BadRequestHttpException(
                         __('messages.flash.default_resume_already_upload'),
                         null,
-                        Response::HTTP_BAD_REQUEST
+                        ResponseAlias::HTTP_CREATED
                     );
                 }
             }
