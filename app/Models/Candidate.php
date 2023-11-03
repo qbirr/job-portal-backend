@@ -83,6 +83,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property int|null $last_change
  * @property-read User|null $admin
  * @method static Builder|Candidate whereLastChange($value)
+ * @property-read Collection<int, CandidateEducation> $educations
+ * @property-read int|null $educations_count
+ * @property-read Collection<int, CandidateExperience> $experiences
+ * @property-read int|null $experiences_count
  * @mixin Eloquent
  */
 class Candidate extends Model implements HasMedia {
@@ -284,5 +288,13 @@ class Candidate extends Model implements HasMedia {
      */
     public function pendingJobApplications(): HasMany {
         return $this->hasMany(JobApplication::class, 'candidate_id')->where('status', JobApplication::STATUS_APPLIED);
+    }
+
+    public function educations(): HasMany {
+        return $this->hasMany(CandidateEducation::class);
+    }
+
+    public function experiences() {
+        return $this->hasMany(CandidateExperience::class);
     }
 }

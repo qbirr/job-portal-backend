@@ -496,4 +496,19 @@ class CandidateController extends AppBaseController
 
         return $this->sendSuccess(__('messages.flash.fav_company_delete'));
     }
+
+    public function fetchCv() {
+        $user = auth()->user();
+        $user->load([
+            'candidate',
+            'candidate.careerLevel',
+            'candidate.industry',
+            'candidate.functionalArea',
+            'candidateSkill',
+            'candidate.educations',
+            'candidate.educations.degreeLevel',
+            'candidate.experiences',
+        ]);
+        return $user;
+    }
 }

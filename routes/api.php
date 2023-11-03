@@ -116,6 +116,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
             Route::get('/{media}', [\App\Http\Controllers\CandidateController::class, 'downloadResume']);
             Route::delete('/{media}', [\App\Http\Controllers\Candidates\CandidateController::class, 'deletedResume']);
         });
+        Route::get('cv-data', [\App\Http\Controllers\Candidates\CandidateController::class, 'fetchCv']);
     });
     Route::prefix('experiences')->group(function () {
         Route::post('/', [CandidateProfileController::class, 'createExperience']);
