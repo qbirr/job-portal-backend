@@ -373,7 +373,12 @@ class JobRepository extends BaseRepository {
     }
 
     public function fetchFavouriteJobs(User $user): array|Collection|_IH_FavouriteJob_C {
-        return FavouriteJob::whereUserId($user->id)->with(['job'])->latest()->get();
+        return FavouriteJob::whereUserId($user->id)->with(['job' => function($query) {
+            $query->with([
+                'company', 'company.user:id,first_name,last_name', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory', 'currency', 'jobsTag',
+                'salaryPeriod', 'submissionStatus', 'degreeLevel', 'careerLevel', 'functionalArea',
+            ]);
+        }])->latest()->get();
     }
 
     /**

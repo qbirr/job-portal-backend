@@ -556,6 +556,11 @@ class CandidateRepository extends BaseRepository {
     }
 
     public function fetchAppliedJobs(Candidate $candidate): Collection|_IH_JobApplication_C|array {
-        return JobApplication::whereCandidateId($candidate->id)->with(['job', 'jobStage'])->latest()->get();
+        return JobApplication::whereCandidateId($candidate->id)->with(['job' => function($query) {
+            $query->with([
+                'company', 'company.user:id,first_name,last_name', 'country', 'state', 'city', 'jobShift', 'jobsSkill', 'jobCategory', 'currency', 'jobsTag',
+                'salaryPeriod', 'submissionStatus', 'degreeLevel', 'careerLevel', 'functionalArea',
+            ]);
+        }, 'jobStage'])->latest()->get();
     }
 }
