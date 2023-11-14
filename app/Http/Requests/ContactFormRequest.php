@@ -5,15 +5,13 @@ namespace App\Http\Requests;
 use App\Models\Inquiry;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContactFormRequest extends FormRequest
-{
+class ContactFormRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize() {
         return true;
     }
 
@@ -22,10 +20,9 @@ class ContactFormRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules() {
         $rules = Inquiry::$rules;
-        if (getSettingValue('enable_google_recaptcha')) {
+        if (!in_array('api', request()->route()->getAction('middleware')) && getSettingValue('enable_google_recaptcha')) {
             $rules['g-recaptcha-response'] = 'required';
         }
 
@@ -35,8 +32,7 @@ class ContactFormRequest extends FormRequest
     /**
      * @return string[]
      */
-    public function messages()
-    {
+    public function messages() {
         return [
             'g-recaptcha-response.required' => 'You must verify google recaptcha.',
         ];
