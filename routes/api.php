@@ -166,3 +166,4 @@ Route::get('industries', [IndustryController::class, 'fetch']);
 Route::get('ownership-types', [OwnerShipTypeController::class, 'fetch']);
 
 Route::get('front-data', [\App\Http\Controllers\Web\HomeController::class, 'frontJson']);
+Route::get('about-us', \App\Http\Controllers\API\AboutUsController::class);
