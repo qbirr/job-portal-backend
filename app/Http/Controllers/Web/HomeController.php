@@ -82,7 +82,6 @@ class HomeController extends AppBaseController {
      * @return array
      */
     public function getData(): array {
-//        dd($this->homeRepository->getRecentBlog());
         $data['testimonials'] = $this->homeRepository->getTestimonials();
         $data['dataCounts'] = $this->homeRepository->getDataCounts();
 //        $data['latestJobs'] = $this->homeRepository->getLatestJobs()->take(4);
@@ -90,13 +89,13 @@ class HomeController extends AppBaseController {
         $data['categories'] = $this->homeRepository->getCategories();
         $data['jobCategories'] = $this->homeRepository->getAllJobCategories()->where('is_featured', 1)->take(8);
         $data['featuredCompanies'] = $this->homeRepository->getFeaturedCompanies();
-        $data['allCompanies'] = $this->homeRepository->getAllCompanies();
+        $data['allCompanies'] = $this->homeRepository->getAllCompanies(submission_status: 2);
         $data['featuredJobs'] = $this->homeRepository->getFeaturedJobs();
         $data['notices'] = $this->homeRepository->getNotices();
         [$data['imageSliders'], $data['settings'], $data['slider'], $data['imageSliderActive'], $data['headerSliders']] = $this->homeRepository->getImageSlider();
         $data['latestJobsEnable'] = $this->homeRepository->getLatestJobsEnable();
-        $data['plansEnable'] = getSettingValue('enable_subscription_plan') && count($plans) > 0;
         $data['plans'] = $this->homeRepository->getPlans();
+        $data['plansEnable'] = getSettingValue('enable_subscription_plan') && count($data['plans']) > 0;
         $data['plansArray'] = array_chunk($data['plans']->toArray(), 3);
         $data['branding'] = $this->homeRepository->getBranding();
         $data['recentBlog'] = $this->homeRepository->getRecentBlog();

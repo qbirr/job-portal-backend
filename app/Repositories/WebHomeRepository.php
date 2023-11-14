@@ -56,7 +56,7 @@ class WebHomeRepository {
         )->count();
         $data['companies'] = Company::with('user')->whereHas('user', function (Builder $query) {
             $query->where('is_active', '=', true);
-        })->count();
+        })->where(['submission_status_id' => 2])->count();
 
         return $data;
     }
@@ -122,11 +122,15 @@ class WebHomeRepository {
             ->get();
     }
 
-    public function getAllCompanies(): Collection|array|_IH_Company_C {
+    public function getAllCompanies($submission_status = null): Collection|array|_IH_Company_C {
         return Company::with('activeFeatured', 'jobs')->withCount(['jobs' => function (Builder $q) {
             $q->where('status', '!=', Job::STATUS_DRAFT);
             $q->where('status', '!=', Job::STATUS_CLOSED);
-        }])->get();
+        }])
+            ->when($submission_status, function (Builder $query, $submission_status) {
+                $query->where(['submission_status_id' => $submission_status]);
+            })
+            ->get();
     }
 
     /**
