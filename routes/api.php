@@ -88,6 +88,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
     Route::prefix('jobs')->group(function () {
         Route::post('/', [JobController::class, 'employerJobs']);
         Route::post('{job}/applications', [JobApplicationController::class, 'fetch']);
+        Route::post('{id}/status/{status}', [\App\Http\Controllers\JobController::class, 'changeJobStatus']);
         Route::prefix('stages')->group(function () {
             Route::get('/', [JobStageController::class, 'fetch']);
             Route::post('/', [JobStageController::class, 'store']);
