@@ -722,7 +722,18 @@ class JobRepository extends BaseRepository {
             'company',
             'jobCategory',
             'jobType',
-            'jobShift'
+            'jobShift',
+            'country',
+            'state',
+            'city',
+            'jobsSkill',
+            'currency',
+            'jobsTag',
+            'salaryPeriod',
+            'submissionStatus',
+            'degreeLevel',
+            'careerLevel',
+            'functionalArea'
         )
             ->where('company_id', $company->id)
             ->select('jobs.*')
