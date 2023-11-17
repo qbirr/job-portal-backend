@@ -35,6 +35,10 @@ class TokenController extends Controller {
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
+            if ($request->is('api/*'))
+                return response()->json([
+                    'email' => ['The provided credentials are incorrect.'],
+                ], 401);
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);

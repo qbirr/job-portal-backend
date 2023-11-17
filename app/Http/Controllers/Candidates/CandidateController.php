@@ -256,7 +256,7 @@ class CandidateController extends AppBaseController
     public function updateJobAlert(Request $request)
     {
         $this->candidateRepository->updateJobAlerts($request->all());
-        if ($request->ajax())
+        if ($request->is('api/*'))
             return $this->sendSuccess('Job alerts saved');
 
         Flash::success(__('messages.flash.job_alert'));
