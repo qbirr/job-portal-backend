@@ -99,7 +99,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
             Route::post('{id}/status/{status}', [JobApplicationController::class, 'changeJobApplicationStatus']);
             Route::delete('{jobApplication}', [JobApplicationController::class, 'destroy']);
             Route::get('{jobApplication}/download-resume', [JobApplicationController::class, 'downloadMedia']);
-            Route::get('{jobApplication}', [JobApplicationController::class, 'getJobStage']);
+            Route::get('{jobApplication}', [JobApplicationController::class, 'getJobApplicationDetail']);
             Route::post('{jobId}/job-stage', [JobApplicationController::class, 'changeJobStage']);
         });
     });
