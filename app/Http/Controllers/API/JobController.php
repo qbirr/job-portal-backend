@@ -6,12 +6,16 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\EmailJobToFriendRequest;
 use App\Http\Requests\EmployerJobSearchRequest;
 use App\Http\Requests\JobSearchRequest;
+use App\Http\Requests\UpdateJobRequest;
 use App\Models\Job;
 use App\Repositories\JobRepository;
 use App\Repositories\WebHomeRepository;
 use Auth;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
+use Throwable;
 
 class JobController extends AppBaseController {
     public function __construct(
@@ -63,6 +67,24 @@ class JobController extends AppBaseController {
         ];
     }
 
+    /**
+     * @throws Throwable
+     */
+    public function update(Job $job, UpdateJobRequest $request) {
+        if ($job->status != Job::STATUS_OPEN) {
+            if (!$this->checkJobLimit()) {
+                return $this->sendError(__('messages.flash.job_create_limit'));
+            }
+        }
+
+        $input = $request->all();
+        $input['hide_salary'] = (isset($input['hide_salary'])) ? 1 : 0;
+        $input['is_freelance'] = (isset($input['is_freelance'])) ? 1 : 0;
+        $job = $this->jobRepository->update($input, $job);
+
+        return $this->sendSuccess(__('messages.flash.job_update'));
+    }
+
     public function employerJobs(EmployerJobSearchRequest $request) {
         return $this->jobRepository->employerJobs(auth()->user()->company, $request);
     }
@@ -89,5 +111,18 @@ class JobController extends AppBaseController {
         $this->jobRepository->storeReportJobAbuse($input);
 
         return $this->sendSuccess(__('messages.flash.job_abuse_reported'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function checkJobLimit() {
+        $job = $this->jobRepository->canCreateMoreJobs();
+
+        if (!$job) {
+            return false;
+        }
+
+        return true;
     }
 }

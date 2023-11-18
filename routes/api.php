@@ -102,6 +102,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
             Route::get('{jobApplication}', [JobApplicationController::class, 'getJobApplicationDetail']);
             Route::post('{jobId}/job-stage', [JobApplicationController::class, 'changeJobStage']);
         });
+        Route::put('{job}', [JobController::class, 'update']);
     });
 });
 
