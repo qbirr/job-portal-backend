@@ -104,6 +104,8 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
         });
         Route::put('{job}', [JobController::class, 'update']);
     });
+
+    Route::get('followers', [\App\Http\Controllers\API\FollowerController::class, 'fetchFollowers']);
 });
 
 Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->group(function () {

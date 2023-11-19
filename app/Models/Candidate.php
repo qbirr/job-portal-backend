@@ -176,7 +176,7 @@ class Candidate extends Model implements HasMedia {
 
     protected $appends = ['country_name', 'state_name', 'city_name', 'full_location', 'candidate_url'];
 
-    protected $with = ['user'];
+    protected $with = ['user', ];
 
     public function getCountryNameAttribute(): ?string {
         if (!empty($this->user->country)) {
