@@ -294,7 +294,11 @@ class Candidate extends Model implements HasMedia {
         return $this->hasMany(CandidateEducation::class);
     }
 
-    public function experiences() {
+    public function experiences(): HasMany {
         return $this->hasMany(CandidateExperience::class);
+    }
+
+    public function skills(): BelongsToMany {
+        return $this->belongsToMany(Skill::class, 'candidate_skills', 'user_id', 'skill_id', 'user_id');
     }
 }

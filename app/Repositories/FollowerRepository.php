@@ -15,6 +15,7 @@ class FollowerRepository {
             'user.candidate.functionalArea',
             'user.candidate.careerLevel',
             'user.candidate.industry',
+            'user.candidate.skills',
         ])->where(
             'company_id',
             $company->id
