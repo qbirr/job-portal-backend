@@ -63,6 +63,11 @@ Route::prefix('companies')->group(function () {
 
 Route::middleware(['auth:sanctum', 'role:Employer|Candidate'])->group(function () {
     Route::get('profile', [UserController::class, 'profile']);
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', [NotificationController::class, 'fetch']);
+        Route::post('{notification}/read', [NotificationController::class, 'readNotification']);
+        Route::post('read-all', [NotificationController::class, 'readAllNotification']);
+    });
 });
 
 Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(function () {
@@ -78,11 +83,6 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
     Route::prefix('candidates')->group(function () {
         Route::post('search', [CandidateController::class, 'search']);
         Route::get('detail/{candidate}', [CandidateController::class, 'detail']);
-    });
-    Route::prefix('notifications')->group(function () {
-        Route::get('/', [NotificationController::class, 'fetch']);
-        Route::post('{notification}/read', [NotificationController::class, 'readNotification']);
-        Route::post('read-all', [NotificationController::class, 'readAllNotification']);
     });
 
     Route::prefix('jobs')->group(function () {
