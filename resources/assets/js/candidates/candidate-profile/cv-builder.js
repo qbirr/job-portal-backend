@@ -1,8 +1,9 @@
 document.addEventListener('turbo:load', loadCVBuilderData);
 
 function loadCVBuilderData() {
+    console.log('loadCVBuilderData')
     if (!$('#candidateCityId').length) {
-        return;
+        // return;
     }
 
     var pluginUrl = $('#pluginUrl').val();
@@ -293,7 +294,7 @@ window.renderCandidateData = function () {
                 setTimeout(function () {
                     $("#candidateCityId").val(result.data.city_id).trigger('change');
                 }, 2000);
-                
+
             }
         },
         error: function (result) {
