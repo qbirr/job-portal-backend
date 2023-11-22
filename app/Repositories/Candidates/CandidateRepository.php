@@ -387,7 +387,7 @@ class CandidateRepository extends BaseRepository {
      */
     public function getCandidateDetail($candidate): array {
         $candidateDetails = Candidate::with([
-            'user', 'jobApplications', 'industry', 'maritalStatus', 'careerLevel', 'industry', 'functionalArea',
+            'user', 'user.candidateSkill', 'jobApplications', 'industry', 'maritalStatus', 'careerLevel', 'industry', 'functionalArea',
         ])->findOrFail($candidate);
         // update profile views count
         if ($candidateDetails->user->id != getLoggedInUserId()) {
