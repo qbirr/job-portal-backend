@@ -1,7 +1,6 @@
 document.addEventListener('turbo:load', loadCVBuilderData);
 
 function loadCVBuilderData() {
-    console.log('loadCVBuilderData')
     if (!$('#candidateCityId').length) {
         // return;
     }
