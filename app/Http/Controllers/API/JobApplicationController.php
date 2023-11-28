@@ -76,7 +76,7 @@ class JobApplicationController extends AppBaseController {
 
         $isSelectedRejectedSlot = 1;
 
-        $jobSchedules = JobApplicationSchedule::whereJobApplicationId($jobApplication->id)->get();
+        $slots = JobApplicationSchedule::whereJobApplicationId($jobApplication->id)->get();
 
         if (isset($lastRecord)) {
             /** @var JobApplicationSchedule $isSelectedRejectedSlot */
@@ -89,7 +89,7 @@ class JobApplicationController extends AppBaseController {
         }
 
         return $this
-            ->sendResponse(compact('jobStage', 'lastStage', 'isSelectedRejectedSlot', 'isStageMatch', 'jobSchedules'),
+            ->sendResponse(compact('jobStage', 'lastStage', 'isSelectedRejectedSlot', 'isStageMatch', 'slots'),
                 'Job Slot fetch successfully');
     }
 
