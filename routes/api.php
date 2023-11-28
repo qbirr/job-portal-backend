@@ -99,6 +99,14 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
             Route::post('{id}/status/{status}', [JobApplicationController::class, 'changeJobApplicationStatus']);
             Route::delete('{jobApplication}', [JobApplicationController::class, 'destroy']);
             Route::get('{jobApplication}/download-resume', [JobApplicationController::class, 'downloadMedia']);
+            Route::prefix('{jobApplication}/slots')->group(function () {
+                Route::get('/', [\App\Http\Controllers\API\JobApplicationController::class, 'fetchSlot']);
+                Route::post('/', [\App\Http\Controllers\API\JobApplicationController::class, 'interviewSlotStore']);
+                Route::get('history', [\App\Http\Controllers\API\JobApplicationController::class, 'history']);
+            });
+            Route::prefix('slots')->group(function () {
+                Route::post('{jobApplicationSchedule}/cancel', [\App\Http\Controllers\API\JobApplicationController::class, 'cancel']);
+            });
             Route::get('{jobApplication}', [JobApplicationController::class, 'getJobApplicationDetail']);
             Route::post('{jobId}/job-stage', [JobApplicationController::class, 'changeJobStage']);
         });

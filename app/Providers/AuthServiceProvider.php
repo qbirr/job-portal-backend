@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\JobApplication;
 use App\Models\Transaction;
+use App\Policies\JobApplicationPolicy;
 use App\Policies\TransactionPolicy;
 use App\Providers\SocialAuthProviders\FacebookAuthProvider;
 use App\Providers\SocialAuthProviders\GoogleAuthProvider;
@@ -19,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
         Transaction::class => TransactionPolicy::class,
+        JobApplication::class => JobApplicationPolicy::class,
     ];
 
     /**
