@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Candidates;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Controllers\Controller;
 use App\Models\JobApplication;
 use App\Models\JobApplicationSchedule;
 use Carbon\Carbon;
 use Gate;
+use Illuminate\Http\Request;
 
 class AppliedJobController extends AppBaseController {
-
     public function showScheduleSlotBook(JobApplication $jobApplication) {
         Gate::authorize('view', $jobApplication);
 
@@ -49,10 +48,10 @@ class AppliedJobController extends AppBaseController {
             foreach ($allJobSchedule as $jobApplicationSchedule) {
                 if ($jobApplicationSchedule->status == JobApplicationSchedule::STATUS_NOT_SEND) {
                     $data['slots'][] = [
-                        'notes' => !empty($jobApplicationSchedule->notes) ? $jobApplicationSchedule->notes : __('messages.job_stage.new_slot_send'),
+                        'slot_id' => $jobApplicationSchedule->id,
                         'schedule_date' => Carbon::parse($jobApplicationSchedule->date)->translatedFormat('jS M Y'),
                         'schedule_time' => $jobApplicationSchedule->time,
-                        'job_Schedule_Id' => $jobApplicationSchedule->id,
+                        'notes' => !empty($jobApplicationSchedule->notes) ? $jobApplicationSchedule->notes : __('messages.job_stage.new_slot_send'),
                         'isAllRejected' => $jobApplicationSchedule->status == JobApplicationSchedule::STATUS_REJECTED,
                     ];
                 }
@@ -68,5 +67,48 @@ class AppliedJobController extends AppBaseController {
         $data['scheduleSelect'] = $allJobSchedule->where('status', JobApplicationSchedule::STATUS_SEND)->count();
 
         return $this->sendResponse($data, __('messages.flash.job_schedule_send'));
+    }
+
+    public function choosePreference(Request $request, JobApplication $jobApplication) {
+        Gate::authorize('view', $jobApplication);
+
+        if (! isset($request->rejectSlot)) {
+            $request->validate([
+                'slot_id' => 'required',
+            ], [
+                'slot_id.required' => __('messages.flash.slot_preference_field'),
+            ]);
+        }
+
+        $request->validate([
+            'choose_slot_notes' => 'required',
+        ], [
+            'choose_slot_notes.required' => 'Notes Field is required',
+        ]);
+
+        $scheduleId = $request->get('slot_id');
+        $slotNotes = $request->get('choose_slot_notes');
+
+        if (! isset($request->rejectSlot)) {
+            JobApplicationSchedule::whereId($scheduleId)->update(['status' => JobApplicationSchedule::STATUS_SEND, 'rejected_slot_notes' => $slotNotes]);
+        } else {
+            $jobApplicationSchedules = JobApplicationSchedule::whereJobApplicationId($jobApplication->id);
+            $lastRecord = $jobApplicationSchedules->latest()->first();
+            JobApplicationSchedule::where([
+                ['job_application_id', $jobApplication->id],
+                ['stage_id', $lastRecord->stage_id],
+                ['batch', $lastRecord->batch],
+                ['status', JobApplicationSchedule::STATUS_NOT_SEND],
+            ])->update([
+                'status' => JobApplicationSchedule::STATUS_REJECTED,
+                'rejected_slot_notes' => $slotNotes,
+            ]);
+        }
+
+        if (isset($request->rejectSlot)) {
+            return $this->sendSuccess(__('messages.flash.slot_reject'));
+        }
+
+        return $this->sendSuccess(__('messages.flash.slot_choose'));
     }
 }
