@@ -146,6 +146,7 @@ Route::middleware(['auth:sanctum', 'role:Candidate'])->prefix('candidate')->grou
     Route::prefix('jobs')->group(function () {
         Route::prefix('applied')->group(function () {
             Route::get('/', [\App\Http\Controllers\Candidates\CandidateController::class, 'fetchCandidateAppliedJobs']);
+            Route::get('{jobApplication}/slots', [\App\Http\Controllers\Candidates\AppliedJobController::class, 'showScheduleSlotBook']);
         });
         Route::prefix('favourite-jobs')->group(function () {
             Route::post('/', [\App\Http\Controllers\Web\JobController::class, 'saveFavouriteJob']);
