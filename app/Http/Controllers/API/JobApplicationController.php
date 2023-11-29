@@ -37,11 +37,11 @@ class JobApplicationController extends AppBaseController {
         $input['application_type'] != 'draft'
         && NotificationSetting::where('key', 'JOB_APPLICATION_SUBMITTED')->first()->value == 1
         && addNotification([
-                Notification::JOB_APPLICATION_SUBMITTED,
-                $employerId,
-                Notification::EMPLOYER,
-                'Job Application submitted for '.$job->job_title,
-            ]);
+            Notification::JOB_APPLICATION_SUBMITTED,
+            $employerId,
+            Notification::EMPLOYER,
+            'Job Application submitted for ' . $job->job_title,
+        ]);
 
         return $input['application_type'] == 'draft' ?
             $this->sendResponse($job->job_id, __('messages.flash.job_application_draft')) :
@@ -96,6 +96,7 @@ class JobApplicationController extends AppBaseController {
     }
 
     public function interviewSlotStore(Request $request, JobApplication $jobApplication) {
+        Gate::authorize('view', $jobApplication);
         try {
             DB::beginTransaction();
             $input = $request->json();
@@ -158,6 +159,7 @@ class JobApplicationController extends AppBaseController {
     }
 
     public function cancel(Request $request, JobApplicationSchedule $jobApplicationSchedule) {
+        Gate::authorize('delete', $jobApplicationSchedule->jobApplication);
         if (empty($request->get('cancelSlotNote'))) {
             return $this->sendError(__('messages.flash.cancel_reason_require'));
         }
@@ -173,6 +175,7 @@ class JobApplicationController extends AppBaseController {
     }
 
     public function update(Request $request, JobApplicationSchedule $jobApplicationSchedule) {
+        Gate::authorize('update', $jobApplicationSchedule->jobApplication);
         $input = $request->all();
         if ($input['time'] != $jobApplicationSchedule->time) {
             $isExist = JobApplicationSchedule::whereJobApplicationId($jobApplicationSchedule->job_application_id)
@@ -190,5 +193,16 @@ class JobApplicationController extends AppBaseController {
         ]);
 
         return $this->sendSuccess(__('messages.flash.slot_update'));
+    }
+
+    public function delete(JobApplicationSchedule $jobApplicationSchedule) {
+        Gate::authorize('delete', $jobApplicationSchedule->jobApplication);
+        if ($jobApplicationSchedule->status == 1) {
+            return $this->sendError(__('messages.flash.assigned_slot_not_delete'));
+        } else {
+            $jobApplicationSchedule->delete();
+
+            return $this->sendSuccess(__('messages.flash.slot_delete'));
+        }
     }
 }

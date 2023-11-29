@@ -107,6 +107,7 @@ Route::middleware(['auth:sanctum', 'role:Employer'])->prefix('employer')->group(
             Route::prefix('slots')->group(function () {
                 Route::post('{jobApplicationSchedule}/cancel', [\App\Http\Controllers\API\JobApplicationController::class, 'cancel']);
                 Route::put('{jobApplicationSchedule}', [\App\Http\Controllers\API\JobApplicationController::class, 'update']);
+                Route::delete('{jobApplicationSchedule}', [\App\Http\Controllers\API\JobApplicationController::class, 'delete']);
             });
             Route::get('{jobApplication}', [JobApplicationController::class, 'getJobApplicationDetail']);
             Route::post('{jobId}/job-stage', [JobApplicationController::class, 'changeJobStage']);
