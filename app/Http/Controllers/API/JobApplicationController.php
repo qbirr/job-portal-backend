@@ -76,7 +76,9 @@ class JobApplicationController extends AppBaseController {
 
         $isSelectedRejectedSlot = 1;
 
-        $slots = JobApplicationSchedule::whereJobApplicationId($jobApplication->id)->get();
+        $slots = JobApplicationSchedule::whereJobApplicationId($jobApplication->id)
+            ->with(['stage'])
+            ->get();
 
         if (isset($lastRecord)) {
             /** @var JobApplicationSchedule $isSelectedRejectedSlot */
@@ -170,10 +172,23 @@ class JobApplicationController extends AppBaseController {
         return $this->sendSuccess(__('messages.flash.slot_cancel'));
     }
 
-    public function history(JobApplication $jobApplication) {
-        Gate::authorize('view', $jobApplication);
+    public function update(Request $request, JobApplicationSchedule $jobApplicationSchedule) {
+        $input = $request->all();
+        if ($input['time'] != $jobApplicationSchedule->time) {
+            $isExist = JobApplicationSchedule::whereJobApplicationId($jobApplicationSchedule->job_application_id)
+                ->where('date', $input['date'])
+                ->where('time', $input['time'])
+                ->exists();
+            if ($isExist) {
+                return $this->sendError(__('messages.flash.slot_already_taken'));
+            }
+        }
+        $jobApplicationSchedule->update([
+            'date' => $input['date'],
+            'time' => $input['time'],
+            'notes' => $input['notes'],
+        ]);
 
-        $jobApplicationSchedules = JobApplicationSchedule::with('jobApplication.candidate')
-            ->where('job_application_id', $request->get('jobApplicationId'));
+        return $this->sendSuccess(__('messages.flash.slot_update'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,10 +42,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|JobApplicationSchedule whereBatch($value)
  * @method static Builder|JobApplicationSchedule whereEmployerCancelSlotNotes($value)
  * @method static Builder|JobApplicationSchedule whereRejectedSlotNotes($value)
- * @mixin \Eloquent
+ * @property-read JobStage $stage
+ * @mixin Eloquent
  */
-class JobApplicationSchedule extends Model
-{
+class JobApplicationSchedule extends Model {
     use HasFactory;
 
     public $table = 'job_application_schedules';
@@ -69,7 +70,7 @@ class JobApplicationSchedule extends Model
      *
      * @var array
      */
-    public static $rules = [
+    public static array $rules = [
         'time' => 'required',
         'date' => 'required',
         'notes' => 'required',
@@ -108,8 +109,11 @@ class JobApplicationSchedule extends Model
     /**
      * @return BelongsTo
      */
-    public function jobApplication()
-    {
+    public function jobApplication(): BelongsTo {
         return $this->belongsTo(JobApplication::class);
+    }
+
+    public function stage(): BelongsTo {
+        return $this->belongsTo(JobStage::class, 'stage_id');
     }
 }

@@ -220,8 +220,7 @@ class JobApplicationController extends AppBaseController {
                 $lastRecord = $jobApplicationSchedules->latest()->first();
 
                 /** @var JobApplication $jobApplicationStage */
-                $jobApplicationStage = JobApplication::whereId($applicationId)
-                    ->first();
+                $jobApplicationStage = JobApplication::whereId($applicationId)->first();
 
                 $isStageMatch = false;
                 if (!empty($lastRecord)) {
