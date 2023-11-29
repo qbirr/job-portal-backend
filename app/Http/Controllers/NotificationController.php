@@ -30,7 +30,9 @@ class NotificationController extends AppBaseController {
     }
 
     public function fetch() {
-        $notifications = Notification::whereIn('notification_for', auth()->user()->roles->pluck('id'))->whereNull('read_at')
+        $user = auth()->user();
+        $notification_for = $user->hasRole('Employer') ? 2 : 1;
+        $notifications = Notification::whereIn('notification_for', [$notification_for])->whereNull('read_at')
             ->where('user_id', getLoggedInUserId())->orderByDesc('created_at');
         return $this->sendSuccess($notifications->get());
     }
