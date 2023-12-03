@@ -31,6 +31,7 @@ class AppliedJobController extends AppBaseController {
 
         foreach ($jobApplicationSchedules->get() as $jobApplicationSchedule) {
             $data['histories'][] = [
+                'id' => $jobApplicationSchedule->id,
                 'notes' => !empty($jobApplicationSchedule->notes) ? $jobApplicationSchedule->notes : __('messages.job_stage.new_slot_send'),
                 'company_name' => $jobApplicationSchedule->jobApplication->job->company->user->full_name,
                 'schedule_created_at' => Carbon::parse($jobApplicationSchedule->created_at)->translatedFormat('jS M Y, h:m A'),
