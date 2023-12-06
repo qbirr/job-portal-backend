@@ -56,9 +56,10 @@ class JobApplicationController extends AppBaseController {
             ->pluck('stage_id')->toArray();
 
         /** @var JobStage $jobStage */
-        $jobStage = JobStage::whereCompanyId(getLoggedInUser()->owner_id)->toBase()
-            ->whereIn('id', $getUniqueJobStages)
-            ->pluck('name', 'id');
+        $jobStage = JobStage::whereCompanyId(getLoggedInUser()->owner_id)
+            ->whereIn('id', $getUniqueJobStages)->get()
+            ->pluck('name', 'id')->all();
+        if (empty($jobStage)) $jobStage = null;
         $lastStage = JobApplicationSchedule::latest()->first();
 
         /** @var JobApplicationSchedule $jobApplicationSchedules */

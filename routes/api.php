@@ -33,6 +33,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Auth::routes(['verify' => true, 'register' => false]);
+
 Route::post('sanctum/token', [TokenController::class, 'login']);
 Route::post('register', [RegisterController::class, 'register']);
 
