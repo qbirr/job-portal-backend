@@ -38,11 +38,11 @@ class AppliedJobController extends AppBaseController {
             ];
         }
         $lastRecord = $jobApplicationSchedules->latest()->first();
-        $data['rejectedSlot'] = $lastRecord->status == JobApplicationSchedule::STATUS_REJECTED;
+        $data['rejectedSlot'] = $lastRecord?->status == JobApplicationSchedule::STATUS_REJECTED;
 
         $allJobSchedule = JobApplicationSchedule::whereJobApplicationId($jobApplication->id)
-            ->where('batch', $lastRecord->batch)
-            ->where('stage_id', $lastRecord->stage_id)
+            ->where('batch', $lastRecord?->batch)
+            ->where('stage_id', $lastRecord?->stage_id)
             ->get();
 
         if (!($allJobSchedule->where('status', JobApplicationSchedule::STATUS_SEND)->count() > 0)) {
